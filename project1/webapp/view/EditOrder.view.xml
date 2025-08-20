@@ -1,0 +1,5 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.EditOrder">
+    <Page id="page4" title="Edit Order">
+
+    </Page>
+</mvc:View>

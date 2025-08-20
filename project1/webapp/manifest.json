@@ -107,6 +107,13 @@
           "target": [
             "TargetCreateOrder"
           ]
+        },
+        {
+          "name": "RouteEditOrder",
+          "pattern": "editorder",
+          "target":[
+            
+          ]
         }
       ],
       "targets": {
@@ -122,6 +129,11 @@
         "TargetCreateOrder": {
           "id": "CreateOrder",
           "name": "CreateOrder",
+          "level": 1
+        },
+        "TargetEditOrder": {
+          "id": "EditOrder",
+          "name": "EditOrder",
           "level": 1
         }
       }
