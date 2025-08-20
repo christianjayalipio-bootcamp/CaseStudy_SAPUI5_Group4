@@ -1,0 +1,22 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.DetailsOrder">
+    <Page title="Order Details">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <Label text="Order ID:"/>
+                <Text text="{order>OrderID}" />
+
+                <Label text="Order Date:"/>
+                <Text text="{order>OrderDate}" />
+
+                <Label text="Delivering Plant:"/>
+                <Text text="{order>DeliveringPlant}" />
+
+                <Label text="Receiving Plant:"/>
+                <Text text="{order>ReceivingPlant}" />
+
+                <Label text="Status:"/>
+                <Text text="{order>Status}" />
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
