@@ -13,6 +13,11 @@ xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
     <Property Name="ReceivingPlant" Type="Edm.String" MaxLength="50" Nullable="true" />
     <Property Name="DeliveringPlant" Type="Edm.String" MaxLength="50" Nullable="true" />
     <Property Name="Status" Type="Edm.String" MaxLength="50" Nullable="true" />
+    <Property Name="Status" Type="Edm.String" Nullable="false" sap:label="Status" />
+    <Property Name="ProductName" Type="Edm.String" Nullable="false" sap:label="Product Name" />
+    <Property Name="Quantity" Type="Edm.Int32" Nullable="false" sap:label="Quantity" />
+    <Property Name="PricePerQuantity" Type="Edm.Decimal" Nullable="false" sap:label="Price Per Quantity" />
+    <Property Name="TotalPrice" Type="Edm.Decimal" Nullable="false" sap:label="Total Price" />
 </EntityType>
 <EntityContainer Name="NorthwindEntities" m:IsDefaultEntityContainer="true">
     <EntitySet Name="Orders" EntityType="NorthwindModel.Order" />
