@@ -1,27 +1,30 @@
 <edmx:Edmx Version="1.0"
-xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
-<edmx:DataServices m:DataServiceVersion="2.0"
-xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
-<Schema Namespace="NorthwindModel"
-xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-<EntityType Name="Order">
-    <Key>
-        <PropertyRef Name="OrderID" />
-    </Key>
-    <Property Name="OrderID" Type="Edm.Int32" Nullable="false" />
-    <Property Name="OrderDate" Type="Edm.DateTime" Nullable="false" />
-    <Property Name="ReceivingPlant" Type="Edm.String" MaxLength="50" Nullable="true" />
-    <Property Name="DeliveringPlant" Type="Edm.String" MaxLength="50" Nullable="true" />
-    <Property Name="Status" Type="Edm.String" MaxLength="50" Nullable="true" />
-    <Property Name="Status" Type="Edm.String" Nullable="false" sap:label="Status" />
-    <Property Name="ProductName" Type="Edm.String" Nullable="false" sap:label="Product Name" />
-    <Property Name="Quantity" Type="Edm.Int32" Nullable="false" sap:label="Quantity" />
-    <Property Name="PricePerQuantity" Type="Edm.Decimal" Nullable="false" sap:label="Price Per Quantity" />
-    <Property Name="TotalPrice" Type="Edm.Decimal" Nullable="false" sap:label="Total Price" />
-</EntityType>
-<EntityContainer Name="NorthwindEntities" m:IsDefaultEntityContainer="true">
-    <EntitySet Name="Orders" EntityType="NorthwindModel.Order" />
-</EntityContainer>
-</Schema>
-</edmx:DataServices>
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices m:DataServiceVersion="2.0"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <Schema Namespace="NorthwindModel"
+      xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+      xmlns:sap="http://www.sap.com/Protocols/SAPData">
+
+      <EntityType Name="Order">
+        <Key>
+          <PropertyRef Name="OrderID" />
+        </Key>
+        <Property Name="OrderID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="OrderDate" Type="Edm.DateTime" Nullable="false" />
+        <Property Name="ReceivingPlant" Type="Edm.String" MaxLength="50" Nullable="true" />
+        <Property Name="DeliveringPlant" Type="Edm.String" MaxLength="50" Nullable="true" />
+        <Property Name="Status" Type="Edm.String" MaxLength="50" Nullable="true" sap:label="Status" />
+        <Property Name="ProductName" Type="Edm.String" Nullable="false" sap:label="Product Name" />
+        <Property Name="Quantity" Type="Edm.Int32" Nullable="false" sap:label="Quantity" />
+        <Property Name="PricePerQuantity" Type="Edm.Decimal" Precision="18" Scale="2" Nullable="false" sap:label="Price Per Quantity" />
+        <Property Name="TotalPrice" Type="Edm.Decimal" Precision="18" Scale="2" Nullable="false" sap:label="Total Price" />
+      </EntityType>
+
+      <EntityContainer Name="NorthwindEntities" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="Orders" EntityType="NorthwindModel.Order" />
+      </EntityContainer>
+
+    </Schema>
+  </edmx:DataServices>
 </edmx:Edmx>
