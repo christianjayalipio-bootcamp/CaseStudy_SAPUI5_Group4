@@ -23,6 +23,16 @@ sap.ui.define([], function () {
                 pattern: "dd-MMM-yyyy"
             });
             return oDateFormat.format(oDate);
+        },
+        formatPlant: function (sCode, sDesc) {
+            if (sCode && sDesc) {
+                return sCode + " - " + sDesc;
+            } else if (sCode) {
+                return sCode;
+            } else if (sDesc) {
+                return sDesc;
+            }
+            return "";
         }
     };
 });

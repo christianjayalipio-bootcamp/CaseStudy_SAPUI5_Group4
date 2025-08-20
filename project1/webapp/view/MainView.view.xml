@@ -5,31 +5,31 @@
         <sap.ui.layout.form:SimpleForm xmlns:sap.ui.layout.form="sap.ui.layout.form" xmlns:sap.ui.core="sap.ui.core" editable="true" layout="ResponsiveGridLayout" id="form0">
             <sap.ui.layout.form:content>
                  <FlexBox id="box0_1755609439443" alignItems="Start" justifyContent="Center">
-                <VBox direction="Column" id="vbox0" class="sapUiSmallMarginEnd">
+                <VBox width="100%" direction="Column" id="vbox0" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Order Number:" id="label0"/>
                         <Input width="100%" id="input0"/>
                     </items>
                 </VBox>
                     
-                <VBox direction="Column" id="vbox1" class="sapUiSmallMarginEnd">
+                <VBox width="100%" direction="Column" id="vbox1" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Creation Date:" id="label1"/>
                         <DatePicker xmlns="sap.m" id="picker0"/>
                     </items>
                 </VBox>
 
-                <VBox direction="Column" id="vbox2" class="sapUiSmallMarginEnd">
+                <VBox width="100%" direction="Column" id="vbox2" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Status:" id="label2"/>
-                        <ComboBox xmlns="sap.m" id="box0">
-                            <items>
-                                <core:Item xmlns:core="sap.ui.core" key="item-1-key" text="Created" id="item0"/>
-                                <core:Item xmlns:core="sap.ui.core" key="item-2-key" text="Released" id="item1"/>
-                                <sap.ui.core:Item text="Partially Completed" id="item0_1755615068406"/>
-                                <sap.ui.core:Item text="Delivered" id="item2"/>
-                            </items>
-                        </ComboBox>
+                        <MultiComboBox id="box0" width="100%">
+                        <items>
+                            <core:Item xmlns:core="sap.ui.core" key="Created" text="Created"/>
+                            <core:Item xmlns:core="sap.ui.core" key="Released" text="Released"/>
+                            <core:Item xmlns:core="sap.ui.core" key="Partially Completed" text="Partially Completed"/>
+                            <core:Item xmlns:core="sap.ui.core" key="Delivered" text="Delivered"/>
+                        </items>
+                        </MultiComboBox>
                     </items>
                 </VBox>
                 <VBox direction="Column" id="vbox0_1755609076333" class="sapUiSmallMarginEnd">
@@ -37,8 +37,8 @@
                                 <Label width="100%" text="" id="label0_1755609181834"/>
                                 <sap.ui.layout:HorizontalLayout xmlns:sap.ui.layout="sap.ui.layout" id="layout0">
                                     <sap.ui.layout:content>
-                                        <Button xmlns="sap.m" text="Go" id="button1" class="sapUiSmallMarginEnd"/>
-                                        <Button xmlns="sap.m" text="Clear" id="button0"/>
+                                        <Button xmlns="sap.m" press="onGoPress" text="Go" id="button1" class="sapUiSmallMarginEnd"/>
+                                        <Button xmlns="sap.m" press="onClearPress" text="Clear" id="button0"/>
                                     </sap.ui.layout:content>
                                 </sap.ui.layout:HorizontalLayout>
                             </items>
@@ -47,32 +47,25 @@
             </sap.ui.layout.form:content>
         </sap.ui.layout.form:SimpleForm>
        
-        <Panel xmlns="sap.m" width="auto" id="panel0" expandAnimation="false" expanded="true" backgroundDesign="Transparent">
-       
-            <headerToolbar>
-       
-                <Toolbar id="toolbar1">
+       <Panel backgroundDesign="Transparent">
+        <Toolbar id="toolbar1" design="Transparent">
        
                     <Title text="Header"/>
-       
                     <ToolbarSpacer/>
-       
                     <Button icon="sap-icon://add" press="onPressAdd"/>
-       
-                    <Button icon="sap-icon://delete" id="button1_1755610909599"/>
-       
+                    <Button icon="sap-icon://delete" press="onDeletePress" id="button1_1755610909599"/>
                     <content/>
        
-                    </Toolbar>
+                </Toolbar>
+
+        <!-- <Label text=" " class="sapUiSmallMarginTopBottom"/> -->
        
-                
+        <Table items="{/Orders}" noDataText="Drop column list items here and columns in the area above" id="table0" mode="MultiSelect">
+
+            <headerToolbar>
        
             </headerToolbar>
-       
-            <content>
-       
-                <Table items="{/Orders}" noDataText="Drop column list items here and columns in the area above" id="table0" mode="MultiSelect">
-       
+
             <items>
        
                 <ColumnListItem type="Navigation" id="item0_1755609746286" press="onPressDetails">
@@ -80,13 +73,9 @@
                     <cells>
        
                         <Text text="{OrderID}" id="input2"/>
-       
                         <Text text="{path: 'OrderDate', formatter: '.formatter.formatOrderDate'}" id="picker0_1755610055546"/>
-       
-                        <Text text="{DeliveringPlant}" id="input3"/>
-       
-                        <Text text="{ReceivingPlant}" id="input4"/>
-       
+                        <Text text="{parts: [ {path: 'DeliveringPlantCode'}, {path: 'DeliveringPlant'} ], formatter: '.formatter.formatPlant'}" id="input3"/>
+                        <Text text="{parts: [ {path: 'ReceivingPlantCode' }, {path: 'ReceivingPlant' } ], formatter: '.formatter.formatPlant'}" id="input4"/>
                          <ObjectStatus text="{Status}" state="{path: 'Status', formatter: '.formatter.statusState'}"/></cells>
        
                 </ColumnListItem>
@@ -150,9 +139,6 @@
                 <sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="w5g.dt.editable" value="false" id="data20"/>
        
             </customData></Table>
-       
-                </content>
-       
             </Panel>
     </content>
     </Page>

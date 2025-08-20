@@ -1,22 +1,72 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.DetailsOrder">
-    <Page title="Order Details">
+    <Page id="PAGE3" title="Order Details">
         <content>
-            <VBox class="sapUiSmallMargin">
-                <Label text="Order ID:"/>
-                <Text text="{order>OrderID}" />
+            <!-- Order Header Panel -->
+            <Panel id="orderdetailpnl" headerText="Order Detail" class="sapUiResponsiveMargin" width="auto">
+                <VBox id="ordernumber" class="sapUiSmallMargin" alignItems="Center">
+                    <HBox id="HBox1">
+                        <Label text="Order ID:" width="150px" textAlign="End"/>
+                        <Text text="{order>OrderID}" class="boldText"/>
+                    </HBox>
+                    <HBox id="HBox2">
+                        <Label text="Created On:" width="150px" textAlign="End"/>
+                        <Text text="{path: 'order>OrderDate', formatter: '.formatter.formatOrderDate'}"/>
+                    </HBox>
+                    <HBox id="HBox3">
+                        <Label text="Receiving Plant:" width="150px" textAlign="End"/>
+                        <Text text="{order>ReceivingPlant}"/>
+                    </HBox>
+                    <HBox id="HBox4">
+                        <Label text="Delivering Plant:" width="150px" textAlign="End"/>
+                        <Text text="{order>DeliveringPlant}"/>
+                    </HBox>
+                    <HBox id="HBox5">
+                        <Label text="Status:" width="150px" textAlign="End"/>
+                        <Text text="{order>Status}" class="boldText"/>
+                    </HBox>
+                </VBox>
+            </Panel>
 
-                <Label text="Order Date:"/>
-                <Text text="{order>OrderDate}" />
-
-                <Label text="Delivering Plant:"/>
-                <Text text="{order>DeliveringPlant}" />
-
-                <Label text="Receiving Plant:"/>
-                <Text text="{order>ReceivingPlant}" />
-
-                <Label text="Status:"/>
-                <Text text="{order>Status}" />
-            </VBox>
+            <!-- Products Panel -->
+            <Panel width="auto" id="panel3" headerText="Products" class="sapUiResponsiveMargin">
+                <Table id="productTable" inset="false" items="{order>/Products}">
+                    <columns>
+                        <Column>
+                            <Text text="Product Name"/>
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="Quantity"/>
+                        </Column>
+                        <Column hAlign="End">
+                            <Text text="Price Per Quantity"/>
+                        </Column>
+                        <Column hAlign="End">
+                            <Text text="Total Price"/>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{order>ProductName}"/>
+                                <Text text="{order>Quantity}"/>
+                                <Text text="{order>PricePerQuantity}"/>
+                                <Text text="{parts: [{path: 'order>PricePerQuantity'}, {path: 'order>Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </Panel>
         </content>
+
+        <!-- Footer -->
+        <footer>
+            <OverflowToolbar class="sapContrast sapContrastPlus" width="100%">
+                <content>
+                    <ToolbarSpacer/>
+                    <Button text="Edit" press="onEditPress"/>
+                    <Button text="Cancel" press="onCancelPress"/>
+                </content>
+            </OverflowToolbar>
+        </footer>
     </Page>
 </mvc:View>
