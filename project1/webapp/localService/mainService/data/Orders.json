@@ -1,222 +1,182 @@
 [
     {
-        "OrderNumber": "aERVRspA",
-        "CreatedOn": "/Date(1271168812000)/",
+        "OrderID": 552116132,
+        "OrderDate": "/Date(320665898000)/",
         "ReceivingPlant": "ReceivingPlant1",
+        "ReceivingPlantCode": "ReceivingPlantCode1",
         "DeliveringPlant": "DeliveringPlant1",
-        "Status": "Status1",
-        "ProductName": "ProductName1",
-        "Quantity": 334346389,
-        "PricePerQuantity": 11.48,
-        "TotalPrice": 33.427
+        "DeliveringPlantCode": "DeliveringPlantCode1",
+        "Status": "Created"
     },
     {
-        "OrderNumber": "lHqSSdRe",
-        "CreatedOn": "/Date(278167583000)/",
+        "OrderID": 473314491,
+        "OrderDate": "/Date(97106436000)/",
         "ReceivingPlant": "ReceivingPlant2",
+        "ReceivingPlantCode": "ReceivingPlantCode2",
         "DeliveringPlant": "DeliveringPlant2",
-        "Status": "Status2",
-        "ProductName": "ProductName2",
-        "Quantity": 1158586418,
-        "PricePerQuantity": 39.755,
-        "TotalPrice": 20.227
+        "DeliveringPlantCode": "DeliveringPlantCode2",
+        "Status": "Released"
     },
     {
-        "OrderNumber": "iByBqgfW",
-        "CreatedOn": "/Date(1315809428000)/",
+        "OrderID": 602300681,
+        "OrderDate": "/Date(1064439407000)/",
         "ReceivingPlant": "ReceivingPlant3",
+        "ReceivingPlantCode": "ReceivingPlantCode3",
         "DeliveringPlant": "DeliveringPlant3",
-        "Status": "Status3",
-        "ProductName": "ProductName3",
-        "Quantity": 1847187555,
-        "PricePerQuantity": 19.48,
-        "TotalPrice": 85.533
+        "DeliveringPlantCode": "DeliveringPlantCode3",
+        "Status": "Partially Completed"
     },
     {
-        "OrderNumber": "RoVljLZC",
-        "CreatedOn": "/Date(903137180000)/",
+        "OrderID": 935310943,
+        "OrderDate": "/Date(491980511000)/",
         "ReceivingPlant": "ReceivingPlant4",
+        "ReceivingPlantCode": "ReceivingPlantCode4",
         "DeliveringPlant": "DeliveringPlant4",
-        "Status": "Status4",
-        "ProductName": "ProductName4",
-        "Quantity": 1455192242,
-        "PricePerQuantity": 65.882,
-        "TotalPrice": 71.609
+        "DeliveringPlantCode": "DeliveringPlantCode4",
+        "Status": "Delivered"
     },
     {
-        "OrderNumber": "OEhZeTgP",
-        "CreatedOn": "/Date(430103963000)/",
+        "OrderID": 349879824,
+        "OrderDate": "/Date(1199512834000)/",
         "ReceivingPlant": "ReceivingPlant5",
+        "ReceivingPlantCode": "ReceivingPlantCode5",
         "DeliveringPlant": "DeliveringPlant5",
-        "Status": "Status5",
-        "ProductName": "ProductName5",
-        "Quantity": 1248170719,
-        "PricePerQuantity": 25.695,
-        "TotalPrice": 72.703
+        "DeliveringPlantCode": "DeliveringPlantCode5",
+        "Status": "Created"
     },
     {
-        "OrderNumber": "nzdePXuv",
-        "CreatedOn": "/Date(649771680000)/",
+        "OrderID": 342989366,
+        "OrderDate": "/Date(125193758000)/",
         "ReceivingPlant": "ReceivingPlant6",
+        "ReceivingPlantCode": "ReceivingPlantCode6",
         "DeliveringPlant": "DeliveringPlant6",
-        "Status": "Status6",
-        "ProductName": "ProductName6",
-        "Quantity": 186005364,
-        "PricePerQuantity": 21.217,
-        "TotalPrice": 28.549
+        "DeliveringPlantCode": "DeliveringPlantCode6",
+        "Status": "Created"
     },
     {
-        "OrderNumber": "JcrZcfqq",
-        "CreatedOn": "/Date(1112718163000)/",
+        "OrderID": 572079206,
+        "OrderDate": "/Date(540492286000)/",
         "ReceivingPlant": "ReceivingPlant7",
+        "ReceivingPlantCode": "ReceivingPlantCode7",
         "DeliveringPlant": "DeliveringPlant7",
-        "Status": "Status7",
-        "ProductName": "ProductName7",
-        "Quantity": 769468208,
-        "PricePerQuantity": 75.97,
-        "TotalPrice": 65.286
+        "DeliveringPlantCode": "DeliveringPlantCode7",
+        "Status": "Delivered"
     },
     {
-        "OrderNumber": "dJstQLKR",
-        "CreatedOn": "/Date(1314932645000)/",
+        "OrderID": 38516894,
+        "OrderDate": "/Date(1166807355000)/",
         "ReceivingPlant": "ReceivingPlant8",
+        "ReceivingPlantCode": "ReceivingPlantCode8",
         "DeliveringPlant": "DeliveringPlant8",
-        "Status": "Status8",
-        "ProductName": "ProductName8",
-        "Quantity": 1742930620,
-        "PricePerQuantity": 65.099,
-        "TotalPrice": 2.528
+        "DeliveringPlantCode": "DeliveringPlantCode8",
+        "Status": "Released"
     },
     {
-        "OrderNumber": "epyQnKnX",
-        "CreatedOn": "/Date(1050536378000)/",
+        "OrderID": 1838652249,
+        "OrderDate": "/Date(374691318000)/",
         "ReceivingPlant": "ReceivingPlant9",
+        "ReceivingPlantCode": "ReceivingPlantCode9",
         "DeliveringPlant": "DeliveringPlant9",
-        "Status": "Status9",
-        "ProductName": "ProductName9",
-        "Quantity": 1639957177,
-        "PricePerQuantity": 91.309,
-        "TotalPrice": 58.443
+        "DeliveringPlantCode": "DeliveringPlantCode9",
+        "Status": "Partially Completed"
     },
     {
-        "OrderNumber": "YlrCYRxT",
-        "CreatedOn": "/Date(561315327000)/",
+        "OrderID": 1446482731,
+        "OrderDate": "/Date(817490939000)/",
         "ReceivingPlant": "ReceivingPlant10",
+        "ReceivingPlantCode": "ReceivingPlantCode10",
         "DeliveringPlant": "DeliveringPlant10",
-        "Status": "Status10",
-        "ProductName": "ProductName10",
-        "Quantity": 900457726,
-        "PricePerQuantity": 18.139,
-        "TotalPrice": 86.182
+        "DeliveringPlantCode": "DeliveringPlantCode10",
+        "Status": "Created"
     },
     {
-        "OrderNumber": "YqbFicic",
-        "CreatedOn": "/Date(1087024910000)/",
+        "OrderID": 1431837252,
+        "OrderDate": "/Date(851448480000)/",
         "ReceivingPlant": "ReceivingPlant11",
+        "ReceivingPlantCode": "ReceivingPlantCode11",
         "DeliveringPlant": "DeliveringPlant11",
-        "Status": "Status11",
-        "ProductName": "ProductName11",
-        "Quantity": 823019231,
-        "PricePerQuantity": 71.251,
-        "TotalPrice": 31.639
+        "DeliveringPlantCode": "DeliveringPlantCode11",
+        "Status": "Created"
     },
     {
-        "OrderNumber": "fcfUzsJR",
-        "CreatedOn": "/Date(998673587000)/",
+        "OrderID": 659152939,
+        "OrderDate": "/Date(763321967000)/",
         "ReceivingPlant": "ReceivingPlant12",
+        "ReceivingPlantCode": "ReceivingPlantCode12",
         "DeliveringPlant": "DeliveringPlant12",
-        "Status": "Status12",
-        "ProductName": "ProductName12",
-        "Quantity": 152295606,
-        "PricePerQuantity": 64.632,
-        "TotalPrice": 62.923
+        "DeliveringPlantCode": "DeliveringPlantCode12",
+        "Status": "Released"
     },
     {
-        "OrderNumber": "xOtLvodo",
-        "CreatedOn": "/Date(773570203000)/",
+        "OrderID": 717838853,
+        "OrderDate": "/Date(1168738716000)/",
         "ReceivingPlant": "ReceivingPlant13",
+        "ReceivingPlantCode": "ReceivingPlantCode13",
         "DeliveringPlant": "DeliveringPlant13",
-        "Status": "Status13",
-        "ProductName": "ProductName13",
-        "Quantity": 919254023,
-        "PricePerQuantity": 15.781,
-        "TotalPrice": 63.817
+        "DeliveringPlantCode": "DeliveringPlantCode13",
+        "Status": "Partially Completed"
     },
     {
-        "OrderNumber": "gXRWlxGB",
-        "CreatedOn": "/Date(1091716061000)/",
+        "OrderID": 587983766,
+        "OrderDate": "/Date(671898223000)/",
         "ReceivingPlant": "ReceivingPlant14",
+        "ReceivingPlantCode": "ReceivingPlantCode14",
         "DeliveringPlant": "DeliveringPlant14",
-        "Status": "Status14",
-        "ProductName": "ProductName14",
-        "Quantity": 620426611,
-        "PricePerQuantity": 7.684,
-        "TotalPrice": 7.795
+        "DeliveringPlantCode": "DeliveringPlantCode14",
+        "Status": "Delivered"
     },
     {
-        "OrderNumber": "awzkLTrT",
-        "CreatedOn": "/Date(607419846000)/",
+        "OrderID": 1138778548,
+        "OrderDate": "/Date(655535429000)/",
         "ReceivingPlant": "ReceivingPlant15",
+        "ReceivingPlantCode": "ReceivingPlantCode15",
         "DeliveringPlant": "DeliveringPlant15",
-        "Status": "Status15",
-        "ProductName": "ProductName15",
-        "Quantity": 1860797588,
-        "PricePerQuantity": 23.807,
-        "TotalPrice": 76.21
+        "DeliveringPlantCode": "DeliveringPlantCode15",
+        "Status": "Created"
     },
     {
-        "OrderNumber": "gWSiDQuI",
-        "CreatedOn": "/Date(669058156000)/",
+        "OrderID": 1121837709,
+        "OrderDate": "/Date(592422549000)/",
         "ReceivingPlant": "ReceivingPlant16",
+        "ReceivingPlantCode": "ReceivingPlantCode16",
         "DeliveringPlant": "DeliveringPlant16",
-        "Status": "Status16",
-        "ProductName": "ProductName16",
-        "Quantity": 689627857,
-        "PricePerQuantity": 52.543,
-        "TotalPrice": 82.65
+        "DeliveringPlantCode": "DeliveringPlantCode16",
+        "Status": "Partially Completed"
     },
     {
-        "OrderNumber": "dOKLgpXp",
-        "CreatedOn": "/Date(48700687000)/",
+        "OrderID": 1148721900,
+        "OrderDate": "/Date(796617439000)/",
         "ReceivingPlant": "ReceivingPlant17",
+        "ReceivingPlantCode": "ReceivingPlantCode17",
         "DeliveringPlant": "DeliveringPlant17",
-        "Status": "Status17",
-        "ProductName": "ProductName17",
-        "Quantity": 1646131550,
-        "PricePerQuantity": 47.402,
-        "TotalPrice": 92.769
+        "DeliveringPlantCode": "DeliveringPlantCode17",
+        "Status": "Partially Completed"
     },
     {
-        "OrderNumber": "qCgbhiRn",
-        "CreatedOn": "/Date(973543100000)/",
+        "OrderID": 719958219,
+        "OrderDate": "/Date(1063372781000)/",
         "ReceivingPlant": "ReceivingPlant18",
+        "ReceivingPlantCode": "ReceivingPlantCode18",
         "DeliveringPlant": "DeliveringPlant18",
-        "Status": "Status18",
-        "ProductName": "ProductName18",
-        "Quantity": 1966375599,
-        "PricePerQuantity": 70.752,
-        "TotalPrice": 55.06
+        "DeliveringPlantCode": "DeliveringPlantCode18",
+        "Status": "Partially Completed"
     },
     {
-        "OrderNumber": "dblCgSqC",
-        "CreatedOn": "/Date(52957802000)/",
+        "OrderID": 1283066459,
+        "OrderDate": "/Date(1198034859000)/",
         "ReceivingPlant": "ReceivingPlant19",
+        "ReceivingPlantCode": "ReceivingPlantCode19",
         "DeliveringPlant": "DeliveringPlant19",
-        "Status": "Status19",
-        "ProductName": "ProductName19",
-        "Quantity": 1745617545,
-        "PricePerQuantity": 20.923,
-        "TotalPrice": 74.775
+        "DeliveringPlantCode": "DeliveringPlantCode19",
+        "Status": "Partially Completed"
     },
     {
-        "OrderNumber": "bsZSTJzn",
-        "CreatedOn": "/Date(1178630870000)/",
+        "OrderID": 1961856805,
+        "OrderDate": "/Date(451643718000)/",
         "ReceivingPlant": "ReceivingPlant20",
+        "ReceivingPlantCode": "ReceivingPlantCode20",
         "DeliveringPlant": "DeliveringPlant20",
-        "Status": "Status20",
-        "ProductName": "ProductName20",
-        "Quantity": 215816069,
-        "PricePerQuantity": 78.737,
-        "TotalPrice": 36.233
+        "DeliveringPlantCode": "DeliveringPlantCode20",
+        "Status": "Created"
     }
 ]
