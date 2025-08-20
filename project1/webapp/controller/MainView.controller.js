@@ -40,30 +40,54 @@ sap.ui.define([
         onGoPress: function () {
             var oView = this.getView();
 
+            // Get filter values
             var sOrderNumber = oView.byId("input0").getValue();
             var dCreationDate = oView.byId("picker0").getDateValue();
-            var sStatus = oView.byId("box0").getSelectedKey();
+            var aStatuses = oView.byId("box0").getSelectedKeys(); // MultiComboBox
 
             var aFilters = [];
 
+            // Filter by Order ID
             if (sOrderNumber) {
                 aFilters.push(new Filter("OrderID", FilterOperator.EQ, sOrderNumber));
             }
 
+            // Filter by Creation Date
             if (dCreationDate) {
-                // Format date to YYYY-MM-DD for comparison
-                var sDate = dCreationDate.toISOString().split("T")[0];
-                aFilters.push(new Filter("OrderDate", FilterOperator.EQ, sDate));
+                aFilters.push(new Filter({
+                    path: "OrderDate",
+                    test: function (sValue) {
+                        if (!sValue) return false;
+                        // Extract timestamp from OData "/Date(...)/"
+                        var iTime = parseInt(sValue.match(/\d+/)[0], 10);
+                        var oOrderDate = new Date(iTime);
+
+                        // Compare only day, month, year
+                        return oOrderDate.getFullYear() === dCreationDate.getFullYear() &&
+                            oOrderDate.getMonth() === dCreationDate.getMonth() &&
+                            oOrderDate.getDate() === dCreationDate.getDate();
+                    }
+                }));
             }
 
-            if (sStatus) {
-                aFilters.push(new Filter("Status", FilterOperator.EQ, sStatus));
+            // Filter by Status (multi-selection)
+            if (aStatuses && aStatuses.length > 0) {
+                var aStatusFilters = aStatuses.map(function (sStatus) {
+                    return new Filter("Status", FilterOperator.EQ, sStatus);
+                });
+                aFilters.push(new Filter({
+                    filters: aStatusFilters,
+                    and: false // OR logic for multiple selected statuses
+                }));
             }
 
+            // Apply filters to the table
             var oTable = oView.byId("table0");
             var oBinding = oTable.getBinding("items");
             oBinding.filter(aFilters);
         },
+
+
 
         /**
          * Reset filters and clear inputs
@@ -73,7 +97,7 @@ sap.ui.define([
 
             oView.byId("input0").setValue("");
             oView.byId("picker0").setValue("");
-            oView.byId("box0").setSelectedKey("");
+            oView.byId("box0").removeAllSelectedItems();
 
             var oTable = oView.byId("table0");
             var oBinding = oTable.getBinding("items");
