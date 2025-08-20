@@ -1,11 +1,11 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.CreateOrder">
-    <Page id="page3" title="Create Order">
+    <Page id="page3" title="Create Order" floatingFooter="true">
         <content>
         <Panel xmlns="sap.m" width="auto" expanded="true" id="pnl_orderDetails" class="sapUiResponsiveMargin">
             <headerToolbar>
                 <Toolbar id="tb1_orderDetails">
                     <Title id="title_orderDetails" text="Order Details"/>
-                    <ToolbarSpacer id="_IDGenToolbarSpacer"/>
+                    <ToolbarSpacer id="header_ToolbarSpacer"/>
                     </Toolbar>       
             </headerToolbar>
             <content>
@@ -33,24 +33,18 @@
                     </Toolbar>
             </headerToolbar>
             <content>
-                <Table noDataText="No Data" items="" id="tbl_products" mode="MultiSelect">
+               <Table noDataText="No Data" items="{/Orders}" id="tbl_products" mode="MultiSelect">
                     <items>
                         <ColumnListItem type="Active" id="products">
                             <cells>
-                                <!-- <CheckBox id="_IDGenCheckBox" selected="{selected}" select="onCheckboxSelect" /> -->
-                                <Text text="Row 1 Cell 1" id="text0"/>
-                                <Text text="Row 1 Cell 2" id="text1"/>
-                                <Text text="Row 1 Cell 3" id="text2"/>
-                                <Text text="Row 1 Cell 4" id="text3"/>
+                                <Text text="{ProductName}" id="text0"/>
+                                <Text text="{Quantity}" id="text1"/>
+                                <Text text="{PricePerQuantity}" id="text2"/>
+                                <Text text="{CreatedOn}" id="text3"/>
                             </cells>
                         </ColumnListItem>
                     </items>
                     <columns>
-                        <!-- <Column id="col1_checkBox" width="3rem">
-                            <header>
-                                <CheckBox id="cb_selectAll" select="onSelectAll" />
-                            </header>
-                        </Column> -->
                         <Column id="col2_productName">
                             <header>
                                 <Label text="Product Name" id="lbl_productName"/>
@@ -74,5 +68,13 @@
             </content>
             </Panel>
     </content>
+    <footer>
+        <OverflowToolbar id="footer_OverflowToolbar">
+            <ToolbarSpacer id="footer_ToolbarSpacer"/>
+            <Button id="Save" type="Accept" text="Save"/>
+            <Button id="Cancel" type="Reject" press="onPressCancel" text="Cancel"/>
+        </OverflowToolbar>
+    </footer>
+
     </Page>
 </mvc:View>
