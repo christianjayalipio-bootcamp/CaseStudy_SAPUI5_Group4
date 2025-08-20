@@ -1,5 +1,78 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.CreateOrder">
-    <Page id="page2" title="Create Order">
-
+    <Page id="page3" title="Create Order">
+        <content>
+        <Panel xmlns="sap.m" width="auto" expanded="true" id="pnl_orderDetails" class="sapUiResponsiveMargin">
+            <headerToolbar>
+                <Toolbar id="tb1_orderDetails">
+                    <Title id="title_orderDetails" text="Order Details"/>
+                    <ToolbarSpacer id="_IDGenToolbarSpacer"/>
+                    </Toolbar>       
+            </headerToolbar>
+            <content>
+            <HBox id="_IDGenHBox" justifyContent="Center" >
+            <sap.ui.layout.form:SimpleForm xmlns:sap.ui.layout.form="sap.ui.layout.form" xmlns:sap.ui.core="sap.ui.core" editable="true" layout="ColumnLayout" id="form_OrderDetails">
+            <sap.ui.layout.form:content>
+                <Label xmlns="sap.m" text="Receiving Plant" id="label1" required="true"/>
+                <Input xmlns="sap.m" id="recPlant" type="Text" value="" placeholder="" showValueHelp="true" valueHelpRequest=".onValueHelpRequest" width="15rem"/>
+                <Label xmlns="sap.m" text="Delivering Plant" id="label2" required="true"/>
+                <Input xmlns="sap.m" id="delPlant" type="Text" value="" placeholder="" showValueHelp="true" valueHelpRequest=".onValueHelpRequest" width="15rem"/>
+            </sap.ui.layout.form:content>
+        </sap.ui.layout.form:SimpleForm> 
+            </HBox>  
+            </content>
+            </Panel>
+        <Panel xmlns="sap.m" width="auto" expanded="true" id="pnl_Products" class="sapUiResponsiveMargin">
+            <headerToolbar>
+                <Toolbar id="tb2_products">
+                    <Title id="title_products" text="Products"/>
+                    <ToolbarSpacer id="_IDGenToolbarSpacer2"/>
+                    <Button xmlns="sap.m" id="btn_addProducts" icon="sap-icon://add"/>
+                    <content>
+                        <Button xmlns="sap.m" id="btn_deleteProducts" icon="sap-icon://delete"/>
+                    </content>
+                    </Toolbar>
+            </headerToolbar>
+            <content>
+                <Table noDataText="No Data" items="" id="tbl_products" mode="MultiSelect">
+                    <items>
+                        <ColumnListItem type="Active" id="products">
+                            <cells>
+                                <!-- <CheckBox id="_IDGenCheckBox" selected="{selected}" select="onCheckboxSelect" /> -->
+                                <Text text="Row 1 Cell 1" id="text0"/>
+                                <Text text="Row 1 Cell 2" id="text1"/>
+                                <Text text="Row 1 Cell 3" id="text2"/>
+                                <Text text="Row 1 Cell 4" id="text3"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                    <columns>
+                        <!-- <Column id="col1_checkBox" width="3rem">
+                            <header>
+                                <CheckBox id="cb_selectAll" select="onSelectAll" />
+                            </header>
+                        </Column> -->
+                        <Column id="col2_productName">
+                            <header>
+                                <Label text="Product Name" id="lbl_productName"/>
+                            </header>
+                        </Column>
+                        <Column id="col3_quantity">
+                            <header>
+                                <Label text="Quantity" id="lbl_quantity"/>
+                            </header>
+                        </Column>
+                        <Column id="col4_pricePerQuantity">
+                            <header>
+                                <Label text="Price Per Quantity" id="lbl_pricePerQuantity"/>
+                            </header>
+                        </Column>
+                        <Column id="col5_totalPrice">
+                            <header>
+                                <Label text="Total Price" id="lbl_totalPrice"/>
+                            </header>
+                        </Column></columns></Table>
+            </content>
+            </Panel>
+    </content>
     </Page>
 </mvc:View>
