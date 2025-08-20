@@ -12,15 +12,27 @@ sap.ui.define([
         },
 
         _onRouteMatched: function (oEvent) {
-            
             var sPath = decodeURIComponent(oEvent.getParameter("arguments").orderPath);
-            var oModel = this.getOwnerComponent().getModel(); 
+            var oModel = this.getOwnerComponent().getModel();
 
             this.getView().setModel(oModel, "order");
             this.getView().bindElement({
                 path: sPath,
                 model: "order"
             });
+
+            // Store the path for reuse in Edit navigation
+            this._sOrderPath = sPath;
+        },
+
+        onCancelPress: function () {
+            var oRouter = UIComponent.getRouterFor(this);
+            oRouter.navTo("RouteMainView"); // Ensure this matches your manifest.json
+        },
+
+        onEditPress: function () {
+            var oRouter = UIComponent.getRouterFor(this);
+            oRouter.navTo("RouteEditOrder");
         }
 
     });
