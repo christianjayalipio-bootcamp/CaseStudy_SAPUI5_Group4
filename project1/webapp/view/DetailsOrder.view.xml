@@ -1,58 +1,70 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.DetailsOrder">
     <Page id="PAGE3" title="Order Details">
- <content>
+        <content>
+            <!-- Order Header Panel -->
             <Panel id="orderdetailpnl" headerText="Order Detail" class="sapUiResponsiveMargin" width="auto">
                 <VBox id="ordernumber" class="sapUiSmallMargin" alignItems="Center">
                     <HBox id="HBox1">
-                        <Label id="ordernumlbl" text="Order ID:" width="150px" textAlign="End"/>
-                        <Text id="Text1" text="{order>/Order ID}" class="boldText"/>
+                        <Label text="Order ID:" width="150px" textAlign="End"/>
+                        <Text text="{order>OrderID}" class="boldText"/>
                     </HBox>
                     <HBox id="HBox2">
-                        <Label id="createdonlbl" text="Created On:" width="150px" textAlign="End"/>
-                        <Text id="Text2" text="{order>/OrderDate}"/>
+                        <Label text="Created On:" width="150px" textAlign="End"/>
+                        <Text text="{path: 'order>OrderDate', formatter: '.formatter.formatOrderDate'}"/>
                     </HBox>
                     <HBox id="HBox3">
-                        <Label id="receivingplantlbl" text="Receiving Plant:" width="150px" textAlign="End"/>
-                        <Text id="Text3" text="{order>/DeliveringPlant}"/>
+                        <Label text="Receiving Plant:" width="150px" textAlign="End"/>
+                        <Text text="{order>ReceivingPlant}"/>
                     </HBox>
                     <HBox id="HBox4">
-                        <Label id="delplantlbl" text="Delivering Plant:" width="150px" textAlign="End"/>
-                        <Text id="Text4" text="{order>/ReceivingPlant}"/>
+                        <Label text="Delivering Plant:" width="150px" textAlign="End"/>
+                        <Text text="{order>DeliveringPlant}"/>
                     </HBox>
                     <HBox id="HBox5">
-                        <Label id="statuslbl" text="Status:" width="150px" textAlign="End"/>
-                        <Text id="Text5" text="{order>/Status}" class="boldText"/>
+                        <Label text="Status:" width="150px" textAlign="End"/>
+                        <Text text="{order>Status}" class="boldText"/>
                     </HBox>
                 </VBox>
             </Panel>
 
-            <Panel width="auto" id="panel3" headerText="Product" class="sapUiResponsiveMargin">
+            <!-- Products Panel -->
+            <Panel width="auto" id="panel3" headerText="Products" class="sapUiResponsiveMargin">
                 <Table id="productTable" inset="false" items="{order>/Products}">
                     <columns>
-                        <Column id="prodCol"><Text id="prodname" text="Product Name"/></Column>
-                        <Column id="qtyCol" hAlign="Center"><Text id="qty" text="Quantity"/></Column>
-                        <Column id="priceCol" hAlign="End"><Text id="price" text="Price Per Quantity"/></Column>
-                        <Column id="totalCol" hAlign="End"><Text id="total" text="Total Price"/></Column>
+                        <Column>
+                            <Text text="Product Name"/>
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="Quantity"/>
+                        </Column>
+                        <Column hAlign="End">
+                            <Text text="Price Per Quantity"/>
+                        </Column>
+                        <Column hAlign="End">
+                            <Text text="Total Price"/>
+                        </Column>
                     </columns>
                     <items>
-                        <ColumnListItem id="ColListItem">
+                        <ColumnListItem>
                             <cells>
-                                <Text id="text01" text="{OrderDetail>ProductName}"/>
-                                <Text id="text02" text="{OrderDetail>Quantity}"/>
-                                <Text id="text03" text="{OrderDetail>UnitPrice}"/>
-                                <Text id="text04" text="{ parts: [ {path: 'OrderDetail>UnitPrice'}, {path: 'OrderDetail>Quantity'} ], formatter: '.formatter.calculateTotalPrice'}"/>
+                                <Text text="{order>ProductName}"/>
+                                <Text text="{order>Quantity}"/>
+                                <Text text="{order>PricePerQuantity}"/>
+                                <Text text="{parts: [{path: 'order>PricePerQuantity'}, {path: 'order>Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
                             </cells>
                         </ColumnListItem>
                     </items>
                 </Table>
             </Panel>
         </content>
+
+        <!-- Footer -->
         <footer>
-            <OverflowToolbar class="sapContrast sapContrastPlus" width="100%" id="toolbar4">
+            <OverflowToolbar class="sapContrast sapContrastPlus" width="100%">
                 <content>
-                    <ToolbarSpacer id="spacer0"/>
-                    <Button text="Edit" id="button2" press="onEditPress"/>
-                    <Button text="Cancel" id="button01" press="onCancelPress"/>
+                    <ToolbarSpacer/>
+                    <Button text="Edit" press="onEditPress"/>
+                    <Button text="Cancel" press="onCancelPress"/>
                 </content>
             </OverflowToolbar>
         </footer>
