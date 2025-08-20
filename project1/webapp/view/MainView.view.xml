@@ -22,14 +22,14 @@
                 <VBox width="100%" direction="Column" id="vbox2" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Status:" id="label2"/>
-                        <ComboBox id="box0" width="100%">
+                        <MultiComboBox id="box0" width="100%">
                         <items>
                             <core:Item xmlns:core="sap.ui.core" key="Created" text="Created"/>
                             <core:Item xmlns:core="sap.ui.core" key="Released" text="Released"/>
                             <core:Item xmlns:core="sap.ui.core" key="Partially Completed" text="Partially Completed"/>
                             <core:Item xmlns:core="sap.ui.core" key="Delivered" text="Delivered"/>
                         </items>
-                        </ComboBox>
+                        </MultiComboBox>
                     </items>
                 </VBox>
                 <VBox direction="Column" id="vbox0_1755609076333" class="sapUiSmallMarginEnd">
