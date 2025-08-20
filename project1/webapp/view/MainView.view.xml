@@ -5,24 +5,24 @@
         <sap.ui.layout.form:SimpleForm xmlns:sap.ui.layout.form="sap.ui.layout.form" xmlns:sap.ui.core="sap.ui.core" editable="true" layout="ResponsiveGridLayout" id="form0">
             <sap.ui.layout.form:content>
                  <FlexBox id="box0_1755609439443" alignItems="Start" justifyContent="Center">
-                <VBox direction="Column" id="vbox0" class="sapUiSmallMarginEnd">
+                <VBox width="100%" direction="Column" id="vbox0" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Order Number:" id="label0"/>
                         <Input width="100%" id="input0"/>
                     </items>
                 </VBox>
                     
-                <VBox direction="Column" id="vbox1" class="sapUiSmallMarginEnd">
+                <VBox width="100%" direction="Column" id="vbox1" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Creation Date:" id="label1"/>
                         <DatePicker xmlns="sap.m" id="picker0"/>
                     </items>
                 </VBox>
 
-                <VBox direction="Column" id="vbox2" class="sapUiSmallMarginEnd">
+                <VBox width="100%" direction="Column" id="vbox2" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Status:" id="label2"/>
-                        <ComboBox xmlns="sap.m" id="box0">
+                        <ComboBox xmlns="sap.m" width="100%" id="box0">
                             <items>
                                 <core:Item xmlns:core="sap.ui.core" key="item-1-key" text="Created" id="item0"/>
                                 <core:Item xmlns:core="sap.ui.core" key="item-2-key" text="Released" id="item1"/>
@@ -47,32 +47,25 @@
             </sap.ui.layout.form:content>
         </sap.ui.layout.form:SimpleForm>
        
-        <Panel xmlns="sap.m" width="auto" id="panel0" expandAnimation="false" expanded="true" backgroundDesign="Transparent">
-       
-            <headerToolbar>
-       
-                <Toolbar id="toolbar1">
+       <Panel backgroundDesign="Transparent">
+        <Toolbar id="toolbar1" design="Transparent">
        
                     <Title text="Header"/>
-       
                     <ToolbarSpacer/>
-       
                     <Button icon="sap-icon://add" press="onPressAdd"/>
-       
                     <Button icon="sap-icon://delete" id="button1_1755610909599"/>
-       
                     <content/>
        
-                    </Toolbar>
+                </Toolbar>
+
+        <!-- <Label text=" " class="sapUiSmallMarginTopBottom"/> -->
        
-                
+        <Table items="{/Orders}" noDataText="Drop column list items here and columns in the area above" id="table0" mode="MultiSelect">
+
+            <headerToolbar>
        
             </headerToolbar>
-       
-            <content>
-       
-                <Table items="{/Orders}" noDataText="Drop column list items here and columns in the area above" id="table0" mode="MultiSelect">
-       
+
             <items>
        
                 <ColumnListItem type="Navigation" id="item0_1755609746286" press="onPressDetails">
@@ -150,9 +143,6 @@
                 <sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="w5g.dt.editable" value="false" id="data20"/>
        
             </customData></Table>
-       
-                </content>
-       
             </Panel>
     </content>
     </Page>
