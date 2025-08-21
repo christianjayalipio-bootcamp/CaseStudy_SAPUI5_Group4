@@ -15,8 +15,10 @@
                 <VBox width="100%" direction="Column" id="vbox1" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Creation Date:" id="label1"/>
-                        <DatePicker xmlns="sap.m" id="picker0"/>
+                        <DatePicker id="picker0" displayFormat="dd-MMM-yyyy" valueFormat="yyyy-MM-dd"/>
+
                     </items>
+                    
                 </VBox>
 
                 <VBox width="100%" direction="Column" id="vbox2" class="sapUiSmallMarginEnd">
@@ -69,16 +71,15 @@
             <items>
        
                 <ColumnListItem type="Navigation" id="item0_1755609746286" press="onPressDetails">
-       
                     <cells>
-       
                         <Text text="{OrderID}" id="input2"/>
-                        <Text text="{path: 'OrderDate', formatter: '.formatter.formatOrderDate'}" id="picker0_1755610055546"/>
-                        <Text text="{parts: [ {path: 'DeliveringPlantCode'}, {path: 'DeliveringPlant'} ], formatter: '.formatter.formatPlant'}" id="input3"/>
-                        <Text text="{parts: [ {path: 'ReceivingPlantCode' }, {path: 'ReceivingPlant' } ], formatter: '.formatter.formatPlant'}" id="input4"/>
-                         <ObjectStatus text="{Status}" state="{path: 'Status', formatter: '.formatter.statusState'}"/></cells>
-       
+                        <Text text="{path: 'CreatedOn', formatter: '.formatter.formatOrderDate'}" id="picker0_1755610055546"/>
+                        <Text text="{path: 'DeliveringPlant', formatter: '.formatter.formatPlant'}" id="input3"/>
+                        <Text text="{path: 'ReceivingPlant', formatter: '.formatter.formatPlant'}" id="input4"/>
+                        <ObjectStatus text="{Status}" state="{path: 'Status', formatter: '.formatter.statusState'}"/>
+                    </cells>
                 </ColumnListItem>
+
        
             </items>
        

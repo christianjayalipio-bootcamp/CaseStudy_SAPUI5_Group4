@@ -23,9 +23,10 @@ sap.ui.define([
                 return;
             }
 
-            var sPath = oContext.getPath();
+            var sOrderID = oContext.getProperty("OrderID");
+
             oRouter.navTo("RouteDetailsOrder", {
-                orderPath: encodeURIComponent(sPath)
+                orderId: sOrderID
             });
         },
 
@@ -34,16 +35,12 @@ sap.ui.define([
             oRouter.navTo("RouteCreateOrder");
         },
 
-        /** 
-         * Apply filters when Go button is pressed 
-         */
         onGoPress: function () {
             var oView = this.getView();
 
-            // Get filter values
             var sOrderNumber = oView.byId("input0").getValue();
             var dCreationDate = oView.byId("picker0").getDateValue();
-            var aStatuses = oView.byId("box0").getSelectedKeys(); // MultiComboBox
+            var aStatuses = oView.byId("box0").getSelectedKeys();
 
             var aFilters = [];
 
@@ -52,22 +49,16 @@ sap.ui.define([
                 aFilters.push(new Filter("OrderID", FilterOperator.EQ, sOrderNumber));
             }
 
-            // Filter by Creation Date
+            // Filter by Creation Date (raw OData date)
             if (dCreationDate) {
-                aFilters.push(new Filter({
-                    path: "OrderDate",
-                    test: function (sValue) {
-                        if (!sValue) return false;
-                        // Extract timestamp from OData "/Date(...)/"
-                        var iTime = parseInt(sValue.match(/\d+/)[0], 10);
-                        var oOrderDate = new Date(iTime);
+                var startOfDay = new Date(dCreationDate);
+                startOfDay.setHours(0, 0, 0, 0);
 
-                        // Compare only day, month, year
-                        return oOrderDate.getFullYear() === dCreationDate.getFullYear() &&
-                            oOrderDate.getMonth() === dCreationDate.getMonth() &&
-                            oOrderDate.getDate() === dCreationDate.getDate();
-                    }
-                }));
+                var endOfDay = new Date(dCreationDate);
+                endOfDay.setHours(23, 59, 59, 999);
+
+                aFilters.push(new Filter("OrderDate", FilterOperator.GE, startOfDay.toISOString()));
+                aFilters.push(new Filter("OrderDate", FilterOperator.LE, endOfDay.toISOString()));
             }
 
             // Filter by Status (multi-selection)
@@ -77,21 +68,21 @@ sap.ui.define([
                 });
                 aFilters.push(new Filter({
                     filters: aStatusFilters,
-                    and: false // OR logic for multiple selected statuses
+                    and: false
                 }));
             }
 
-            // Apply filters to the table
+            // Apply filters and sorter
             var oTable = oView.byId("table0");
             var oBinding = oTable.getBinding("items");
-            oBinding.filter(aFilters);
+            if (oBinding) {
+
+                oBinding.filter(aFilters);
+                var oSorter = new sap.ui.model.Sorter("OrderID", false);
+                oBinding.sort(oSorter);
+            }
         },
 
-
-
-        /**
-         * Reset filters and clear inputs
-         */
         onClearPress: function () {
             var oView = this.getView();
 
@@ -101,7 +92,7 @@ sap.ui.define([
 
             var oTable = oView.byId("table0");
             var oBinding = oTable.getBinding("items");
-            oBinding.filter([]); // remove all filters
+            oBinding.filter([]);
         },
         onDeletePress: function () {
             var oTable = this.byId("table0");

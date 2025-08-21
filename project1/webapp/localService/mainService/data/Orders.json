@@ -1,182 +1,68 @@
 [
-    {
-        "OrderID": 552116132,
-        "OrderDate": "/Date(320665898000)/",
-        "ReceivingPlant": "ReceivingPlant1",
-        "ReceivingPlantCode": "ReceivingPlantCode1",
-        "DeliveringPlant": "DeliveringPlant1",
-        "DeliveringPlantCode": "DeliveringPlantCode1",
-        "Status": "Created"
-    },
-    {
-        "OrderID": 473314491,
-        "OrderDate": "/Date(97106436000)/",
-        "ReceivingPlant": "ReceivingPlant2",
-        "ReceivingPlantCode": "ReceivingPlantCode2",
-        "DeliveringPlant": "DeliveringPlant2",
-        "DeliveringPlantCode": "DeliveringPlantCode2",
-        "Status": "Released"
-    },
-    {
-        "OrderID": 602300681,
-        "OrderDate": "/Date(1064439407000)/",
-        "ReceivingPlant": "ReceivingPlant3",
-        "ReceivingPlantCode": "ReceivingPlantCode3",
-        "DeliveringPlant": "DeliveringPlant3",
-        "DeliveringPlantCode": "DeliveringPlantCode3",
-        "Status": "Partially Completed"
-    },
-    {
-        "OrderID": 935310943,
-        "OrderDate": "/Date(491980511000)/",
-        "ReceivingPlant": "ReceivingPlant4",
-        "ReceivingPlantCode": "ReceivingPlantCode4",
-        "DeliveringPlant": "DeliveringPlant4",
-        "DeliveringPlantCode": "DeliveringPlantCode4",
-        "Status": "Delivered"
-    },
-    {
-        "OrderID": 349879824,
-        "OrderDate": "/Date(1199512834000)/",
-        "ReceivingPlant": "ReceivingPlant5",
-        "ReceivingPlantCode": "ReceivingPlantCode5",
-        "DeliveringPlant": "DeliveringPlant5",
-        "DeliveringPlantCode": "DeliveringPlantCode5",
-        "Status": "Created"
-    },
-    {
-        "OrderID": 342989366,
-        "OrderDate": "/Date(125193758000)/",
-        "ReceivingPlant": "ReceivingPlant6",
-        "ReceivingPlantCode": "ReceivingPlantCode6",
-        "DeliveringPlant": "DeliveringPlant6",
-        "DeliveringPlantCode": "DeliveringPlantCode6",
-        "Status": "Created"
-    },
-    {
-        "OrderID": 572079206,
-        "OrderDate": "/Date(540492286000)/",
-        "ReceivingPlant": "ReceivingPlant7",
-        "ReceivingPlantCode": "ReceivingPlantCode7",
-        "DeliveringPlant": "DeliveringPlant7",
-        "DeliveringPlantCode": "DeliveringPlantCode7",
-        "Status": "Delivered"
-    },
-    {
-        "OrderID": 38516894,
-        "OrderDate": "/Date(1166807355000)/",
-        "ReceivingPlant": "ReceivingPlant8",
-        "ReceivingPlantCode": "ReceivingPlantCode8",
-        "DeliveringPlant": "DeliveringPlant8",
-        "DeliveringPlantCode": "DeliveringPlantCode8",
-        "Status": "Released"
-    },
-    {
-        "OrderID": 1838652249,
-        "OrderDate": "/Date(374691318000)/",
-        "ReceivingPlant": "ReceivingPlant9",
-        "ReceivingPlantCode": "ReceivingPlantCode9",
-        "DeliveringPlant": "DeliveringPlant9",
-        "DeliveringPlantCode": "DeliveringPlantCode9",
-        "Status": "Partially Completed"
-    },
-    {
-        "OrderID": 1446482731,
-        "OrderDate": "/Date(817490939000)/",
-        "ReceivingPlant": "ReceivingPlant10",
-        "ReceivingPlantCode": "ReceivingPlantCode10",
-        "DeliveringPlant": "DeliveringPlant10",
-        "DeliveringPlantCode": "DeliveringPlantCode10",
-        "Status": "Created"
-    },
-    {
-        "OrderID": 1431837252,
-        "OrderDate": "/Date(851448480000)/",
-        "ReceivingPlant": "ReceivingPlant11",
-        "ReceivingPlantCode": "ReceivingPlantCode11",
-        "DeliveringPlant": "DeliveringPlant11",
-        "DeliveringPlantCode": "DeliveringPlantCode11",
-        "Status": "Created"
-    },
-    {
-        "OrderID": 659152939,
-        "OrderDate": "/Date(763321967000)/",
-        "ReceivingPlant": "ReceivingPlant12",
-        "ReceivingPlantCode": "ReceivingPlantCode12",
-        "DeliveringPlant": "DeliveringPlant12",
-        "DeliveringPlantCode": "DeliveringPlantCode12",
-        "Status": "Released"
-    },
-    {
-        "OrderID": 717838853,
-        "OrderDate": "/Date(1168738716000)/",
-        "ReceivingPlant": "ReceivingPlant13",
-        "ReceivingPlantCode": "ReceivingPlantCode13",
-        "DeliveringPlant": "DeliveringPlant13",
-        "DeliveringPlantCode": "DeliveringPlantCode13",
-        "Status": "Partially Completed"
-    },
-    {
-        "OrderID": 587983766,
-        "OrderDate": "/Date(671898223000)/",
-        "ReceivingPlant": "ReceivingPlant14",
-        "ReceivingPlantCode": "ReceivingPlantCode14",
-        "DeliveringPlant": "DeliveringPlant14",
-        "DeliveringPlantCode": "DeliveringPlantCode14",
-        "Status": "Delivered"
-    },
-    {
-        "OrderID": 1138778548,
-        "OrderDate": "/Date(655535429000)/",
-        "ReceivingPlant": "ReceivingPlant15",
-        "ReceivingPlantCode": "ReceivingPlantCode15",
-        "DeliveringPlant": "DeliveringPlant15",
-        "DeliveringPlantCode": "DeliveringPlantCode15",
-        "Status": "Created"
-    },
-    {
-        "OrderID": 1121837709,
-        "OrderDate": "/Date(592422549000)/",
-        "ReceivingPlant": "ReceivingPlant16",
-        "ReceivingPlantCode": "ReceivingPlantCode16",
-        "DeliveringPlant": "DeliveringPlant16",
-        "DeliveringPlantCode": "DeliveringPlantCode16",
-        "Status": "Partially Completed"
-    },
-    {
-        "OrderID": 1148721900,
-        "OrderDate": "/Date(796617439000)/",
-        "ReceivingPlant": "ReceivingPlant17",
-        "ReceivingPlantCode": "ReceivingPlantCode17",
-        "DeliveringPlant": "DeliveringPlant17",
-        "DeliveringPlantCode": "DeliveringPlantCode17",
-        "Status": "Partially Completed"
-    },
-    {
-        "OrderID": 719958219,
-        "OrderDate": "/Date(1063372781000)/",
-        "ReceivingPlant": "ReceivingPlant18",
-        "ReceivingPlantCode": "ReceivingPlantCode18",
-        "DeliveringPlant": "DeliveringPlant18",
-        "DeliveringPlantCode": "DeliveringPlantCode18",
-        "Status": "Partially Completed"
-    },
-    {
-        "OrderID": 1283066459,
-        "OrderDate": "/Date(1198034859000)/",
-        "ReceivingPlant": "ReceivingPlant19",
-        "ReceivingPlantCode": "ReceivingPlantCode19",
-        "DeliveringPlant": "DeliveringPlant19",
-        "DeliveringPlantCode": "DeliveringPlantCode19",
-        "Status": "Partially Completed"
-    },
-    {
-        "OrderID": 1961856805,
-        "OrderDate": "/Date(451643718000)/",
-        "ReceivingPlant": "ReceivingPlant20",
-        "ReceivingPlantCode": "ReceivingPlantCode20",
-        "DeliveringPlant": "DeliveringPlant20",
-        "DeliveringPlantCode": "DeliveringPlantCode20",
-        "Status": "Created"
-    }
+  {
+    "OrderID": 729355993,
+    "CreatedOn": "/Date(58450701000)/",
+    "ReceivingPlant": "9101",
+    "DeliveringPlant": "9102",
+    "Status": "Created",
+    "Products": [
+      { "ProductID": "P-001", "ProductName": "iPhone 14", "Quantity": 10, "PricePerQuantity": 799 },
+      { "ProductID": "P-002", "ProductName": "Samsung Galaxy S23", "Quantity": 5, "PricePerQuantity": 899 }
+    ]
+  },
+  {
+    "OrderID": 1072719076,
+    "CreatedOn": "/Date(424399853000)/",
+    "ReceivingPlant": "9103",
+    "DeliveringPlant": "9104",
+    "Status": "Released",
+    "Products": [
+      { "ProductID": "P-003", "ProductName": "Google Pixel 8", "Quantity": 7, "PricePerQuantity": 699 },
+      { "ProductID": "P-004", "ProductName": "OnePlus 12", "Quantity": 2, "PricePerQuantity": 649 }
+    ]
+  },
+  {
+    "OrderID": 1319452301,
+    "CreatedOn": "/Date(1179121291000)/",
+    "ReceivingPlant": "9103",
+    "DeliveringPlant": "9106",
+    "Status": "Partially Completed",
+    "Products": [
+      { "ProductID": "P-005", "ProductName": "iPhone 14 Pro", "Quantity": 20, "PricePerQuantity": 999 },
+      { "ProductID": "P-006", "ProductName": "Samsung Galaxy Note 23", "Quantity": 4, "PricePerQuantity": 1099 }
+    ]
+  },
+  {
+    "OrderID": 1861185798,
+    "CreatedOn": "/Date(864440262000)/",
+    "ReceivingPlant": "9107",
+    "DeliveringPlant": "9110",
+    "Status": "Delivered",
+    "Products": [
+      { "ProductID": "P-007", "ProductName": "Google Pixel Fold", "Quantity": 3, "PricePerQuantity": 1799 },
+      { "ProductID": "P-008", "ProductName": "Samsung Z Flip 5", "Quantity": 6, "PricePerQuantity": 1099 }
+    ]
+  },
+  {
+    "OrderID": 1125238977,
+    "CreatedOn": "/Date(29802796000)/",
+    "ReceivingPlant": "9107",
+    "DeliveringPlant": "9108",
+    "Status": "Created",
+    "Products": [
+      { "ProductID": "P-009", "ProductName": "iPhone SE 3", "Quantity": 15, "PricePerQuantity": 429 },
+      { "ProductID": "P-010", "ProductName": "OnePlus Nord 3", "Quantity": 5, "PricePerQuantity": 399 }
+    ]
+  },
+  {
+    "OrderID": 216940948,
+    "CreatedOn": "/Date(713961059000)/",
+    "ReceivingPlant": "9109",
+    "DeliveringPlant": "9110",
+    "Status": "Delivered",
+    "Products": [
+      { "ProductID": "P-011", "ProductName": "Samsung Galaxy A54", "Quantity": 2, "PricePerQuantity": 449 },
+      { "ProductID": "P-012", "ProductName": "Google Pixel 8a", "Quantity": 1, "PricePerQuantity": 499 }
+    ]
+  }
 ]
