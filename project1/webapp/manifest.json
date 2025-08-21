@@ -98,7 +98,7 @@
         },
         {
           "name": "RouteDetailsOrder",
-          "pattern": "detailsOrder/{orderPath}",
+           "pattern": "detailsOrder/{orderId}",
           "target": ["TargetDetailsOrder"]
         },
         {

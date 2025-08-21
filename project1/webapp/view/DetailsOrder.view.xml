@@ -1,61 +1,57 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.DetailsOrder">
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
+    controllerName="com.ui5.trng.project1.controller.DetailsOrder">
+
     <Page id="PAGE3" title="Order Details">
         <content>
+
             <!-- Order Header Panel -->
             <Panel id="orderdetailpnl" headerText="Order Detail" class="sapUiResponsiveMargin" width="auto">
                 <VBox id="ordernumber" class="sapUiSmallMargin" alignItems="Center">
-                    <HBox id="HBox1">
+                    <HBox>
                         <Label text="Order ID:" width="150px" textAlign="End"/>
-                        <Text text="{order>OrderID}" class="boldText"/>
+                        <Text text="{OrderID}" class="boldText"/>
                     </HBox>
-                    <HBox id="HBox2">
+                    <HBox>
                         <Label text="Created On:" width="150px" textAlign="End"/>
-                        <Text text="{path: 'order>OrderDate', formatter: '.formatter.formatOrderDate'}"/>
+                        <Text text="{path: 'CreatedOn', formatter: '.formatter.formatOrderDate'}"/>
                     </HBox>
-                    <HBox id="HBox3">
+                    <HBox>
                         <Label text="Receiving Plant:" width="150px" textAlign="End"/>
-                        <Text text="{order>ReceivingPlant}"/>
+                        <Text text="{ReceivingPlant}"/>
                     </HBox>
-                    <HBox id="HBox4">
+                    <HBox>
                         <Label text="Delivering Plant:" width="150px" textAlign="End"/>
-                        <Text text="{order>DeliveringPlant}"/>
+                        <Text text="{DeliveringPlant}"/>
                     </HBox>
-                    <HBox id="HBox5">
+                    <HBox>
                         <Label text="Status:" width="150px" textAlign="End"/>
-                        <Text text="{order>Status}" class="boldText"/>
+                        <Text text="{Status}" class="boldText"/>
                     </HBox>
                 </VBox>
             </Panel>
 
             <!-- Products Panel -->
             <Panel width="auto" id="panel3" headerText="Products" class="sapUiResponsiveMargin">
-                <Table id="productTable" inset="false" items="{order>/Products}">
+                <Table id="productsTable" inset="false" items="{Products}">
                     <columns>
-                        <Column>
-                            <Text text="Product Name"/>
-                        </Column>
-                        <Column hAlign="Center">
-                            <Text text="Quantity"/>
-                        </Column>
-                        <Column hAlign="End">
-                            <Text text="Price Per Quantity"/>
-                        </Column>
-                        <Column hAlign="End">
-                            <Text text="Total Price"/>
-                        </Column>
+                        <Column><Text text="Product Name"/></Column>
+                        <Column hAlign="Center"><Text text="Quantity"/></Column>
+                        <Column hAlign="End"><Text text="Price Per Quantity"/></Column>
+                        <Column hAlign="End"><Text text="Total Price"/></Column>
                     </columns>
                     <items>
                         <ColumnListItem>
                             <cells>
-                                <Text text="{order>ProductName}"/>
-                                <Text text="{order>Quantity}"/>
-                                <Text text="{order>PricePerQuantity}"/>
-                                <Text text="{parts: [{path: 'order>PricePerQuantity'}, {path: 'order>Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
+                                <Text text="{ProductName}"/>
+                                <Text text="{Quantity}"/>
+                                <Text text="{PricePerQuantity}"/>
+                                <Text text="{parts: [ {path: 'PricePerQuantity'},{path: 'Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
                             </cells>
                         </ColumnListItem>
                     </items>
                 </Table>
             </Panel>
+
         </content>
 
         <!-- Footer -->

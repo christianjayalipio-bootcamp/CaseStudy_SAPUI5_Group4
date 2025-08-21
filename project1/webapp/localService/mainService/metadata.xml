@@ -1,10 +1,7 @@
-<edmx:Edmx Version="1.0"
-    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
-  <edmx:DataServices m:DataServiceVersion="2.0"
-    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
-    <Schema Namespace="NorthwindModel"
-      xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
-      xmlns:sap="http://www.sap.com/Protocols/SAPData">
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices m:DataServiceVersion="2.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <Schema Namespace="OrderModel" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
 
       <!-- =================== -->
       <!-- Entity: Order       -->
@@ -13,17 +10,18 @@
         <Key>
           <PropertyRef Name="OrderID" />
         </Key>
-        <Property Name="OrderID" Type="Edm.Int32" Nullable="false" sap:label="Order Number" />
-        <Property Name="OrderDate" Type="Edm.DateTime" Nullable="false" sap:label="Creation Date" />
-        <Property Name="ReceivingPlant" Type="Edm.String" MaxLength="50" sap:label="Receiving Plant Description" />
-        <Property Name="ReceivingPlantCode" Type="Edm.String" MaxLength="50" sap:label="Receiving Plant Code" />
-        <Property Name="DeliveringPlant" Type="Edm.String" MaxLength="50" sap:label="Delivering Plant Description"/>
-        <Property Name="DeliveringPlantCode" Type="Edm.String" MaxLength="50" sap:label="Delivering Plant Code"/>
-        <Property Name="Status" Type="Edm.String" MaxLength="50" sap:label="Order Status" />
+        <Property Name="OrderID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="CreatedOn" Type="Edm.DateTime" Nullable="false" />
+        <Property Name="ReceivingPlant" Type="Edm.String" />
+        <Property Name="DeliveringPlant" Type="Edm.String" />
+        <Property Name="Status" Type="Edm.String" />
 
         <!-- Navigation to Products -->
-        <NavigationProperty Name="Products" Relationship="NorthwindModel.Order_Products"
-          FromRole="Order" ToRole="Products"/>
+        <NavigationProperty 
+          Name="Products"
+          Relationship="OrderModel.Order_Products"
+          FromRole="Order_Principal"
+          ToRole="Order_Products_Dependent" />
       </EntityType>
 
       <!-- =================== -->
@@ -33,40 +31,31 @@
         <Key>
           <PropertyRef Name="ProductID" />
         </Key>
-        <Property Name="ProductID" Type="Edm.Int32" Nullable="false" sap:label="Product ID" />
-        <Property Name="OrderID" Type="Edm.Int32" Nullable="false" sap:label="Order ID (FK)" />
-        <Property Name="ProductName" Type="Edm.String" Nullable="false" sap:label="Product Name" />
-        <Property Name="Quantity" Type="Edm.Int32" Nullable="false" sap:label="Quantity" />
-        <Property Name="PricePerQuantity" Type="Edm.Int32" Nullable="false" sap:label="Price Per Quantity" />
+        <Property Name="ProductID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="ProductName" Type="Edm.String" />
+        <Property Name="Quantity" Type="Edm.Int32" />
+        <Property Name="PricePerQuantity" Type="Edm.Decimal" Precision="18" Scale="2" />
       </EntityType>
 
       <!-- =================== -->
       <!-- Association: Order -> Products -->
       <!-- =================== -->
       <Association Name="Order_Products">
-        <End Type="NorthwindModel.Order" Role="Order" Multiplicity="1"/>
-        <End Type="NorthwindModel.Product" Role="Products" Multiplicity="*"/>
-        <ReferentialConstraint>
-          <Principal Role="Order">
-            <PropertyRef Name="OrderID"/>
-          </Principal>
-          <Dependent Role="Products">
-            <PropertyRef Name="OrderID"/>
-          </Dependent>
-        </ReferentialConstraint>
+        <End Type="OrderModel.Order" Role="Order_Principal" Multiplicity="1" />
+        <End Type="OrderModel.Product" Role="Order_Products_Dependent" Multiplicity="*" />
       </Association>
 
       <!-- =================== -->
       <!-- Entity Container    -->
       <!-- =================== -->
-      <EntityContainer Name="NorthwindEntities" m:IsDefaultEntityContainer="true">
-        <EntitySet Name="Orders" EntityType="NorthwindModel.Order" />
-        <EntitySet Name="Products" EntityType="NorthwindModel.Product" />
+      <EntityContainer Name="OrderEntities" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="Orders" EntityType="OrderModel.Order" />
+        <EntitySet Name="Products" EntityType="OrderModel.Product" />
 
         <!-- Navigation binding -->
-        <AssociationSet Name="Order_Products" Association="NorthwindModel.Order_Products">
-          <End Role="Order" EntitySet="Orders"/>
-          <End Role="Products" EntitySet="Products"/>
+        <AssociationSet Name="Order_Products" Association="OrderModel.Order_Products">
+          <End Role="Order_Principal" EntitySet="Orders" />
+          <End Role="Order_Products_Dependent" EntitySet="Products" />
         </AssociationSet>
       </EntityContainer>
 
