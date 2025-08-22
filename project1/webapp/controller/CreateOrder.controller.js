@@ -8,6 +8,11 @@ sap.ui.define([
 
         onInit: function () {
             
+        },
+
+        onPressCancel: function () {
+        var oRouter = UIComponent.getRouterFor(this);
+        oRouter.navTo("RouteMainView");
         }
     });
 });
