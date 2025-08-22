@@ -103,7 +103,7 @@
         },
         {
           "name": "RouteCreateOrder",
-          "pattern": "createorder",
+          "pattern": "createOrder",
           "target": [
             "TargetCreateOrder"
           ]
