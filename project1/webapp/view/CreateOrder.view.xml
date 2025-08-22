@@ -13,9 +13,9 @@
             <sap.ui.layout.form:SimpleForm xmlns:sap.ui.layout.form="sap.ui.layout.form" xmlns:sap.ui.core="sap.ui.core" editable="true" layout="ColumnLayout" id="form_OrderDetails">
             <sap.ui.layout.form:content>
                 <Label xmlns="sap.m" text="Receiving Plant" id="label1" required="true"/>
-                <Input xmlns="sap.m" id="recPlant" type="Text" value="{ReceivingPlant}" placeholder="" showValueHelp="true" valueHelpRequest=".onValueHelpRequest" width="15rem"/>
+                <Input xmlns="sap.m" id="recPlant" type="Text"  showValueHelp="true" valueHelpRequest="onValueHelpRequest" width="15rem" liveChange="onPlantInputChange"/>
                 <Label xmlns="sap.m" text="Delivering Plant" id="label2" required="true"/>
-                <Input xmlns="sap.m" id="delPlant" type="Text" value="{DeliveringPlant}" placeholder="" showValueHelp="true" valueHelpRequest=".onValueHelpRequest" width="15rem"/>
+                <Input xmlns="sap.m" id="delPlant" type="Text"  showValueHelp="true" valueHelpRequest="onValueHelpRequest" width="15rem" liveChange="onPlantInputChange"/>
             </sap.ui.layout.form:content>
         </sap.ui.layout.form:SimpleForm>
             </HBox>  
