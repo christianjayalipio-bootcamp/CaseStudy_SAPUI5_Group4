@@ -1,5 +1,92 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.EditOrder">
-    <Page id="page4" title="Edit Order">
-
+        <Page id="page1" title="Edit Order" floatingFooter="true">    
+    <content>
+        <Panel xmlns="sap.m" width="auto" expandable="false" expanded="true" id="fpanel" headerText="Order Detail" class="sapUiResponsiveMargin">
+            <HBox id="HBox6" justifyContent="Center">
+                <sap.ui.layout.form:SimpleForm xmlns:sap.ui.layout.form="sap.ui.layout.form" xmlns:sap.ui.core="sap.ui.core" editable="true" layout="ColumnLayout"
+                 columnsXL="1" columnsL="1" columnsM="1"
+                 id="form">
+                    <sap.ui.layout.form:content>
+        
+                        <Label id="flabel" text="Order Number"/>
+                        <Input width="50%" id="finput" editable="false"/>
+        
+                        <Label text="Created On" id="slabel"/>
+                        <Input width="50%" id="sinput" editable="false"/>
+        
+                        <Label text="Receiving plant" width="100%" id="label1_1755569385255_copy"/>
+                        <Input width="50%" id="input0" editable="false"/>
+        
+                        <Label text="Delivery Plant" width="100%" id="label0_copy"/>
+                        <Input width="50%" id="input0_1755571380432" editable="false"/>
+        
+                        <Label text="Status" width="100%" id="label0_1755571392468"/>
+                        <Select width="50%" id="select0">
+                            <items>
+                                <core:Item xmlns:core="sap.ui.core" key="item-key-1" text="Item Text One" id="item0"/>
+                                <core:Item xmlns:core="sap.ui.core" key="item-key-2" text="Item Text Two" id="item1"/>
+                                </items>
+                        </Select></sap.ui.layout.form:content>
+                </sap.ui.layout.form:SimpleForm>
+                </HBox>
+            </Panel>    
+    </content>
+    
+    <Panel width="auto" expandable="false" class="sapUiResponsiveMargin" expanded="true" id="Product_panel_4">
+            <headerToolbar>
+                <Toolbar id="toolbar_4">
+                    <Title id="Product_No_4" text="Product(0)"/>
+                    <ToolbarSpacer id="ToolbarSpacer"/>
+                    <Button id="Add_BTN_4" icon="sap-icon://add"/>
+                    <Button id="Delete_BTN_4" icon="sap-icon://delete"/>
+                </Toolbar>
+            </headerToolbar>
+ 
+            <content>
+                <Table noDataText="Drop column list items here and columns in the area above" items="{/products}" id="Main_Table_4">
+                    <columns>
+                        <Column id="MainColumn_4">
+                            <header>
+                                <CheckBox id="Product_Name_4" text="Product Name"/>
+                            </header>
+                        </Column>
+                        <Column id="column1">
+                            <header>
+                                <Label text="Quantity" id="Quality_4"/>
+                            </header>
+                        </Column>
+                        <Column id="column2">
+                            <header>
+                                <Label text="Price Per Quantity" id="PPQ_4"/>
+                            </header>
+                        </Column>
+                        <Column id="column3">
+                            <header>
+                                <Label text="Total Price" id="Total_Price_4"/>
+                            </header>
+                        </Column>
+                    </columns>
+ 
+                    <items>
+                        <ColumnListItem type="Active" id="Active_4">
+                            <cells>
+                                <Text text="{ProductName}" id="Data_ProductName_4"/>
+                                <Text text="{Quantity}" id="Data_Quantity_4"/>
+                                <Text text="{PricePerQuantity}" id="Data_PRQ_4"/>
+                                <Text text="{TotalPrice}" id="Data_TotalPrice_4"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </content>
+        </Panel>
+ 
+        <footer>
+            <OverflowToolbar id="_IDGenOverflowToolbar1">
+                <ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+                <Button id="Save_4" type="Emphasized" text="Save"/>
+                <Button id="Cancel_4" type="Reject" text="Cancel"/>
+            </OverflowToolbar>
+        </footer>
     </Page>
 </mvc:View>
