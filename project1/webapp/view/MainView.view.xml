@@ -15,7 +15,7 @@
                 <VBox width="100%" direction="Column" id="vbox1" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Creation Date:" id="label1"/>
-                        <DatePicker id="picker0" displayFormat="dd-MMM-yyyy" valueFormat="yyyy-MM-dd"/>
+                        <DatePicker id="picker0" />
 
                     </items>
                     

@@ -49,7 +49,7 @@ sap.ui.define([
                 aFilters.push(new Filter("OrderID", FilterOperator.EQ, sOrderNumber));
             }
 
-            // Filter by Creation Date (raw OData date)
+            // Filter by Creation Date (ISO format)
             if (dCreationDate) {
                 var startOfDay = new Date(dCreationDate);
                 startOfDay.setHours(0, 0, 0, 0);
@@ -57,9 +57,17 @@ sap.ui.define([
                 var endOfDay = new Date(dCreationDate);
                 endOfDay.setHours(23, 59, 59, 999);
 
-                aFilters.push(new Filter("OrderDate", FilterOperator.GE, startOfDay.toISOString()));
-                aFilters.push(new Filter("OrderDate", FilterOperator.LE, endOfDay.toISOString()));
+                // Single Filter with AND logic
+                var oDateFilter = new Filter({
+                    filters: [
+                        new Filter("CreatedOn", FilterOperator.GE, startOfDay.toISOString()),
+                        new Filter("CreatedOn", FilterOperator.LE, endOfDay.toISOString())
+                    ],
+                    and: true
+                });
+                aFilters.push(oDateFilter);
             }
+
 
             // Filter by Status (multi-selection)
             if (aStatuses && aStatuses.length > 0) {
@@ -68,20 +76,20 @@ sap.ui.define([
                 });
                 aFilters.push(new Filter({
                     filters: aStatusFilters,
-                    and: false
+                    and: false // OR logic for multiple statuses
                 }));
             }
 
-            // Apply filters and sorter
+            // Apply filters and sort by OrderID ascending
             var oTable = oView.byId("table0");
             var oBinding = oTable.getBinding("items");
             if (oBinding) {
-
                 oBinding.filter(aFilters);
-                var oSorter = new sap.ui.model.Sorter("OrderID", false);
+                var oSorter = new sap.ui.model.Sorter("OrderID", false); // false = ascending
                 oBinding.sort(oSorter);
             }
-        },
+        }
+        ,
 
         onClearPress: function () {
             var oView = this.getView();
