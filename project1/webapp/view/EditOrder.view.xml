@@ -84,7 +84,7 @@
         <footer>
             <OverflowToolbar id="_IDGenOverflowToolbar1">
                 <ToolbarSpacer id="_IDGenToolbarSpacer1"/>
-                <Button id="Save_4" type="Emphasized" text="Save"/>
+                <Button id="Save_4" type="Emphasized" text="Save" press="onSavePress"/>
                 <Button id="Cancel_4" type="Reject" text="Cancel"/>
             </OverflowToolbar>
         </footer>
