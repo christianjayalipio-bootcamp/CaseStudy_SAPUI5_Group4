@@ -1,4 +1,5 @@
 {
+ 
   "_version": "1.76.0",
   "sap.app": {
     "id": "com.ui5.trng.project1",
@@ -98,7 +99,7 @@
         },
         {
           "name": "RouteDetailsOrder",
-           "pattern": "detailsOrder/{orderId}",
+          "pattern": "detailsOrder/{orderPath}",
           "target": ["TargetDetailsOrder"]
         },
         {
@@ -106,13 +107,6 @@
           "pattern": "createorder",
           "target": [
             "TargetCreateOrder"
-          ]
-        },
-        {
-          "name": "RouteEditOrder",
-          "pattern": "editorder",
-          "target":[
-            "TargetEditOrder"
           ]
         }
       ],
@@ -129,11 +123,6 @@
         "TargetCreateOrder": {
           "id": "CreateOrder",
           "name": "CreateOrder",
-          "level": 1
-        },
-        "TargetEditOrder": {
-          "id": "EditOrder",
-          "name": "EditOrder",
           "level": 1
         }
       }

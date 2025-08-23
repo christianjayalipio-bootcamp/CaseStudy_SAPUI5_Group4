@@ -1,4 +1,6 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
     controllerName="com.ui5.trng.project1.controller.DetailsOrder">
 
     <Page id="PAGE3" title="Order Details">
@@ -32,6 +34,7 @@
 
             <!-- Products Panel -->
             <Panel width="auto" id="panel3" headerText="Products" class="sapUiResponsiveMargin">
+                <!-- Bind to /Products; we will filter in the controller -->
                 <Table id="productsTable" inset="false" items="{Products}">
                     <columns>
                         <Column><Text text="Product Name"/></Column>
@@ -45,7 +48,7 @@
                                 <Text text="{ProductName}"/>
                                 <Text text="{Quantity}"/>
                                 <Text text="{PricePerQuantity}"/>
-                                <Text text="{parts: [ {path: 'PricePerQuantity'},{path: 'Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
+                                <Text text="{parts: [{path: 'PricePerQuantity'}, {path: 'Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
                             </cells>
                         </ColumnListItem>
                     </items>

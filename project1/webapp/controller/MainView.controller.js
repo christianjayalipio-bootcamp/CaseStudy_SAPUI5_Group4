@@ -4,9 +4,10 @@ sap.ui.define([
     "com/ui5/trng/project1/controller/formatter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/ui/model/Sorter", // <-- Explicit import for Sorter
     "sap/m/MessageToast",
     "sap/m/MessageBox"
-], function (Controller, UIComponent, formatter, Filter, FilterOperator, MessageToast, MessageBox) {
+], function (Controller, UIComponent, formatter, Filter, FilterOperator, Sorter, MessageToast, MessageBox) {
     "use strict";
 
     return Controller.extend("com.ui5.trng.project1.controller.MainView", {
@@ -14,21 +15,23 @@ sap.ui.define([
         formatter: formatter,
 
         onPressDetails: function (oEvent) {
-            var oRouter = UIComponent.getRouterFor(this);
-            var oItem = oEvent.getSource();
-            var oContext = oItem.getBindingContext();
+    var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+    var oContext = oEvent.getSource().getBindingContext();
 
-            if (!oContext) {
-                console.error("No binding context found for the selected row.");
-                return;
-            }
+    if (!oContext) {
+        console.error("No binding context found for selected item.");
+        return;
+    }
 
-            var sOrderID = oContext.getProperty("OrderID");
+    // e.g. "/Orders(1)" -> encode as "Orders(1)"
+    var sPath = oContext.getPath(); 
+    var sEncodedPath = encodeURIComponent(sPath.substr(1));
 
-            oRouter.navTo("RouteDetailsOrder", {
-                orderId: sOrderID
-            });
-        },
+    oRouter.navTo("RouteDetailsOrder", {
+        orderPath: sEncodedPath
+    });
+},
+
 
         onPressAdd: function () {
             var oRouter = UIComponent.getRouterFor(this);
@@ -44,12 +47,11 @@ sap.ui.define([
 
             var aFilters = [];
 
-            // Filter by Order ID
             if (sOrderNumber) {
-                aFilters.push(new Filter("OrderID", FilterOperator.EQ, sOrderNumber));
+                // Cast to int if needed since OrderID is Int32
+                aFilters.push(new Filter("OrderID", FilterOperator.EQ, parseInt(sOrderNumber, 10)));
             }
 
-            // Filter by Creation Date (ISO format)
             if (dCreationDate) {
                 var startOfDay = new Date(dCreationDate);
                 startOfDay.setHours(0, 0, 0, 0);
@@ -57,7 +59,6 @@ sap.ui.define([
                 var endOfDay = new Date(dCreationDate);
                 endOfDay.setHours(23, 59, 59, 999);
 
-                // Single Filter with AND logic
                 var oDateFilter = new Filter({
                     filters: [
                         new Filter("CreatedOn", FilterOperator.GE, startOfDay.toISOString()),
@@ -68,32 +69,24 @@ sap.ui.define([
                 aFilters.push(oDateFilter);
             }
 
-
-            // Filter by Status (multi-selection)
             if (aStatuses && aStatuses.length > 0) {
                 var aStatusFilters = aStatuses.map(function (sStatus) {
                     return new Filter("Status", FilterOperator.EQ, sStatus);
                 });
-                aFilters.push(new Filter({
-                    filters: aStatusFilters,
-                    and: false // OR logic for multiple statuses
-                }));
+                aFilters.push(new Filter({ filters: aStatusFilters, and: false }));
             }
 
-            // Apply filters and sort by OrderID ascending
             var oTable = oView.byId("table0");
             var oBinding = oTable.getBinding("items");
             if (oBinding) {
                 oBinding.filter(aFilters);
-                var oSorter = new sap.ui.model.Sorter("OrderID", false); // false = ascending
+                var oSorter = new Sorter("OrderID", false);
                 oBinding.sort(oSorter);
             }
-        }
-        ,
+        },
 
         onClearPress: function () {
             var oView = this.getView();
-
             oView.byId("input0").setValue("");
             oView.byId("picker0").setValue("");
             oView.byId("box0").removeAllSelectedItems();
@@ -102,33 +95,32 @@ sap.ui.define([
             var oBinding = oTable.getBinding("items");
             oBinding.filter([]);
         },
+
         onDeletePress: function () {
             var oTable = this.byId("table0");
             var aSelectedItems = oTable.getSelectedItems();
 
             if (aSelectedItems.length === 0) {
-                sap.m.MessageBox.error("Please select an item from the table");
+                MessageBox.error("Please select an item from the table");
                 return;
             }
 
-            var that = this;
-            sap.m.MessageBox.confirm(
+            MessageBox.confirm(
                 "Are you sure you want to delete " + aSelectedItems.length + " item(s)?",
                 {
-                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                    emphasizedAction: sap.m.MessageBox.Action.YES,
+                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                    emphasizedAction: MessageBox.Action.YES,
                     onClose: function (sAction) {
-                        if (sAction === sap.m.MessageBox.Action.YES) {
+                        if (sAction === MessageBox.Action.YES) {
                             var oModel = oTable.getModel();
-
                             aSelectedItems.forEach(function (oItem) {
                                 var oContext = oItem.getBindingContext();
                                 oModel.remove(oContext.getPath(), {
                                     success: function () {
-                                        sap.m.MessageToast.show("Item deleted successfully");
+                                        MessageToast.show("Item deleted successfully");
                                     },
                                     error: function () {
-                                        sap.m.MessageBox.error("Error while deleting item");
+                                        MessageBox.error("Error while deleting item");
                                     }
                                 });
                             });
