@@ -8,29 +8,30 @@
 
             <!-- Order Header Panel -->
             <Panel id="orderdetailpnl" headerText="Order Detail" class="sapUiResponsiveMargin" width="auto">
-
-                <VBox id="ordernumber" class="sapUiSmallMargin" alignItems="Start">
-                    <HBox id="HBox1" justifyContent="Center">
-                        <Label id="Label1" text="Order Number:" width="300px" textAlign="End" class="sapUitinyMarginend"/>
+  <HBox id="HBox_Center" justifyContent="Center" width="100%">
+                <VBox id="ordernumber" class="sapUiSmallMargin" width="500px">
+                    <HBox id="HBox1">
+                        <Label id="Label1" text="Order Number:" width="150px" textAlign="End" class="sapUiTinyMarginEnd"/>
                         <Text id="Text" text="{OrderID}" class="boldText" />
                     </HBox>
                     <HBox id="HBox2">
-                        <Label id="Label2" text="Created On:" width="300px" textAlign="End"/>
-                        <Text id="Text1" text="{path: 'CreatedOn', formatter: '.formatter.formatOrderDate'}"/>
+                        <Label id="Label2" text="Created On:" width="150px" textAlign="End" class="sapUiTinyMarginEnd"/>
+                        <Text id="Text1" text="{path: 'CreatedOn', formatter: '.formatter.formatOrderDate'}" />
                     </HBox>
                     <HBox id="HBox3">
-                        <Label id="Label3" text="Receiving Plant:" width="300px" textAlign="End"/>
-                        <Text id="Text2" text="     {ReceivingPlant}" width="500px" />
+                        <Label id="Label3" text="Receiving Plant:" width="150px" textAlign="End" class="sapUiTinyMarginEnd"/>
+                        <Text id="Text2" text="{ReceivingPlant}" width="150px" />
                     </HBox>
                     <HBox id="HBox4">
-                        <Label id="Label4" text="Delivering Plant:" width="300px" textAlign="End" />
+                        <Label id="Label4" text="Delivering Plant:" width="150px" textAlign="End" class="sapUiTinyMarginEnd" />
                         <Text id="Text3" text="{DeliveringPlant}"/>
                     </HBox>
                     <HBox id="Box5">
-                        <Label id="Label5" text="Status:" width="300px" textAlign="End" />
+                        <Label id="Label5" text="Status:" width="150px" textAlign="End" class="sapUiTinyMarginEnd" />
                         <Text id="_IDGenText4" text="{Status}" class="boldText"/>
                     </HBox>
                 </VBox>
+                </HBox>
             </Panel>
 
             <!-- Products Panel -->
