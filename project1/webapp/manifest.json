@@ -1,4 +1,5 @@
 {
+ 
   "_version": "1.76.0",
   "sap.app": {
     "id": "com.ui5.trng.project1",
@@ -110,10 +111,8 @@
         },
         {
           "name": "RouteEditOrder",
-          "pattern": "editorder",
-          "target":[
-            "TargetEditOrder"
-          ]
+          "pattern": "editOrder/{orderId}",
+          "target": ["TargetEditOrder"]
         }
       ],
       "targets": {
@@ -134,7 +133,7 @@
         "TargetEditOrder": {
           "id": "EditOrder",
           "name": "EditOrder",
-          "level": 1
+          "level": 2
         }
       }
     },
