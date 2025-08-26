@@ -78,7 +78,6 @@
                 <ToolbarSpacer/>
                 <Button text="Save" type="Emphasized" enabled="false"/>
                 <Button text="Cancel" type="Reject" press=".onCancelPress"/>
-            </OverflowToolbar>
         </footer>
     </Page>
 </mvc:View>
