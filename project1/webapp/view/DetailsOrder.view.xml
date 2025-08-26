@@ -1,4 +1,6 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
     controllerName="com.ui5.trng.project1.controller.DetailsOrder">
 
     <Page id="PAGE3" title="Order Details">
@@ -33,6 +35,7 @@
 
             <!-- Products Panel -->
             <Panel width="auto" id="panel3" headerText="Products" class="sapUiResponsiveMargin">
+                <!-- Bind to /Products; we will filter in the controller -->
                 <Table id="productsTable" inset="false" items="{Products}">
                     <columns>
                         <Column id="_IDGenColumn"><Text id="_IDGenText5" text="Product Name"/></Column>
@@ -43,10 +46,10 @@
                     <items>
                         <ColumnListItem id="_IDGenColumnListItem">
                             <cells>
-                                <Text id="_IDGenText9" text="{ProductName}"/>
-                                <Text id="_IDGenText10" text="{Quantity}"/>
-                                <Text id="_IDGenText11" text="{PricePerQuantity}"/>
-                                <Text id="_IDGenText12" text="{parts: [ {path: 'PricePerQuantity'},{path: 'Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
+                                <Text text="{ProductName}"/>
+                                <Text text="{Quantity}"/>
+                                <Text text="{PricePerQuantity}"/>
+                                <Text text="{parts: [{path: 'PricePerQuantity'}, {path: 'Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
                             </cells>
                         </ColumnListItem>
                     </items>
