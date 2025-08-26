@@ -10,6 +10,11 @@ sap.ui.define([
 
     formatter: formatter,
 
+        onInit: function () {
+            // Attach to route pattern to get parameter
+            var oRouter = UIComponent.getRouterFor(this);
+            oRouter.getRoute("RouteDetailsOrder").attachPatternMatched(this._onObjectMatched, this);
+        },
     onInit: function () {
       const oRouter = UIComponent.getRouterFor(this);
       oRouter.getRoute("RouteDetailsOrder").attachPatternMatched(this._onRouteMatched, this);
@@ -56,6 +61,51 @@ sap.ui.define([
       oRouter.navTo("RouteMainView");
     },
 
+        _onObjectMatched: function (oEvent) {
+            var sOrderPath = decodeURIComponent(oEvent.getParameter("arguments").orderPath);
+
+            this.getView().bindElement({
+                path: "/" + sOrderPath,
+                events: {
+                    dataRequested: function () {
+                        this.getView().setBusy(true);
+                    }.bind(this),
+                    dataReceived: function () {
+                        this.getView().setBusy(false);
+
+                        // Attach updateFinished after data is received
+                        var oTable = this.byId("detailpanel");
+                        if (oTable) {
+                            oTable.attachUpdateFinished(this.updateProductTitle.bind(this));
+                        }
+                    }.bind(this)
+                }
+            });
+        },
+
+        updateProductTitle: function () {
+            var oTable = this.byId("detailpanel");
+            var iItemCount = oTable.getItems().length;
+
+            var oPanel = this.byId("detail"); // This is the Panel wrapping the table
+            if (oPanel) {
+                oPanel.setHeaderText("Products (" + iItemCount + ")");
+            }
+        },
+
+        onEditPress: function () {
+            var oRouter = UIComponent.getRouterFor(this);
+            var sOrderId = this.getView().getBindingContext().getProperty("OrderID");
+            oRouter.navTo("RouteEditOrder", {
+                orderId: sOrderId
+            });
+        },
+
+        onCancelPress: function () {
+            var oRouter = UIComponent.getRouterFor(this);
+            oRouter.navTo("RouteMainView");
+        }
+    });
     onEditPress: function () {
       const oRouter = UIComponent.getRouterFor(this);
       oRouter.navTo("RouteEditOrder", {
