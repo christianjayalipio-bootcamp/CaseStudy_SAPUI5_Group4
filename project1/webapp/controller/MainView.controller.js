@@ -4,7 +4,7 @@ sap.ui.define([
     "com/ui5/trng/project1/controller/formatter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/model/Sorter", // <-- Explicit import for Sorter
+    "sap/ui/model/Sorter",
     "sap/m/MessageToast",
     "sap/m/MessageBox"
 ], function (Controller, UIComponent, formatter, Filter, FilterOperator, Sorter, MessageToast, MessageBox) {
@@ -14,24 +14,42 @@ sap.ui.define([
 
         formatter: formatter,
 
+        updateTitleCount: function () {
+            var oTable = this.byId("table0");
+            var oTitle = this.byId("itemCounter");
+            var oBinding = oTable.getBinding("items");
+            if (oBinding) {
+                var iCount = oBinding.getLength();
+                oTitle.setText("Orders (" + iCount + ")");
+            } else {
+                oTitle.setText("Orders (0)");
+            }
+        },
+
+        onInit: function () {
+            var oTable = this.byId("table0");
+
+            oTable.attachUpdateFinished(this.updateTitleCount.bind(this));
+
+            this.updateTitleCount();
+        },
+
         onPressDetails: function (oEvent) {
-    var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-    var oContext = oEvent.getSource().getBindingContext();
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            var oContext = oEvent.getSource().getBindingContext();
 
-    if (!oContext) {
-        console.error("No binding context found for selected item.");
-        return;
-    }
+            if (!oContext) {
+                console.error("No binding context found for selected item.");
+                return;
+            }
 
-    // e.g. "/Orders(1)" -> encode as "Orders(1)"
-    var sPath = oContext.getPath(); 
-    var sEncodedPath = encodeURIComponent(sPath.substr(1));
+            var sPath = oContext.getPath();
+            var sEncodedPath = encodeURIComponent(sPath.substr(1));
 
-    oRouter.navTo("RouteDetailsOrder", {
-        orderPath: sEncodedPath
-    });
-},
-
+            oRouter.navTo("RouteDetailsOrder", {
+                orderPath: sEncodedPath
+            });
+        },
 
         onPressAdd: function () {
             var oRouter = UIComponent.getRouterFor(this);
@@ -48,7 +66,6 @@ sap.ui.define([
             var aFilters = [];
 
             if (sOrderNumber) {
-                // Cast to int if needed since OrderID is Int32
                 aFilters.push(new Filter("OrderID", FilterOperator.EQ, parseInt(sOrderNumber, 10)));
             }
 
@@ -93,7 +110,9 @@ sap.ui.define([
 
             var oTable = oView.byId("table0");
             var oBinding = oTable.getBinding("items");
-            oBinding.filter([]);
+            if (oBinding) {
+                oBinding.filter([]);
+            }
         },
 
         onDeletePress: function () {
@@ -105,6 +124,8 @@ sap.ui.define([
                 return;
             }
 
+            var that = this;
+
             MessageBox.confirm(
                 "Are you sure you want to delete " + aSelectedItems.length + " item(s)?",
                 {
@@ -113,14 +134,24 @@ sap.ui.define([
                     onClose: function (sAction) {
                         if (sAction === MessageBox.Action.YES) {
                             var oModel = oTable.getModel();
+                            var iPending = aSelectedItems.length;
+
                             aSelectedItems.forEach(function (oItem) {
                                 var oContext = oItem.getBindingContext();
                                 oModel.remove(oContext.getPath(), {
                                     success: function () {
                                         MessageToast.show("Item deleted successfully");
+                                        iPending--;
+                                        if (iPending === 0) {
+                                            that.updateTitleCount(); // update title after all deletions
+                                        }
                                     },
                                     error: function () {
                                         MessageBox.error("Error while deleting item");
+                                        iPending--;
+                                        if (iPending === 0) {
+                                            that.updateTitleCount();
+                                        }
                                     }
                                 });
                             });

@@ -58,7 +58,7 @@
 
             <Panel backgroundDesign="Transparent">
                 <Toolbar design="Transparent">
-                    <Title text="Header"/>
+                    <Title id="itemCounter" text="Header"/>
                     <ToolbarSpacer/>
                     <Button icon="sap-icon://add" press="onPressAdd"/>
                     <Button icon="sap-icon://delete" press="onDeletePress" id="deleteButton"/>
