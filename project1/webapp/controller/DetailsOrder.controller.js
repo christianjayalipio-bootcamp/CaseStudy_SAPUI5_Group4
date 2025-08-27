@@ -17,43 +17,60 @@ sap.ui.define([
 
     _onRouteMatched: function (oEvent) {
       const sOrderPath = decodeURIComponent(oEvent.getParameter("arguments").orderPath);
-      this._sOrderPath = sOrderPath; // store for edit navigation
+      this._sOrderPath = sOrderPath;
 
       const oView = this.getView();
       const oModel = oView.getModel("ordersModel");
 
-      // Bind the view to the selected order
       oView.bindElement({
         path: "/" + sOrderPath,
         model: "ordersModel"
       });
 
-      // Get the selected OrderNumber
       const sOrderNumber = oModel.getProperty("/" + sOrderPath + "/OrderNumber");
       const aOrderProducts = oModel.getProperty("/OrderProducts") || [];
       const aProducts = oModel.getProperty("/Products") || [];
 
-      // Filter and enrich products for this order
       const aMatchedProducts = aOrderProducts
         .filter(op => op.OrderNumber === sOrderNumber)
         .map(op => {
           const oProduct = aProducts.find(p => p.ProductID === op.ProductID) || {};
+          const fPricePerUnit = parseFloat(oProduct.PricePerUnit) || 0;
+          const fQuantity = parseFloat(op.Quantity) || 0;
+          const fTotalPrice = fPricePerUnit * fQuantity;
+
           return {
             ProductName: oProduct.ProductName || op.ProductID,
-            Quantity: op.Quantity,
-            PricePerUnit: oProduct.PricePerUnit?.toFixed(2) || "0.00",
-            TotalPrice: op.TotalPrice?.toFixed(2) || "0.00"
+            Quantity: fQuantity,
+            PricePerUnit: fPricePerUnit.toFixed(2),
+            TotalPrice: fTotalPrice.toFixed(2)
           };
         });
 
-      // Set local model for product table
+      // Set product model
       const oProductsModel = new JSONModel(aMatchedProducts);
       oView.setModel(oProductsModel, "orderProductsModel");
+
+      // Calculate grand total
+      const fGrandTotal = aMatchedProducts.reduce((sum, item) => sum + parseFloat(item.TotalPrice), 0);
+      const oSummaryModel = new JSONModel({ GrandTotal: fGrandTotal.toFixed(2) });
+      oView.setModel(oSummaryModel, "summaryModel");
+
+      // Attach updateFinished to count items
+      const oTable = this.byId("productsTable");
+      if (oTable) {
+        oTable.attachUpdateFinished(this.updateProductTitle.bind(this));
+      }
     },
 
-    onCancelPress: function () {
-      const oRouter = UIComponent.getRouterFor(this);
-      oRouter.navTo("RouteMainView");
+    updateProductTitle: function () {
+      const oTable = this.byId("productsTable");
+      const iItemCount = oTable.getItems().length;
+
+      const oPanel = this.byId("panel3");
+      if (oPanel) {
+        oPanel.setHeaderText("Products (" + iItemCount + ")");
+      }
     },
 
     onEditPress: function () {
@@ -61,7 +78,11 @@ sap.ui.define([
       oRouter.navTo("RouteEditOrder", {
         orderPath: encodeURIComponent(this._sOrderPath)
       });
-    }
+    },
 
+    onCancelPress: function () {
+      const oRouter = UIComponent.getRouterFor(this);
+      oRouter.navTo("RouteMainView");
+    }
   });
 });
