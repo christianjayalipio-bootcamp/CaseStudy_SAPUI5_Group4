@@ -51,7 +51,7 @@
                 </Toolbar>
             </headerToolbar>
             <content>
-                <Table items="{Products}" id="productsTableEdit">
+                <Table items="{Products}" id="productsTableEdit" mode="MultiSelect">
                     <columns>
                         <Column><header><Label text="Product Name"/></header></Column>
                         <Column><header><Label text="Quantity"/></header></Column>

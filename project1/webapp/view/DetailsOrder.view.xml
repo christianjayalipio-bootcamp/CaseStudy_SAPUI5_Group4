@@ -40,7 +40,7 @@
                         <Column hAlign="End"><Text text="Total Price"/></Column>
                     </columns>
                     <items>
-                        <ColumnListItem>
+                        <ColumnListItem id="_IDGenColumnListItem">
                             <cells>
                                 <!-- Lookup Product Name using formatter -->
                                 <Text text="{ordersModel>ProductName}"/>
@@ -57,11 +57,11 @@
 
         <!-- Footer -->
         <footer>
-            <OverflowToolbar class="sapContrast sapContrastPlus" width="100%">
+            <OverflowToolbar id="_IDGenOverflowToolbar" class="sapContrast sapContrastPlus" width="100%">
                 <content>
-                    <ToolbarSpacer/>
-                    <Button text="Edit" press="onEditPress"/>
-                    <Button text="Cancel" press="onCancelPress"/>
+                    <ToolbarSpacer id="_IDGenToolbarSpacer"/>
+                    <Button id="_IDGenButton" text="Edit" press="onEditPress"/>
+                    <Button id="_IDGenButton1" text="Cancel" press="onCancelPress"/>
                 </content>
             </OverflowToolbar>
         </footer>
