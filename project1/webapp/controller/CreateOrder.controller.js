@@ -227,21 +227,48 @@ sap.ui.define([
       const oTable = this.byId("productTable");
       const aSelectedItems = oTable.getSelectedItems();
 
-      if (aSelectedItems.length === 0) {
+      const iCount = aSelectedItems.length;
+
+      if (iCount === 0) {
         MessageToast.show("Please select an item from the table.");
         return;
       }
 
-      const oOrderModel = this.getView().getModel("orderModel");
-      const aProducts = oOrderModel.getProperty("/SelectedProducts");
-      const aToDelete = aSelectedItems.map(item => item.getBindingContext("orderModel").getObject());
-      const aRemaining = aProducts.filter(product => !aToDelete.includes(product));
+      const oConfirmDialog = new sap.m.Dialog({
+        title: "Confirm Delete",
+        type: "Message",
+        content: new sap.m.Text({ text: `Are you sure you want to delete ${iCount} item${iCount > 1 ? "s" : ""}?` }),
+        beginButton: new sap.m.Button({
+          text: "Yes",
+          type: "Emphasized",
+          press: function () {
+            const oOrderModel = this.getView().getModel("orderModel");
+            const aProducts = oOrderModel.getProperty("/SelectedProducts");
+            const aToDelete = aSelectedItems.map(item => item.getBindingContext("orderModel").getObject());
+            const aRemaining = aProducts.filter(product => !aToDelete.includes(product));
 
-      oOrderModel.setProperty("/SelectedProducts", aRemaining);
-      oTable.removeSelections();
+            oOrderModel.setProperty("/SelectedProducts", aRemaining);
+            oTable.removeSelections();
+
+            oConfirmDialog.close();
+            MessageToast.show(`${iCount} item${iCount > 1 ? "s" : ""} deleted.`);
+          }.bind(this)
+        }),
+        endButton: new sap.m.Button({
+          text: "No",
+          press: function () {
+            oConfirmDialog.close();
+          }
+        }),
+        afterClose: function () {
+          oConfirmDialog.destroy();
+        }
+      });
+
+      oConfirmDialog.open();
     },
 
-        onPressCancel: function () {
+    onPressCancel: function () {
       const oConfirmDialog = new Dialog({
         title: "Confirm Cancel",
         type: "Message",
@@ -304,21 +331,20 @@ sap.ui.define([
         Status: "Created"
       };
 
-      let bConfirmed = false;
-
-      const oConfirmDialog = new Dialog({
+      const oConfirmDialog = new sap.m.Dialog({
         title: "Confirm Save",
         type: "Message",
-        content: new Text({ text: "Are you sure you want to save these changes?" }),
-        beginButton: new Button({
+        content: new sap.m.Text({ text: "Are you sure you want to save these changes?" }),
+        beginButton: new sap.m.Button({
           text: "Yes",
           type: "Emphasized",
           press: function () {
+            // Save order
             const aOrders = oOrdersModel.getProperty("/Orders") || [];
             aOrders.push(oNewOrder);
             oOrdersModel.setProperty("/Orders", aOrders);
 
-            // Save products to /OrderProducts
+            // Save products
             const aOrderProducts = oOrdersModel.getProperty("/OrderProducts") || [];
             aSelectedProducts.forEach((product, index) => {
               aOrderProducts.push({
@@ -330,7 +356,6 @@ sap.ui.define([
               });
             });
             oOrdersModel.setProperty("/OrderProducts", aOrderProducts);
-            
 
             // Reset form
             oOrderModel.setProperty("/ReceivingPlantID", "");
@@ -338,15 +363,31 @@ sap.ui.define([
             oOrderModel.setProperty("/SelectedProducts", []);
             oTable.removeSelections();
 
-            bConfirmed = true;
-
-            const oRouter = UIComponent.getRouterFor(this);
-            oRouter.navTo("RouteMainView");
-
             oConfirmDialog.close();
+
+            // ✅ Show success dialog
+            const oSuccessDialog = new sap.m.Dialog({
+              title: "Order Created",
+              type: "Message",
+              content: new sap.m.Text({ text: `The order ${sOrderNumber} has been successfully created.` }),
+              beginButton: new sap.m.Button({
+                text: "OK",
+                type: "Emphasized",
+                press: function () {
+                  oSuccessDialog.close();
+                  const oRouter = UIComponent.getRouterFor(this);
+                  oRouter.navTo("RouteMainView");
+                }.bind(this)
+              }),
+              afterClose: function () {
+                oSuccessDialog.destroy();
+              }
+            });
+
+            oSuccessDialog.open();
           }.bind(this)
         }),
-        endButton: new Button({
+        endButton: new sap.m.Button({
           text: "No",
           press: function () {
             oConfirmDialog.close();
@@ -354,19 +395,31 @@ sap.ui.define([
         }),
         afterClose: function () {
           oConfirmDialog.destroy();
-          if (bConfirmed) {
-            MessageToast.show(`The order ${sOrderNumber} has been successfully created.`);
-          }
         }
       });
 
       oConfirmDialog.open();
     },
 
+    // Sequential Order Number Generator
     _generateOrderNumber: function () {
-      const sDate = this._getCurrentDate().replace(/-/g, "");
-      const sRandom = Math.random().toString(36).substring(2, 6).toUpperCase();
-      return `ORD-${sDate}-${sRandom}`;
+      const oOrdersModel = this.getView().getModel("ordersModel");
+      const aOrders = oOrdersModel.getProperty("/Orders") || [];
+
+      const aSorted = aOrders.slice().sort((a, b) => {
+        const numA = parseInt(a.OrderNumber.replace("ORD", ""), 10);
+        const numB = parseInt(b.OrderNumber.replace("ORD", ""), 10);
+        return numA - numB;
+      });
+
+      const sLastOrderNumber = aSorted.length > 0
+        ? aSorted[aSorted.length - 1].OrderNumber
+        : "OR000";
+
+      const iLastNumber = parseInt(sLastOrderNumber.replace("ORD", ""), 10);
+      const sNextOrderNumber = "ORD" + String(iLastNumber + 1).padStart(3, "0");
+
+      return sNextOrderNumber;
     },
 
     _getCurrentDate: function () {
