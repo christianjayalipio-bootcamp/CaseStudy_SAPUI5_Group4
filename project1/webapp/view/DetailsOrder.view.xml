@@ -2,35 +2,37 @@
           xmlns="sap.m"
           controllerName="com.ui5.trng.project1.controller.DetailsOrder">
 
-  <Page id="PAGE3" title="Order Details">
+  <Page id="PAGE3" title="Detail">
     <content>
 
       <!-- Order Header Panel -->
       <Panel id="orderdetailpnl" headerText="Order Detail" class="sapUiResponsiveMargin" width="auto">
-        <VBox id="ordernumber" class="sapUiSmallMargin" alignItems="Center">
+      <HBox justifyContent="Center"  width="100%">
+        <VBox id="ordernumber" class="sapUiSmallMargin" width="500px">
           <HBox>
-            <Label text="Order ID:" width="150px" textAlign="End"/>
+            <Label text="Order ID:" width="200px" textAlign="End" class="sapUiTinyMarginEnd"/>
             <Text text="{ordersModel>OrderNumber}" class="boldText"/>
           </HBox>
           <HBox>
-            <Label text="Created On:" width="150px" textAlign="End"/>
-            <Text text="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}"/>
+            <Label text="Created On:" width="200px" textAlign="End" class="sapUiTinyMarginEnd"/>
+            <Text text="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}" class="boldText"/>
           </HBox>
           <HBox>
-            <Label text="Receiving Plant:" width="150px" textAlign="End"/>
+            <Label text="Receiving Plant:" width="200px" textAlign="End" class="sapUiTinyMarginEnd"/>
             <Text text="{path: 'ordersModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}"/>
           </HBox>
           <HBox>
-            <Label text="Delivering Plant:" width="150px" textAlign="End"/>
-            <Text text="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}"/>
+            <Label text="Delivering Plant:" width="200px" textAlign="End" class="sapUiTinyMarginEnd"/>
+            <Text text="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}" class="boldText"/>
           </HBox>
           <HBox>
-            <Label text="Status:" width="150px" textAlign="End"/>
+            <Label text="Status:" width="200px" textAlign="End" class="sapUiTinyMarginEnd" />
             <ObjectStatus
                 text="{ordersModel>Status}"
                 state="{path: 'ordersModel>Status', formatter: '.formatter.statusState'}" />
           </HBox>
         </VBox>
+     </HBox>
       </Panel>
 
       <!-- Products Panel -->
@@ -48,7 +50,8 @@
                 <Text text="{orderProductsModel>ProductName}"/>
                 <Text text="{orderProductsModel>Quantity}"/>
                 <Text text="{orderProductsModel>PricePerUnit}"/>
-                <Text text="{orderProductsModel>TotalPrice}"/>
+               <Text text="{= ${orderProductsModel>Quantity} * ${orderProductsModel>PricePerUnit} }"/>
+
               </cells>
             </ColumnListItem>
           </items>
