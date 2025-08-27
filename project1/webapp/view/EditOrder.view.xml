@@ -13,20 +13,20 @@
                                      columnsXL="1" columnsL="1" columnsM="1">
                         <form:content>
                             <Label text="Order Number"/>
-                            <Input value="{OrderID}" width="50%" editable="false"/>
+                            <Input value="{ordersModel>OrderNumber}" width="50%" editable="false"/>
 
                             <Label text="Created On"/>
-                            <Input value="{path: 'CreatedOn', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
+                            <Input value="{path: 'ordersModel>CreatedDate', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
 
                             <Label text="Receiving Plant"/>
-                            <Input value="{ReceivingPlant}" width="50%" editable="false"/>
+                            <Input value="{ordersModel>ReceivingPlant}" width="50%" editable="false"/>
 
                             <Label text="Delivery Plant"/>
-                            <Input value="{DeliveringPlant}" width="50%" editable="false"/>
+                            <Input value="{ordersModel>DeliveringPlant}" width="50%" editable="false"/>
 
                             <Label text="Status"/>
                             <!-- ComboBox instead of Select -->
-                            <ComboBox width="50%" selectedKey="{Status}">
+                            <ComboBox width="50%" selectedKey="{ordersModel>Status}">
                                 <items>
                                     <core:Item key="Created" text="Created"/>
                                         <core:Item key="Released" text="Released"/>
