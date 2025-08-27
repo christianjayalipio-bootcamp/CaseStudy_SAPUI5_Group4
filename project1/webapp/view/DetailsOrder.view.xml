@@ -2,7 +2,7 @@
           xmlns="sap.m"
           controllerName="com.ui5.trng.project1.controller.DetailsOrder">
 
-  <Page id="PAGE3" title="Detail">
+  <Page id="PAGE3" title="Order Details">
     <content>
 
       <!-- Order Header Panel -->
