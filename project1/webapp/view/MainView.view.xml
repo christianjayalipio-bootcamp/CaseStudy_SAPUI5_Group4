@@ -51,7 +51,7 @@
        <Panel backgroundDesign="Transparent">
         <Toolbar id="toolbar1" design="Transparent">
 
-                    <Title text="Header"/>
+                <Title id="itemCounter" text="Header"/>
                     <ToolbarSpacer/>
                     <Button icon="sap-icon://add" press="onPressAdd"/>
                     <Button icon="sap-icon://delete" press="onDeletePress" id="button1_1755610909599"/>
@@ -60,7 +60,7 @@
 
             <Table id="orderTable"
                    items="{ordersModel>/Orders}"
-                   mode="SingleSelectMaster"
+                   mode="MultiSelect"
                    noDataText="No orders found"
                    >
                 <columns>
@@ -71,13 +71,13 @@
                     <Column><header><Label text="Status"/></header></Column>
                 </columns>
                 <items>
-                    <ColumnListItem type="Active" press="onPressDetails">
+                    <ColumnListItem type="Navigation" press="onPressDetails">
                         <cells>
                             <Text text="{ordersModel>OrderNumber}"/>
-                            <Text text="{ordersModel>CreationDate}"/>
-                            <Text text="{ordersModel>DeliveringPlantID}"/>
-                            <Text text="{ordersModel>ReceivingPlantID}"/>
-                            <Text text="{ordersModel>Status}"/>
+                            <Text text="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}"/>                            
+                            <Text text="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}"/>
+                            <Text text="{path: 'ordersModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}"/>                            
+                            <ObjectStatus text="{ordersModel>Status}" state="{path: 'ordersModel>Status', formatter: '.formatter.statusState'}"/>
                         </cells>
                     </ColumnListItem>
                 </items>

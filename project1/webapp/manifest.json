@@ -98,22 +98,20 @@
         },
         {
           "name": "RouteDetailsOrder",
-           "pattern": "detailsOrder/{orderId}",
+          "pattern": "detailsOrder/{orderPath}",
           "target": ["TargetDetailsOrder"]
         },
         {
           "name": "RouteCreateOrder",
-          "pattern": "createOrder",
+          "pattern": "createorder",
           "target": [
             "TargetCreateOrder"
           ]
         },
         {
           "name": "RouteEditOrder",
-          "pattern": "editorder",
-          "target":[
-            "TargetEditOrder"
-          ]
+          "pattern": "editOrder/{orderId}",
+          "target": ["TargetEditOrder"]
         }
       ],
       "targets": {
@@ -134,7 +132,7 @@
         "TargetEditOrder": {
           "id": "EditOrder",
           "name": "EditOrder",
-          "level": 1
+          "level": 2
         }
       }
     },

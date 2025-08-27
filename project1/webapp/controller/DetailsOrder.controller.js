@@ -1,61 +1,67 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
-    "sap/ui/core/UIComponent",
-    "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator",
-    "com/ui5/trng/project1/controller/formatter"
-], function (Controller, UIComponent, Filter, FilterOperator, formatter) {
-    "use strict";
+  "sap/ui/core/mvc/Controller",
+  "sap/ui/core/UIComponent",
+  "sap/ui/model/json/JSONModel",
+  "com/ui5/trng/project1/controller/formatter"
+], function (Controller, UIComponent, JSONModel, formatter) {
+  "use strict";
 
-    return Controller.extend("com.ui5.trng.project1.controller.DetailsOrder", {
+  return Controller.extend("com.ui5.trng.project1.controller.DetailsOrder", {
 
-        formatter: formatter,
+    formatter: formatter,
 
-        onInit: function () {
-            var oRouter = UIComponent.getRouterFor(this);
-            oRouter.getRoute("RouteDetailsOrder").attachPatternMatched(this._onRouteMatched, this);
-        },
+    onInit: function () {
+      const oRouter = UIComponent.getRouterFor(this);
+      oRouter.getRoute("RouteDetailsOrder").attachPatternMatched(this._onRouteMatched, this);
+    },
 
-        _onRouteMatched: function (oEvent) {
-            var sOrderID = oEvent.getParameter("arguments").orderId;
-            var oModel = this.getOwnerComponent().getModel();
+    _onRouteMatched: function (oEvent) {
+      const sOrderPath = decodeURIComponent(oEvent.getParameter("arguments").orderPath);
+      this._sOrderPath = sOrderPath; // store for edit navigation
 
-            var sOrderPath;
-            if (/^\d+$/.test(sOrderID)) {
-                sOrderPath = "/Orders(" + sOrderID + ")";
-            } else {
-                sOrderPath = "/Orders('" + sOrderID + "')";
-            }
+      const oView = this.getView();
+      const oModel = oView.getModel("ordersModel");
 
-            this.getView().bindElement({
-                path: sOrderPath,
-                model: undefined
-            });
+      // Bind the view to the selected order
+      oView.bindElement({
+        path: "/" + sOrderPath,
+        model: "ordersModel"
+      });
 
-            var oProductsTable = this.getView().byId("productTable");
-            if (oProductsTable) {
-                var oBinding = oProductsTable.getBinding("items");
-                if (oBinding) {
-                    var oFilter = new Filter("OrderID", FilterOperator.EQ, sOrderID);
-                    oBinding.filter([oFilter]);
-                }
-            }
+      // Get the selected OrderNumber
+      const sOrderNumber = oModel.getProperty("/" + sOrderPath + "/OrderNumber");
+      const aOrderProducts = oModel.getProperty("/OrderProducts") || [];
+      const aProducts = oModel.getProperty("/Products") || [];
 
-            this._sOrderPath = sOrderPath;
-        },
+      // Filter and enrich products for this order
+      const aMatchedProducts = aOrderProducts
+        .filter(op => op.OrderNumber === sOrderNumber)
+        .map(op => {
+          const oProduct = aProducts.find(p => p.ProductID === op.ProductID) || {};
+          return {
+            ProductName: oProduct.ProductName || op.ProductID,
+            Quantity: op.Quantity,
+            PricePerUnit: oProduct.PricePerUnit?.toFixed(2) || "0.00",
+            TotalPrice: op.TotalPrice?.toFixed(2) || "0.00"
+          };
+        });
 
-        onCancelPress: function () {
-            var oRouter = UIComponent.getRouterFor(this);
-            oRouter.navTo("RouteMainView");
-        },
+      // Set local model for product table
+      const oProductsModel = new JSONModel(aMatchedProducts);
+      oView.setModel(oProductsModel, "orderProductsModel");
+    },
 
-        onEditPress: function () {
-            var oRouter = UIComponent.getRouterFor(this);
-            var sOrderID = this._sOrderPath.replace("/Orders(", "").replace(")", "").replace(/'/g, "");
-            oRouter.navTo("RouteEditOrder", {
-                orderId: sOrderID
-            });
-        }
+    onCancelPress: function () {
+      const oRouter = UIComponent.getRouterFor(this);
+      oRouter.navTo("RouteMainView");
+    },
 
-    });
+    onEditPress: function () {
+      const oRouter = UIComponent.getRouterFor(this);
+      oRouter.navTo("RouteEditOrder", {
+        orderPath: encodeURIComponent(this._sOrderPath)
+      });
+    }
+
+  });
 });

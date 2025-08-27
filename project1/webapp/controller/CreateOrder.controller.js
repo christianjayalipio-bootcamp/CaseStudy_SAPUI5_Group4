@@ -170,13 +170,7 @@ sap.ui.define([
               oSelectedProduct = oEvt.getParameter("listItem").getBindingContext().getObject();
             }
           }),
-          new Label({
-            text: "Quantity",
-            labelFor: "qtyInput",
-            design: "Bold",
-            required: true,
-            class: "sapUiSmallMarginTop sapUiSmallMarginBottom"
-          }),
+          new Label({ text: "Quantity", required: true }),
           new Input("qtyInput", {
             type: "Number",
             value: "1",
@@ -199,6 +193,7 @@ sap.ui.define([
             const aSelectedProducts = oOrderModel.getProperty("/SelectedProducts") || [];
 
             aSelectedProducts.push({
+              ProductID: oSelectedProduct.ProductID,
               ProductName: oSelectedProduct.ProductName,
               Quantity: iQty,
               PricePerQuantity: oSelectedProduct.PricePerUnit.toFixed(2),
@@ -237,41 +232,16 @@ sap.ui.define([
         return;
       }
 
-      const iCount = aSelectedItems.length;
-      const sMessage = `Are you sure you want to delete ${iCount} item${iCount > 1 ? "s" : ""}?`;
+      const oOrderModel = this.getView().getModel("orderModel");
+      const aProducts = oOrderModel.getProperty("/SelectedProducts");
+      const aToDelete = aSelectedItems.map(item => item.getBindingContext("orderModel").getObject());
+      const aRemaining = aProducts.filter(product => !aToDelete.includes(product));
 
-      const oConfirmDialog = new Dialog({
-        title: "Confirm Deletion",
-        type: "Message",
-        content: new Text({ text: sMessage }),
-        beginButton: new Button({
-          text: "Delete",
-          type: "Reject",
-          press: function () {
-            const oOrderModel = this.getView().getModel("orderModel");
-            const aProducts = oOrderModel.getProperty("/SelectedProducts");
-            const aToDelete = aSelectedItems.map(item => item.getBindingContext("orderModel").getObject());
-            const aRemaining = aProducts.filter(product => !aToDelete.includes(product));
-            oOrderModel.setProperty("/SelectedProducts", aRemaining);
-            oTable.removeSelections();
-            oConfirmDialog.close();
-          }.bind(this)
-        }),
-        endButton: new Button({
-          text: "Cancel",
-          press: function () {
-            oConfirmDialog.close();
-          }
-        }),
-        afterClose: function () {
-          oConfirmDialog.destroy();
-        }
-      });
-
-      oConfirmDialog.open();
+      oOrderModel.setProperty("/SelectedProducts", aRemaining);
+      oTable.removeSelections();
     },
 
-    onPressCancel: function () {
+        onPressCancel: function () {
       const oConfirmDialog = new Dialog({
         title: "Confirm Cancel",
         type: "Message",
@@ -306,52 +276,41 @@ sap.ui.define([
     },
 
     onSaveOrder: function () {
-      // Get the models for the order form and the shared orders list
       const oOrderModel = this.getView().getModel("orderModel");
       const oOrdersModel = this.getView().getModel("ordersModel");
 
-      // Retrieve values entered by the user
       const sReceivingPlant = oOrderModel.getProperty("/ReceivingPlantID");
       const sDeliveringPlant = oOrderModel.getProperty("/DeliveringPlantID");
 
-      // Get only the products that were selected via checkboxes
       const oTable = this.byId("productTable");
       const aSelectedItems = oTable.getSelectedItems();
       const aSelectedProducts = aSelectedItems.map(item =>
         item.getBindingContext("orderModel").getObject()
       );
 
-      // Validate that all required fields are filled and at least one product is selected
       if (!sReceivingPlant || !sDeliveringPlant || aSelectedProducts.length === 0) {
-        sap.m.MessageToast.show("Please complete all required fields and select at least one product.");
+        MessageToast.show("Please complete all required fields and select at least one product.");
         return;
       }
 
-      // Generate a unique order number and the current date
       const sOrderNumber = this._generateOrderNumber();
       const sCreationDate = this._getCurrentDate();
 
-      // Create the new order object
       const oNewOrder = {
         OrderNumber: sOrderNumber,
         CreationDate: sCreationDate,
         DeliveringPlantID: sDeliveringPlant,
         ReceivingPlantID: sReceivingPlant,
-        Status: "Created",
-        SelectedProducts: aSelectedProducts // Optional: include selected products in the order
+        Status: "Created"
       };
 
-      // Track whether the user confirmed the save
       let bConfirmed = false;
 
-      // Create a confirmation dialog before saving
-      const oConfirmDialog = new sap.m.Dialog({
+      const oConfirmDialog = new Dialog({
         title: "Confirm Save",
         type: "Message",
-        content: new sap.m.Text({ text: "Are you sure you want to save these changes?" }),
-
-        // If user clicks "Yes", save the order and navigate back
-        beginButton: new sap.m.Button({
+        content: new Text({ text: "Are you sure you want to save these changes?" }),
+        beginButton: new Button({
           text: "Yes",
           type: "Emphasized",
           press: function () {
@@ -359,42 +318,48 @@ sap.ui.define([
             aOrders.push(oNewOrder);
             oOrdersModel.setProperty("/Orders", aOrders);
 
-            // Clear the form fields and product selections
+            // Save products to /OrderProducts
+            const aOrderProducts = oOrdersModel.getProperty("/OrderProducts") || [];
+            aSelectedProducts.forEach((product, index) => {
+              aOrderProducts.push({
+                OrderProductID: `OP${Date.now()}${index}`,
+                OrderNumber: sOrderNumber,
+                ProductID: product.ProductID,
+                Quantity: product.Quantity,
+                TotalPrice: parseFloat(product.TotalPrice)
+              });
+            });
+            oOrdersModel.setProperty("/OrderProducts", aOrderProducts);
+            
+
+            // Reset form
             oOrderModel.setProperty("/ReceivingPlantID", "");
             oOrderModel.setProperty("/DeliveringPlantID", "");
             oOrderModel.setProperty("/SelectedProducts", []);
             oTable.removeSelections();
 
-            // Mark that the user confirmed the save
             bConfirmed = true;
 
-            // Navigate back to the main view
-            const oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            const oRouter = UIComponent.getRouterFor(this);
             oRouter.navTo("RouteMainView");
 
-            // Close the dialog
             oConfirmDialog.close();
           }.bind(this)
         }),
-
-        // If user clicks "No", just close the dialog
-        endButton: new sap.m.Button({
+        endButton: new Button({
           text: "No",
           press: function () {
             oConfirmDialog.close();
           }
         }),
-
-        // After the dialog closes, show a success message only if the user confirmed
         afterClose: function () {
           oConfirmDialog.destroy();
           if (bConfirmed) {
-            sap.m.MessageToast.show(`The order ${sOrderNumber} has been successfully created.`);
+            MessageToast.show(`The order ${sOrderNumber} has been successfully created.`);
           }
         }
       });
 
-      // Open the confirmation dialog
       oConfirmDialog.open();
     },
 
