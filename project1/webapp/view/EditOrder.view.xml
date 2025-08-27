@@ -16,13 +16,13 @@
                             <Input value="{ordersModel>OrderNumber}" width="50%" editable="false"/>
 
                             <Label text="Created On"/>
-                            <Input value="{path: 'ordersModel>CreatedDate', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
+                            <Input value="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
 
                             <Label text="Receiving Plant"/>
-                            <Input value="{ordersModel>ReceivingPlant}" width="50%" editable="false"/>
+                            <Input value="{path: 'ordersModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
 
                             <Label text="Delivery Plant"/>
-                            <Input value="{ordersModel>DeliveringPlant}" width="50%" editable="false"/>
+                            <Input value="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
 
                             <Label text="Status"/>
                             <!-- ComboBox instead of Select -->
@@ -51,7 +51,7 @@
                 </Toolbar>
             </headerToolbar>
             <content>
-                <Table items="{Products}" id="productsTableEdit" mode="MultiSelect">
+                <Table items="{orderProductsModel>/}" id="productsTableEdit" mode="MultiSelect">
                     <columns>
                         <Column><header><Label text="Product Name"/></header></Column>
                         <Column><header><Label text="Quantity"/></header></Column>
@@ -61,10 +61,10 @@
                     <items>
                         <ColumnListItem>
                             <cells>
-                                <Text text="{ProductName}"/>
-                                <Text text="{Quantity}"/>
-                                <Text text="{PricePerQuantity}"/>
-                                <Text text="{= ${Quantity} * ${PricePerQuantity} }"/>
+                                <Text text="{orderProductsModel>ProductName}"/>
+                                <Text text="{orderProductsModel>Quantity}"/>
+                                <Text text="{orderProductsModel>PricePerUnit}"/>
+                                <Text text="{= ${orderProductsModel>Quantity} * ${orderProductsModel>PricePerUnit} }"/>
                             </cells>
                         </ColumnListItem>
                     </items>
