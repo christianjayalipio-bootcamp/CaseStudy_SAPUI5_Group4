@@ -13,20 +13,20 @@
                                      columnsXL="1" columnsL="1" columnsM="1">
                         <form:content>
                             <Label text="Order Number"/>
-                            <Input value="{OrderID}" width="50%" editable="false"/>
+                            <Input value="{ordersModel>OrderNumber}" width="50%" editable="false"/>
 
                             <Label text="Created On"/>
-                            <Input value="{path: 'CreatedOn', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
+                            <Input value="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
 
                             <Label text="Receiving Plant"/>
-                            <Input value="{ReceivingPlant}" width="50%" editable="false"/>
+                            <Input value="{path: 'ordersModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
 
                             <Label text="Delivery Plant"/>
-                            <Input value="{DeliveringPlant}" width="50%" editable="false"/>
+                            <Input value="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
 
                             <Label text="Status"/>
                             <!-- ComboBox instead of Select -->
-                            <ComboBox width="50%" selectedKey="{Status}">
+                            <ComboBox width="50%" selectedKey="{ordersModel>Status}">
                                 <items>
                                     <core:Item key="Created" text="Created"/>
                                         <core:Item key="Released" text="Released"/>
@@ -51,7 +51,7 @@
                 </Toolbar>
             </headerToolbar>
             <content>
-                <Table items="{Products}" id="productsTableEdit" mode="MultiSelect">
+                <Table items="{orderProductsModel>/}" id="productsTableEdit" mode="MultiSelect">
                     <columns>
                         <Column><header><Label text="Product Name"/></header></Column>
                         <Column><header><Label text="Quantity"/></header></Column>
@@ -61,10 +61,10 @@
                     <items>
                         <ColumnListItem>
                             <cells>
-                                <Text text="{ProductName}"/>
-                                <Text text="{Quantity}"/>
-                                <Text text="{PricePerQuantity}"/>
-                                <Text text="{= ${Quantity} * ${PricePerQuantity} }"/>
+                                <Text text="{orderProductsModel>ProductName}"/>
+                                <Text text="{orderProductsModel>Quantity}"/>
+                                <Text text="{orderProductsModel>PricePerUnit}"/>
+                                <Text text="{= ${orderProductsModel>Quantity} * ${orderProductsModel>PricePerUnit} }"/>
                             </cells>
                         </ColumnListItem>
                     </items>
