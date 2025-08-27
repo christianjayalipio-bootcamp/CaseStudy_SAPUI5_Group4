@@ -1,80 +1,96 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.CreateOrder">
-    <Page id="page3" title="Create Order" floatingFooter="true">
+<mvc:View
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:form="sap.ui.layout.form"
+  controllerName="com.ui5.trng.project1.controller.CreateOrder">
+  <Page id="page3" title="Create Order" floatingFooter="true">
+    <content>
+      <Panel width="auto" expanded="true" id="pnl_orderDetails" class="sapUiResponsiveMargin">
+        <headerToolbar>
+          <Toolbar>
+            <Title text="Order Details" />
+            <ToolbarSpacer />
+          </Toolbar>
+        </headerToolbar>
         <content>
-        <Panel xmlns="sap.m" width="auto" expanded="true" id="pnl_orderDetails" class="sapUiResponsiveMargin">
-            <headerToolbar>
-                <Toolbar id="tb1_orderDetails">
-                    <Title id="title_orderDetails" text="Order Details"/>
-                    <ToolbarSpacer id="header_ToolbarSpacer"/>
-                    </Toolbar>       
-            </headerToolbar>
+          <HBox justifyContent="Center">
+            <form:SimpleForm
+              editable="true"
+              layout="ColumnLayout"
+              id="form_OrderDetails">
+              <form:content>
+                <Label text="Receiving Plant" required="true" />
+                <Input
+                  id="recPlant"
+                  value="{orderModel>/ReceivingPlantID}"
+                  showValueHelp="true"
+                  valueHelpRequest="onValueHelpRequest"
+                  width="15rem" />
+                <Label text="Delivering Plant" required="true" />
+                <Input
+                  id="delPlant"
+                  value="{orderModel>/DeliveringPlantID}"
+                  showValueHelp="true"
+                  valueHelpRequest="onValueHelpRequest"
+                  width="15rem" />
+              </form:content>
+            </form:SimpleForm>
+          </HBox>
+        </content>
+      </Panel>
+      <Panel
+        xmlns="sap.m" width="auto" expanded="true" id="pnl_Products" class="sapUiResponsiveMargin">
+        <headerToolbar>
+          <Toolbar id="tb2_products">
+            <Title id="title_products" text="Products "/>
+            <ToolbarSpacer id="_IDGenToolbarSpacer2"/>
+            <Button id="btn_addProducts" icon="sap-icon://add" press="onAddProduct" />
             <content>
-            <HBox id="_IDGenHBox" justifyContent="Center" >
-            <sap.ui.layout.form:SimpleForm xmlns:sap.ui.layout.form="sap.ui.layout.form" xmlns:sap.ui.core="sap.ui.core" editable="true" layout="ColumnLayout" id="form_OrderDetails">
-            <sap.ui.layout.form:content>
-                <Label xmlns="sap.m" text="Receiving Plant" id="label1" required="true"/>
-                <Input xmlns="sap.m" id="recPlant" type="Text" value="" placeholder="" showValueHelp="true" valueHelpRequest=".onValueHelpRequest" width="15rem"/>
-                <Label xmlns="sap.m" text="Delivering Plant" id="label2" required="true"/>
-                <Input xmlns="sap.m" id="delPlant" type="Text" value="" placeholder="" showValueHelp="true" valueHelpRequest=".onValueHelpRequest" width="15rem"/>
-            </sap.ui.layout.form:content>
-        </sap.ui.layout.form:SimpleForm> 
-            </HBox>  
-            </content>
-            </Panel>
-        <Panel xmlns="sap.m" width="auto" expanded="true" id="pnl_Products" class="sapUiResponsiveMargin">
-            <headerToolbar>
-                <Toolbar id="tb2_products">
-                    <Title id="title_products" text="Products"/>
-                    <ToolbarSpacer id="_IDGenToolbarSpacer2"/>
-                    <Button xmlns="sap.m" id="btn_addProducts" icon="sap-icon://add"/>
-                    <content>
-                        <Button xmlns="sap.m" id="btn_deleteProducts" icon="sap-icon://delete"/>
-                    </content>
-                    </Toolbar>
-            </headerToolbar>
-            <content>
-               <Table noDataText="No Data" items="{/Orders}" id="tbl_products" mode="MultiSelect">
-                    <items>
-                        <ColumnListItem type="Active" id="products">
-                            <cells>
-                                <Text text="{ProductName}" id="text0"/>
-                                <Text text="{Quantity}" id="text1"/>
-                                <Text text="{PricePerQuantity}" id="text2"/>
-                                <Text text="{CreatedOn}" id="text3"/>
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                    <columns>
-                        <Column id="col2_productName">
-                            <header>
-                                <Label text="Product Name" id="lbl_productName"/>
-                            </header>
-                        </Column>
-                        <Column id="col3_quantity">
-                            <header>
-                                <Label text="Quantity" id="lbl_quantity"/>
-                            </header>
-                        </Column>
-                        <Column id="col4_pricePerQuantity">
-                            <header>
-                                <Label text="Price Per Quantity" id="lbl_pricePerQuantity"/>
-                            </header>
-                        </Column>
-                        <Column id="col5_totalPrice">
-                            <header>
-                                <Label text="Total Price" id="lbl_totalPrice"/>
-                            </header>
-                        </Column></columns></Table>
-            </content>
-            </Panel>
-    </content>
-    <footer>
+              <Button
+                xmlns="sap.m" id="btn_deleteProducts" icon="sap-icon://delete" press="onDeleteProducts"/>
+              </content>
+            </Toolbar>
+          </headerToolbar>
+          <content>
+            <Table
+                id="productTable"
+                items="{orderModel>/SelectedProducts}"
+                mode="MultiSelect"
+                selectionChange="onProductSelect">
+              <columns>
+                <Column>
+                  <Text text="Product Name" />
+                </Column>
+                <Column>
+                  <Text text="Quantity" />
+                </Column>
+                <Column>
+                  <Text text="Price per Quantity" />
+                </Column>
+                <Column>
+                  <Text text="Total Price" />
+                </Column>
+              </columns>
+              <items>
+                <ColumnListItem>
+                  <cells>
+                    <Text text="{orderModel>ProductName}" />
+                    <Text text="{orderModel>Quantity}" />
+                    <Text text="{orderModel>PricePerQuantity}" />
+                    <Text text="{orderModel>TotalPrice}" />
+                  </cells>
+                </ColumnListItem>
+              </items>
+            </Table>
+          </content>
+        </Panel>
+      </content>
+      <footer>
         <OverflowToolbar id="footer_OverflowToolbar">
-            <ToolbarSpacer id="footer_ToolbarSpacer"/>
-            <Button id="Save" type="Accept" text="Save"/>
-            <Button id="Cancel" type="Reject" press="onPressCancel" text="Cancel"/>
+          <ToolbarSpacer id="footer_ToolbarSpacer"/>
+          <Button id="Save" type="Accept" text="Save" press="onSaveOrder"/>
+          <Button id="Cancel" type="Reject" press="onPressCancel" text="Cancel"/>
         </OverflowToolbar>
-    </footer>
-
+      </footer>
     </Page>
-</mvc:View>
+  </mvc:View>

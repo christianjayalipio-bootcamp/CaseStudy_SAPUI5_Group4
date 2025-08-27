@@ -111,7 +111,7 @@
         },
         {
           "name": "RouteEditOrder",
-          "pattern": "editOrder/{orderId}",
+          "pattern": "editOrder/{orderPath}",
           "target": ["TargetEditOrder"]
         }
       ],
