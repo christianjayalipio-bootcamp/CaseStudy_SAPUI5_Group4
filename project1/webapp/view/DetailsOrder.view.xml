@@ -1,69 +1,71 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
-    controllerName="com.ui5.trng.project1.controller.DetailsOrder">
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          controllerName="com.ui5.trng.project1.controller.DetailsOrder">
 
-    <Page id="PAGE3" title="Order Details">
+  <Page id="PAGE3" title="Order Details">
+    <content>
+
+      <!-- Order Header Panel -->
+      <Panel id="orderdetailpnl" headerText="Order Detail" class="sapUiResponsiveMargin" width="auto">
+        <VBox id="ordernumber" class="sapUiSmallMargin" alignItems="Center">
+          <HBox>
+            <Label text="Order ID:" width="150px" textAlign="End"/>
+            <Text text="{ordersModel>OrderNumber}" class="boldText"/>
+          </HBox>
+          <HBox>
+            <Label text="Created On:" width="150px" textAlign="End"/>
+            <Text text="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}"/>
+          </HBox>
+          <HBox>
+            <Label text="Receiving Plant:" width="150px" textAlign="End"/>
+            <Text text="{path: 'ordersModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}"/>
+          </HBox>
+          <HBox>
+            <Label text="Delivering Plant:" width="150px" textAlign="End"/>
+            <Text text="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}"/>
+          </HBox>
+          <HBox>
+            <Label text="Status:" width="150px" textAlign="End"/>
+            <ObjectStatus
+                text="{ordersModel>Status}"
+                state="{path: 'ordersModel>Status', formatter: '.formatter.statusState'}" />
+          </HBox>
+        </VBox>
+      </Panel>
+
+      <!-- Products Panel -->
+      <Panel width="auto" id="panel3" headerText="Products" class="sapUiResponsiveMargin">
+        <Table id="productsTable" inset="false" items="{orderProductsModel>/}">
+          <columns>
+            <Column><Text text="Product Name"/></Column>
+            <Column hAlign="Center"><Text text="Quantity"/></Column>
+            <Column hAlign="End"><Text text="Price Per Unit"/></Column>
+            <Column hAlign="End"><Text text="Total Price"/></Column>
+          </columns>
+          <items>
+            <ColumnListItem>
+              <cells>
+                <Text text="{orderProductsModel>ProductName}"/>
+                <Text text="{orderProductsModel>Quantity}"/>
+                <Text text="{orderProductsModel>PricePerUnit}"/>
+                <Text text="{orderProductsModel>TotalPrice}"/>
+              </cells>
+            </ColumnListItem>
+          </items>
+        </Table>
+      </Panel>
+
+    </content>
+
+    <!-- Footer -->
+    <footer>
+      <OverflowToolbar id="_IDGenOverflowToolbar" class="sapContrast sapContrastPlus" width="100%">
         <content>
-
-            <!-- Order Header Panel -->
-            <Panel id="orderdetailpnl" headerText="Order Detail" class="sapUiResponsiveMargin" width="auto">
-                <VBox id="ordernumber" class="sapUiSmallMargin" alignItems="Center">
-                    <HBox>
-                        <Label text="Order ID:" width="150px" textAlign="End"/>
-                        <Text text="{ordersModel>OrderNumber}" class="boldText"/>
-                    </HBox>
-                    <HBox>
-                        <Label text="Created On:" width="150px" textAlign="End"/>
-                        <Text text="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}"/>
-                    </HBox>
-                    <HBox>
-                        <Label text="Receiving Plant:" width="150px" textAlign="End"/>
-                        <Text text="{path: 'ordersModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}"/>
-                    </HBox>
-                    <HBox>
-                        <Label text="Delivering Plant:" width="150px" textAlign="End"/>
-                        <Text text="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}"/>
-                    </HBox>
-                    <HBox>
-                        <Label text="Status:" width="150px" textAlign="End"/>
-                        <Text text="{path: 'ordersModel>Status', formatter: '.formatter.statusState'}" class="boldText"/>
-                    </HBox>
-                </VBox>
-            </Panel>
-
-            <!-- Products Panel -->
-            <Panel width="auto" id="panel3" headerText="Products" class="sapUiResponsiveMargin">
-                <Table id="productsTable" inset="false" items="{ordersModel>/OrderProducts}">
-                    <columns>
-                        <Column><Text text="Product Name"/></Column>
-                        <Column hAlign="Center"><Text text="Quantity"/></Column>
-                        <Column hAlign="End"><Text text="Price Per Unit"/></Column>
-                        <Column hAlign="End"><Text text="Total Price"/></Column>
-                    </columns>
-                    <items>
-                        <ColumnListItem id="_IDGenColumnListItem">
-                            <cells>
-                                <!-- Lookup Product Name using formatter -->
-                                <Text text="{ordersModel>ProductName}"/>
-                                <Text text="{ordersModel>Quantity}"/>
-                                <Text text="{ordersModel>PricePerUnit}"/>
-                                <Text text="{parts: [{path: 'ordersModel>PricePerUnit'}, {path: 'ordersModel>Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
-            </Panel>
-
+          <ToolbarSpacer/>
+          <Button text="Edit" press="onEditPress"/>
+          <Button text="Cancel" press="onCancelPress"/>
         </content>
-
-        <!-- Footer -->
-        <footer>
-            <OverflowToolbar id="_IDGenOverflowToolbar" class="sapContrast sapContrastPlus" width="100%">
-                <content>
-                    <ToolbarSpacer id="_IDGenToolbarSpacer"/>
-                    <Button id="_IDGenButton" text="Edit" press="onEditPress"/>
-                    <Button id="_IDGenButton1" text="Cancel" press="onCancelPress"/>
-                </content>
-            </OverflowToolbar>
-        </footer>
-    </Page>
+      </OverflowToolbar>
+    </footer>
+  </Page>
 </mvc:View>

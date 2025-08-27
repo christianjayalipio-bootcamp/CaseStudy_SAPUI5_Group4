@@ -28,38 +28,35 @@ sap.ui.define([
     },
 
     onInit: function () {
-      // Use the shared ordersModel from Component.js
       const oOrdersModel = this.getOwnerComponent().getModel("ordersModel");
       this.getView().setModel(oOrdersModel, "ordersModel");
 
-      var oTable = this.byId("orderTable");
-
+      const oTable = this.byId("orderTable");
       oTable.attachUpdateFinished(this.updateTitleCount.bind(this));
 
       this.updateTitleCount();
     },
 
     onGoPress: function () {
-      var oView = this.getView();
+      const oView = this.getView();
+      const sOrderNumber = oView.byId("input0").getValue();
+      const dCreationDate = oView.byId("picker0").getDateValue();
+      const aStatuses = oView.byId("box0").getSelectedKeys();
 
-      var sOrderNumber = oView.byId("input0").getValue();
-      var dCreationDate = oView.byId("picker0").getDateValue();
-      var aStatuses = oView.byId("box0").getSelectedKeys();
-
-      var aFilters = [];
+      const aFilters = [];
 
       if (sOrderNumber) {
         aFilters.push(new Filter("OrderNumber", FilterOperator.EQ, sOrderNumber));
       }
 
       if (dCreationDate) {
-        var startOfDay = new Date(dCreationDate);
+        const startOfDay = new Date(dCreationDate);
         startOfDay.setHours(0, 0, 0, 0);
 
-        var endOfDay = new Date(dCreationDate);
+        const endOfDay = new Date(dCreationDate);
         endOfDay.setHours(23, 59, 59, 999);
 
-        var oDateFilter = new Filter({
+        const oDateFilter = new Filter({
           filters: [
             new Filter("CreationDate", FilterOperator.GE, startOfDay.toISOString()),
             new Filter("CreationDate", FilterOperator.LE, endOfDay.toISOString())
@@ -70,29 +67,29 @@ sap.ui.define([
       }
 
       if (aStatuses && aStatuses.length > 0) {
-        var aStatusFilters = aStatuses.map(function (sStatus) {
-          return new Filter("Status", FilterOperator.EQ, sStatus);
-        });
+        const aStatusFilters = aStatuses.map(sStatus =>
+          new Filter("Status", FilterOperator.EQ, sStatus)
+        );
         aFilters.push(new Filter({ filters: aStatusFilters, and: false }));
       }
 
-      var oTable = oView.byId("orderTable");
-      var oBinding = oTable.getBinding("items");
+      const oTable = oView.byId("orderTable");
+      const oBinding = oTable.getBinding("items");
       if (oBinding) {
         oBinding.filter(aFilters);
-        var oSorter = new Sorter("OrderNumber", false);
-        oBinding.sort(oSorter);
+        oBinding.sort(new Sorter("OrderNumber", false));
       }
     },
 
     onPressDetails: function (oEvent) {
       const oRouter = UIComponent.getRouterFor(this);
-      const oContext = oEvent.getSource().getBindingContext("ordersModel"); // specify model
+      const oContext = oEvent.getSource().getBindingContext("ordersModel");
       if (!oContext) {
         console.error("No binding context found for selected item.");
         return;
       }
-      const sPath = oContext.getPath();       // e.g., /Orders/0
+
+      const sPath = oContext.getPath(); // e.g., /Orders/0
       const sEncodedPath = encodeURIComponent(sPath.substr(1)); // Orders/0
 
       oRouter.navTo("RouteDetailsOrder", {
@@ -100,8 +97,6 @@ sap.ui.define([
       });
     },
 
-
-    // Navigates to the CreateOrder view
     onPressAdd: function () {
       const oRouter = UIComponent.getRouterFor(this);
       oRouter.navTo("RouteCreateOrder");
@@ -113,8 +108,8 @@ sap.ui.define([
       oView.byId("picker0").setValue("");
       oView.byId("box0").removeAllSelectedItems();
 
-      var oTable = oView.byId("orderTable");
-      var oBinding = oTable.getBinding("items");
+      const oTable = oView.byId("orderTable");
+      const oBinding = oTable.getBinding("items");
       if (oBinding) {
         oBinding.filter([]);
       }
@@ -154,8 +149,7 @@ sap.ui.define([
           }
         }
       });
-    },
-
+    }
 
   });
 });
