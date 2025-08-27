@@ -13,19 +13,19 @@
                                      columnsXL="1" columnsL="1" columnsM="1">
                         <form:content>
                             <Label text="Order Number"/>
-                            <Input value="{ordersModel>OrderNumber}" width="50%" editable="false"/>
+                            <Input value="{editModel>OrderNumber}" width="50%" editable="false"/>
 
                             <Label text="Created On"/>
-                            <Input value="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
+                            <Input value="{path: 'editModel>CreationDate', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
 
                             <Label text="Receiving Plant"/>
-                            <Input value="{path: 'ordersModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
+                            <Input value="{path: 'editModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
 
                             <Label text="Delivery Plant"/>
-                            <Input value="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
+                            <Input value="{path: 'editModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
 
                             <Label text="Status"/>
-                            <ComboBox width="50%" selectedKey="{ordersModel>Status}">
+                            <ComboBox width="50%" selectedKey="{editModel>Status}">
                                 <items>
                                     <core:Item key="Created" text="Created"/>
                                     <core:Item key="Released" text="Released"/>
