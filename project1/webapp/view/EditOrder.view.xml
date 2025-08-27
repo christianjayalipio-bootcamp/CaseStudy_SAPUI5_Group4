@@ -13,25 +13,24 @@
                                      columnsXL="1" columnsL="1" columnsM="1">
                         <form:content>
                             <Label text="Order Number"/>
-                            <Input value="{ordersModel>OrderNumber}" width="50%" editable="false"/>
+                            <Input value="{editModel>OrderNumber}" width="50%" editable="false"/>
 
                             <Label text="Created On"/>
-                            <Input value="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
+                            <Input value="{path: 'editModel>CreationDate', formatter: '.formatter.formatOrderDate'}" width="50%" editable="false"/>
 
                             <Label text="Receiving Plant"/>
-                            <Input value="{path: 'ordersModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
+                            <Input value="{path: 'editModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
 
                             <Label text="Delivery Plant"/>
-                            <Input value="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
+                            <Input value="{path: 'editModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}" width="50%" editable="false"/>
 
                             <Label text="Status"/>
-                            <!-- ComboBox instead of Select -->
-                            <ComboBox width="50%" selectedKey="{ordersModel>Status}">
+                            <ComboBox width="50%" selectedKey="{editModel>Status}">
                                 <items>
                                     <core:Item key="Created" text="Created"/>
-                                        <core:Item key="Released" text="Released"/>
-                                        <core:Item key="Partially Completed" text="Partially Completed"/>
-                                        <core:Item key="Delivered" text="Delivered"/>
+                                    <core:Item key="Released" text="Released"/>
+                                    <core:Item key="Partially Completed" text="Partially Completed"/>
+                                    <core:Item key="Delivered" text="Delivered"/>
                                 </items>
                             </ComboBox>
                         </form:content>
@@ -46,8 +45,8 @@
                 <Toolbar>
                     <Title text="Products"/>
                     <ToolbarSpacer/>
-                    <Button icon="sap-icon://add" enabled="false"/>
-                    <Button icon="sap-icon://delete" enabled="false"/>
+                    <Button icon="sap-icon://add" press="onAddProduct"/>
+                    <Button icon="sap-icon://delete" press="onDeleteProducts"/>
                 </Toolbar>
             </headerToolbar>
             <content>
@@ -76,9 +75,44 @@
         <footer>
             <OverflowToolbar>
                 <ToolbarSpacer/>
-                <Button text="Save" type="Emphasized" enabled="false"/>
+                <Button text="Save" type="Emphasized" press="onSavePress"/>
                 <Button text="Cancel" type="Reject" press=".onCancelPress"/>
             </OverflowToolbar>
         </footer>
+
+        <!-- Add Product Dialog -->
+        <Dialog id="addProductDialog" title="Add Product" stretchOnPhone="true">
+            <VBox fitContainer="true" class="sapUiSmallMargin">
+                <!-- Quantity field always visible at top -->
+                <HBox>
+                    <Label text="Quantity" width="30%"/>
+                    <Input id="addProductQuantity" type="Number" width="50%" value="1"/>
+                </HBox>
+
+                <!-- Products list (filtered by Delivering & Receiving plants in controller) -->
+                <Table id="availableProductsTable" inset="false" mode="MultiSelect"
+                       items="{availableProductsModel>/}">
+                    <columns>
+                        <Column><header><Label text="Product Name"/></header></Column>
+                        <Column><header><Label text="Price"/></header></Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{availableProductsModel>ProductName}"/>
+                                <Text text="{availableProductsModel>PricePerUnit}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+
+            <beginButton>
+                <Button text="Add" press="onConfirmAddProduct"/>
+            </beginButton>
+            <endButton>
+                <Button text="Cancel" press="onCancelAddProduct"/>
+            </endButton>
+        </Dialog>
     </Page>
 </mvc:View>
