@@ -30,22 +30,21 @@ sap.ui.define([], function () {
         },
         formatPlant: function (sPlantCode) {
             const plantMap = {
-                "9101": "USA",
-                "9102": "Canada",
-                "9103": "Mexico",
-                "9104": "Brazil",
-                "9105": "Argentina",
-                "9106": "UK",
-                "9107": "France",
-                "9108": "Germany",
-                "9109": "Italy",
-                "9110": "Japan"
+                "PL001": "Newcastle Plant",
+                "PL002": "London Warehouse",
+                "PL003": "Manchester Warehouse",
+                "PL004": "Birmingham Warehouse",
+                "PL005": "Leeds Facility",
+                "PL006": "Glasgow Facility",
+                "PL007": "Liverpool Center",
+                "PL008": "Sheffield Center",
+                "PL009": "Bristol Depot",
+                "PL010": "Edinburgh Depot"
             };
             if(plantMap[sPlantCode]) {
                 return sPlantCode + "-" + plantMap[sPlantCode];
             }
             return plantMap[sPlantCode] || sPlantCode;
         }
-
     };
 });
