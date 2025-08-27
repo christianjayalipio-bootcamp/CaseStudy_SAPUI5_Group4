@@ -98,8 +98,18 @@ sap.ui.define([
             oOrderModel.setProperty("/ReceivingPlantID", sSelectedPlantID);
           } else {
             oOrderModel.setProperty("/DeliveringPlantID", sSelectedPlantID);
+
+            // Reset selected products and table
+            oOrderModel.setProperty("/SelectedProducts", []);
+            const oTable = this.byId("productTable");
+            if (oTable) {
+              oTable.removeSelections();
+            }
+
+            // Re-filter products for the new plant
             this._filterProductsByDeliveringPlant(sSelectedPlantID);
           }
+
 
           oDialog.close();
         }.bind(this)
@@ -357,11 +367,14 @@ sap.ui.define([
             });
             oOrdersModel.setProperty("/OrderProducts", aOrderProducts);
 
-            // Reset form
-            oOrderModel.setProperty("/ReceivingPlantID", "");
-            oOrderModel.setProperty("/DeliveringPlantID", "");
-            oOrderModel.setProperty("/SelectedProducts", []);
+            // Remove only selected products from SelectedProducts
+            const aAllProducts = oOrderModel.getProperty("/SelectedProducts") || [];
+            const aRemainingProducts = aAllProducts.filter(product =>
+              !aSelectedProducts.some(selected => selected.ProductID === product.ProductID)
+            );
+            oOrderModel.setProperty("/SelectedProducts", aRemainingProducts);
             oTable.removeSelections();
+
 
             oConfirmDialog.close();
 
