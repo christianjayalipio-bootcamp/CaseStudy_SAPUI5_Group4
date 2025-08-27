@@ -6,42 +6,58 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("com.ui5.trng.project1.controller.DetailsOrder", {
-        formatter: formatter,
+
+        formatter: formatter,  // make formatters available in XML
 
         onInit: function () {
-            // Attach to route pattern to get parameter
-            var oRouter = UIComponent.getRouterFor(this);
-            oRouter.getRoute("RouteDetailsOrder").attachPatternMatched(this._onObjectMatched, this);
+            // Attach route matched handler
+            const oRouter = UIComponent.getRouterFor(this);
+            oRouter.getRoute("RouteDetailsOrder").attachPatternMatched(this._onRouteMatched, this);
         },
 
-        onEditPress: function () {
-            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            var sOrderId = this.getView().getBindingContext().getProperty("OrderID");
-            oRouter.navTo("RouteEditOrder", {
-                orderId: sOrderId
+        _onRouteMatched: function (oEvent) {
+            const sOrderPath = decodeURIComponent(oEvent.getParameter("arguments").orderPath);
+            const oView = this.getView();
+            const oModel = oView.getModel("ordersModel");
+
+            // Bind the view to the selected order
+            oView.bindElement({
+                path: "/" + sOrderPath,
+                model: "ordersModel"
             });
+
+            // Get the selected OrderNumber
+            const sOrderNumber = oModel.getProperty("/" + sOrderPath + "/OrderNumber");
+
+            // Filter OrderProducts for this order
+            const oProductsTable = oView.byId("productsTable");
+            if (oProductsTable) {
+                const oBinding = oProductsTable.getBinding("items");
+                if (oBinding) {
+                    oBinding.filter([
+                        new sap.ui.model.Filter("OrderNumber", sap.ui.model.FilterOperator.EQ, sOrderNumber)
+                    ]);
+                }
+            }
         },
 
+        /**
+         * Navigate back to the main view
+         */
         onCancelPress: function () {
-            // navigate back to main view
-            var oRouter = UIComponent.getRouterFor(this);
+            const oRouter = UIComponent.getRouterFor(this);
             oRouter.navTo("RouteMainView");
         },
 
-        _onObjectMatched: function (oEvent) {
-            var sOrderPath = decodeURIComponent(oEvent.getParameter("arguments").orderPath);
-
-            this.getView().bindElement({
-                path: "/" + sOrderPath,
-                events: {
-                    dataRequested: function () {
-                        this.getView().setBusy(true);
-                    }.bind(this),
-                    dataReceived: function () {
-                        this.getView().setBusy(false);
-                    }.bind(this)
-                }
+        /**
+         * Navigate to the edit view for the selected order
+         */
+        onEditPress: function () {
+            const oRouter = UIComponent.getRouterFor(this);
+            oRouter.navTo("RouteEditOrder", {
+                orderPath: this._sOrderPath
             });
         }
+
     });
 });

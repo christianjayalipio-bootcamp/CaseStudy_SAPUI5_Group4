@@ -1,164 +1,161 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
-    "sap/ui/core/UIComponent",
-    "com/ui5/trng/project1/controller/formatter",
-    "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator",
-    "sap/ui/model/Sorter",
-    "sap/m/MessageToast",
-    "sap/m/MessageBox"
-], function (Controller, UIComponent, formatter, Filter, FilterOperator, Sorter, MessageToast, MessageBox) {
-    "use strict";
+  "sap/ui/core/mvc/Controller",
+  "sap/ui/core/UIComponent",
+  "sap/ui/model/json/JSONModel",
+  "com/ui5/trng/project1/controller/formatter",
+  "sap/ui/model/Filter",
+  "sap/ui/model/FilterOperator",
+  "sap/ui/model/Sorter",
+  "sap/m/MessageToast",
+  "sap/m/MessageBox"
+], function (Controller, UIComponent, JSONModel, formatter, Filter, FilterOperator, Sorter, MessageToast, MessageBox) {
+  "use strict";
 
-    return Controller.extend("com.ui5.trng.project1.controller.MainView", {
+  return Controller.extend("com.ui5.trng.project1.controller.MainView", {
 
-        formatter: formatter,
+    formatter: formatter,
 
-        updateTitleCount: function () {
-            var oTable = this.byId("table0");
-            var oTitle = this.byId("itemCounter");
-            var oBinding = oTable.getBinding("items");
-            if (oBinding) {
-                var iCount = oBinding.getLength();
-                oTitle.setText("Orders (" + iCount + ")");
-            } else {
-                oTitle.setText("Orders (0)");
-            }
-        },
+    updateTitleCount: function () {
+      const oTable = this.byId("orderTable");
+      const oTitle = this.byId("itemCounter");
+      const oBinding = oTable.getBinding("items");
+      if (oBinding) {
+        const iCount = oBinding.getLength();
+        oTitle.setText(`Orders (${iCount})`);
+      } else {
+        oTitle.setText("Orders (0)");
+      }
+    },
 
-        onInit: function () {
-            var oTable = this.byId("table0");
+    onInit: function () {
+      // Use the shared ordersModel from Component.js
+      const oOrdersModel = this.getOwnerComponent().getModel("ordersModel");
+      this.getView().setModel(oOrdersModel, "ordersModel");
 
-            oTable.attachUpdateFinished(this.updateTitleCount.bind(this));
+      var oTable = this.byId("orderTable");
 
-            this.updateTitleCount();
-        },
+      oTable.attachUpdateFinished(this.updateTitleCount.bind(this));
 
-        onPressDetails: function (oEvent) {
-            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            var oContext = oEvent.getSource().getBindingContext();
+      this.updateTitleCount();
+    },
 
-            if (!oContext) {
-                console.error("No binding context found for selected item.");
-                return;
-            }
+    onGoPress: function () {
+      var oView = this.getView();
 
-            var sPath = oContext.getPath();
-            var sEncodedPath = encodeURIComponent(sPath.substr(1));
+      var sOrderNumber = oView.byId("input0").getValue();
+      var dCreationDate = oView.byId("picker0").getDateValue();
+      var aStatuses = oView.byId("box0").getSelectedKeys();
 
-            oRouter.navTo("RouteDetailsOrder", {
-                orderPath: sEncodedPath
-            });
-        },
+      var aFilters = [];
 
-        onPressAdd: function () {
-            var oRouter = UIComponent.getRouterFor(this);
-            oRouter.navTo("RouteCreateOrder");
-        },
+      if (sOrderNumber) {
+        aFilters.push(new Filter("OrderNumber", FilterOperator.EQ, sOrderNumber));
+      }
 
-        onGoPress: function () {
-            var oView = this.getView();
+      if (dCreationDate) {
+        var startOfDay = new Date(dCreationDate);
+        startOfDay.setHours(0, 0, 0, 0);
 
-            var sOrderNumber = oView.byId("input0").getValue();
-            var dCreationDate = oView.byId("picker0").getDateValue();
-            var aStatuses = oView.byId("box0").getSelectedKeys();
+        var endOfDay = new Date(dCreationDate);
+        endOfDay.setHours(23, 59, 59, 999);
 
-            var aFilters = [];
+        var oDateFilter = new Filter({
+          filters: [
+            new Filter("CreationDate", FilterOperator.GE, startOfDay.toISOString()),
+            new Filter("CreationDate", FilterOperator.LE, endOfDay.toISOString())
+          ],
+          and: true
+        });
+        aFilters.push(oDateFilter);
+      }
 
-            if (sOrderNumber) {
-                aFilters.push(new Filter("OrderID", FilterOperator.EQ, parseInt(sOrderNumber, 10)));
-            }
+      if (aStatuses && aStatuses.length > 0) {
+        var aStatusFilters = aStatuses.map(function (sStatus) {
+          return new Filter("Status", FilterOperator.EQ, sStatus);
+        });
+        aFilters.push(new Filter({ filters: aStatusFilters, and: false }));
+      }
 
-            if (dCreationDate) {
-                var startOfDay = new Date(dCreationDate);
-                startOfDay.setHours(0, 0, 0, 0);
+      var oTable = oView.byId("orderTable");
+      var oBinding = oTable.getBinding("items");
+      if (oBinding) {
+        oBinding.filter(aFilters);
+        var oSorter = new Sorter("OrderNumber", false);
+        oBinding.sort(oSorter);
+      }
+    },
 
-                var endOfDay = new Date(dCreationDate);
-                endOfDay.setHours(23, 59, 59, 999);
+    onPressDetails: function (oEvent) {
+      const oRouter = UIComponent.getRouterFor(this);
+      const oContext = oEvent.getSource().getBindingContext("ordersModel"); // specify model
+      if (!oContext) {
+        console.error("No binding context found for selected item.");
+        return;
+      }
+      const sPath = oContext.getPath();       // e.g., /Orders/0
+      const sEncodedPath = encodeURIComponent(sPath.substr(1)); // Orders/0
 
-                var oDateFilter = new Filter({
-                    filters: [
-                        new Filter("CreatedOn", FilterOperator.GE, startOfDay.toISOString()),
-                        new Filter("CreatedOn", FilterOperator.LE, endOfDay.toISOString())
-                    ],
-                    and: true
-                });
-                aFilters.push(oDateFilter);
-            }
+      oRouter.navTo("RouteDetailsOrder", {
+        orderPath: sEncodedPath
+      });
+    },
 
-            if (aStatuses && aStatuses.length > 0) {
-                var aStatusFilters = aStatuses.map(function (sStatus) {
-                    return new Filter("Status", FilterOperator.EQ, sStatus);
-                });
-                aFilters.push(new Filter({ filters: aStatusFilters, and: false }));
-            }
 
-            var oTable = oView.byId("table0");
-            var oBinding = oTable.getBinding("items");
-            if (oBinding) {
-                oBinding.filter(aFilters);
-                var oSorter = new Sorter("OrderID", false);
-                oBinding.sort(oSorter);
-            }
-        },
+    // Navigates to the CreateOrder view
+    onPressAdd: function () {
+      const oRouter = UIComponent.getRouterFor(this);
+      oRouter.navTo("RouteCreateOrder");
+    },
 
-        onClearPress: function () {
-            var oView = this.getView();
-            oView.byId("input0").setValue("");
-            oView.byId("picker0").setValue("");
-            oView.byId("box0").removeAllSelectedItems();
+    onClearPress: function () {
+      const oView = this.getView();
+      oView.byId("input0").setValue("");
+      oView.byId("picker0").setValue("");
+      oView.byId("box0").removeAllSelectedItems();
 
-            var oTable = oView.byId("table0");
-            var oBinding = oTable.getBinding("items");
-            if (oBinding) {
-                oBinding.filter([]);
-            }
-        },
+      var oTable = oView.byId("orderTable");
+      var oBinding = oTable.getBinding("items");
+      if (oBinding) {
+        oBinding.filter([]);
+      }
+    },
 
-        onDeletePress: function () {
-            var oTable = this.byId("table0");
-            var aSelectedItems = oTable.getSelectedItems();
+    onDeletePress: function () {
+      const oTable = this.byId("orderTable");
+      const aSelectedItems = oTable.getSelectedItems();
 
-            if (aSelectedItems.length === 0) {
-                MessageBox.error("Please select an item from the table");
-                return;
-            }
+      if (aSelectedItems.length === 0) {
+        MessageBox.warning("Please select at least one order to delete.");
+        return;
+      }
 
-            var that = this;
+      MessageBox.confirm(`Are you sure you want to delete the selected ${aSelectedItems.length} order(s)?`, {
+        title: "Confirm Deletion",
+        onClose: (sAction) => {
+          if (sAction === MessageBox.Action.OK) {
+            const oModel = this.getView().getModel("ordersModel");
+            const aOrders = oModel.getProperty("/Orders");
 
-            MessageBox.confirm(
-                "Are you sure you want to delete " + aSelectedItems.length + " item(s)?",
-                {
-                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-                    emphasizedAction: MessageBox.Action.YES,
-                    onClose: function (sAction) {
-                        if (sAction === MessageBox.Action.YES) {
-                            var oModel = oTable.getModel();
-                            var iPending = aSelectedItems.length;
-
-                            aSelectedItems.forEach(function (oItem) {
-                                var oContext = oItem.getBindingContext();
-                                oModel.remove(oContext.getPath(), {
-                                    success: function () {
-                                        MessageToast.show("Item deleted successfully");
-                                        iPending--;
-                                        if (iPending === 0) {
-                                            that.updateTitleCount(); // update title after all deletions
-                                        }
-                                    },
-                                    error: function () {
-                                        MessageBox.error("Error while deleting item");
-                                        iPending--;
-                                        if (iPending === 0) {
-                                            that.updateTitleCount();
-                                        }
-                                    }
-                                });
-                            });
-                        }
-                    }
+            aSelectedItems.forEach((oItem) => {
+              const oContext = oItem.getBindingContext("ordersModel");
+              if (oContext) {
+                const sPath = oContext.getPath();
+                const iIndex = parseInt(sPath.split("/").pop(), 10);
+                if (!isNaN(iIndex)) {
+                  aOrders.splice(iIndex, 1);
                 }
-            );
+              }
+            });
+
+            oModel.setProperty("/Orders", aOrders);
+            oTable.removeSelections();
+            this.updateTitleCount();
+            MessageToast.show("Selected orders have been deleted.");
+          }
         }
-    });
+      });
+    },
+
+
+  });
 });

@@ -1,6 +1,4 @@
-<mvc:View
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m"
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
     controllerName="com.ui5.trng.project1.controller.DetailsOrder">
 
     <Page id="PAGE3" title="Order Details">
@@ -11,44 +9,44 @@
                 <VBox id="ordernumber" class="sapUiSmallMargin" alignItems="Center">
                     <HBox>
                         <Label text="Order ID:" width="150px" textAlign="End"/>
-                        <Text text="{OrderID}" class="boldText"/>
+                        <Text text="{ordersModel>OrderNumber}" class="boldText"/>
                     </HBox>
                     <HBox>
                         <Label text="Created On:" width="150px" textAlign="End"/>
-                        <Text text="{path: 'CreatedOn', formatter: '.formatter.formatOrderDate'}"/>
+                        <Text text="{path: 'ordersModel>CreationDate', formatter: '.formatter.formatOrderDate'}"/>
                     </HBox>
                     <HBox>
                         <Label text="Receiving Plant:" width="150px" textAlign="End"/>
-                        <Text text="{ReceivingPlant}"/>
+                        <Text text="{path: 'ordersModel>ReceivingPlantID', formatter: '.formatter.formatPlant'}"/>
                     </HBox>
                     <HBox>
                         <Label text="Delivering Plant:" width="150px" textAlign="End"/>
-                        <Text text="{DeliveringPlant}"/>
+                        <Text text="{path: 'ordersModel>DeliveringPlantID', formatter: '.formatter.formatPlant'}"/>
                     </HBox>
                     <HBox>
                         <Label text="Status:" width="150px" textAlign="End"/>
-                        <Text text="{Status}" class="boldText"/>
+                        <Text text="{path: 'ordersModel>Status', formatter: '.formatter.statusState'}" class="boldText"/>
                     </HBox>
                 </VBox>
             </Panel>
 
             <!-- Products Panel -->
             <Panel width="auto" id="panel3" headerText="Products" class="sapUiResponsiveMargin">
-                <!-- Bind to /Products; we will filter in the controller -->
-                <Table id="productsTable" inset="false" items="{Products}">
+                <Table id="productsTable" inset="false" items="{ordersModel>/OrderProducts}">
                     <columns>
                         <Column><Text text="Product Name"/></Column>
                         <Column hAlign="Center"><Text text="Quantity"/></Column>
-                        <Column hAlign="End"><Text text="Price Per Quantity"/></Column>
+                        <Column hAlign="End"><Text text="Price Per Unit"/></Column>
                         <Column hAlign="End"><Text text="Total Price"/></Column>
                     </columns>
                     <items>
                         <ColumnListItem>
                             <cells>
-                                <Text text="{ProductName}"/>
-                                <Text text="{Quantity}"/>
-                                <Text text="{PricePerQuantity}"/>
-                                <Text text="{parts: [{path: 'PricePerQuantity'}, {path: 'Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
+                                <!-- Lookup Product Name using formatter -->
+                                <Text text="{ordersModel>ProductName}"/>
+                                <Text text="{ordersModel>Quantity}"/>
+                                <Text text="{ordersModel>PricePerUnit}"/>
+                                <Text text="{parts: [{path: 'ordersModel>PricePerUnit'}, {path: 'ordersModel>Quantity'}], formatter: '.formatter.calculateTotalPrice'}"/>
                             </cells>
                         </ColumnListItem>
                     </items>
