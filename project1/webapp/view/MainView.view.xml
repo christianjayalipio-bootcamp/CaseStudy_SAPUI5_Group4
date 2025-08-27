@@ -1,8 +1,9 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ui5.trng.project1.controller.MainView">
-    <Page id="page" title="{i18n>title}">
-    <content>
-       
-        <sap.ui.layout.form:SimpleForm xmlns:sap.ui.layout.form="sap.ui.layout.form" xmlns:sap.ui.core="sap.ui.core" editable="true" layout="ResponsiveGridLayout" id="form0">
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          controllerName="com.ui5.trng.project1.controller.MainView">
+    <Page title="Order List">
+        <content>
+                <sap.ui.layout.form:SimpleForm xmlns:sap.ui.layout.form="sap.ui.layout.form" xmlns:sap.ui.core="sap.ui.core" editable="true" layout="ResponsiveGridLayout" id="form0">
             <sap.ui.layout.form:content>
                  <FlexBox id="box0_1755609439443" alignItems="Start" justifyContent="Center">
                 <VBox width="100%" direction="Column" id="vbox0" class="sapUiSmallMarginEnd">
@@ -17,10 +18,8 @@
                         <Label text="Creation Date:" id="label1"/>
                         <DatePicker id="picker0" displayFormat="dd-MMM-yyyy" valueFormat="yyyy-MM-dd"/>
 
-                    </items>
-                    
+                    </items>               
                 </VBox>
-
                 <VBox width="100%" direction="Column" id="vbox2" class="sapUiSmallMarginEnd">
                     <items>
                         <Label text="Status:" id="label2"/>
@@ -48,99 +47,42 @@
                 </FlexBox>
             </sap.ui.layout.form:content>
         </sap.ui.layout.form:SimpleForm>
-       
+
        <Panel backgroundDesign="Transparent">
         <Toolbar id="toolbar1" design="Transparent">
-       
+
                     <Title text="Header"/>
                     <ToolbarSpacer/>
                     <Button icon="sap-icon://add" press="onPressAdd"/>
                     <Button icon="sap-icon://delete" press="onDeletePress" id="button1_1755610909599"/>
                     <content/>
-       
                 </Toolbar>
 
-        <!-- <Label text=" " class="sapUiSmallMarginTopBottom"/> -->
-       
-        <Table items="{/Orders}" noDataText="Drop column list items here and columns in the area above" id="table0" mode="MultiSelect">
-
-            <headerToolbar>
-       
-            </headerToolbar>
-
-            <items>
-       
-                <ColumnListItem type="Navigation" id="item0_1755609746286" press="onPressDetails">
-                    <cells>
-                        <Text text="{OrderID}" id="input2"/>
-                        <Text text="{path: 'CreatedOn', formatter: '.formatter.formatOrderDate'}" id="picker0_1755610055546"/>
-                        <Text text="{path: 'DeliveringPlant', formatter: '.formatter.formatPlant'}" id="input3"/>
-                        <Text text="{path: 'ReceivingPlant', formatter: '.formatter.formatPlant'}" id="input4"/>
-                        <ObjectStatus text="{Status}" state="{path: 'Status', formatter: '.formatter.statusState'}"/>
-                    </cells>
-                </ColumnListItem>
-
-       
-            </items>
-       
-            <columns>
-       
-                <Column id="column2_1755610053826">
-       
-                    <header>
-       
-                        <Label text="Order ID" id="label2_1755610053984"/>
-       
-                    </header>
-       
-                </Column>
-       
-                <Column id="column3">
-       
-                    <header>
-       
-                        <Label text="Order Date" id="label3"/>
-       
-                    </header>
-       
-                </Column>
-       
-                <Column id="column4">
-       
-                    <header>
-       
-                        <Label text="Delivering Plant" id="label4"/>
-       
-                    </header>
-       
-                </Column>
-       
-                <Column id="column5">
-       
-                    <header>
-       
-                        <Label text="Receiving Plant" id="label5"/>
-       
-                    </header>
-       
-                </Column>
-       
-                <Column id="column6">
-       
-                    <header>
-       
-                        <Label text="Status" id="label6"/>
-       
-                    </header>
-       
-                </Column></columns>
-       
-            <customData>
-       
-                <sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="w5g.dt.editable" value="false" id="data20"/>
-       
-            </customData></Table>
+            <Table id="orderTable"
+                   items="{ordersModel>/Orders}"
+                   mode="SingleSelectMaster"
+                   noDataText="No orders found"
+                   >
+                <columns>
+                    <Column><header><Label text="Order Number"/></header></Column>
+                    <Column><header><Label text="Creation Date"/></header></Column>
+                    <Column><header><Label text="Delivering Plant"/></header></Column>
+                    <Column><header><Label text="Receiving Plant"/></header></Column>
+                    <Column><header><Label text="Status"/></header></Column>
+                </columns>
+                <items>
+                    <ColumnListItem type="Active" press="onPressDetails">
+                        <cells>
+                            <Text text="{ordersModel>OrderNumber}"/>
+                            <Text text="{ordersModel>CreationDate}"/>
+                            <Text text="{ordersModel>DeliveringPlantID}"/>
+                            <Text text="{ordersModel>ReceivingPlantID}"/>
+                            <Text text="{ordersModel>Status}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
             </Panel>
-    </content>
+        </content>
     </Page>
 </mvc:View>

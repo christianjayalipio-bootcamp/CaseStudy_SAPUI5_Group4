@@ -19,6 +19,10 @@ sap.ui.define([
             // set the device model
             this.setModel(models.createDeviceModel(), "device");
 
+            // set the shared orders model
+            const oOrdersModel = new sap.ui.model.json.JSONModel("/localService/mainService/data/Orders.json");
+            this.setModel(oOrdersModel, "ordersModel");
+
             // enable routing
             this.getRouter().initialize();
         }
