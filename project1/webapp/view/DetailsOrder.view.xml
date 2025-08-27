@@ -50,7 +50,7 @@
                 <Text text="{orderProductsModel>ProductName}"/>
                 <Text text="{orderProductsModel>Quantity}"/>
                 <Text text="{orderProductsModel>PricePerUnit}"/>
-               <Text text="{= ${orderProductsModel>Quantity} * ${orderProductsModel>PricePerUnit} }"/>
+               <Text text="{orderProductsModel>TotalPrice}"/>
 
               </cells>
             </ColumnListItem>

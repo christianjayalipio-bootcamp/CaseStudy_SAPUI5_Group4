@@ -30,6 +30,19 @@ sap.ui.define([
             const oRouter = UIComponent.getRouterFor(this);
             oRouter.getRoute("RouteEditOrder").attachPatternMatched(this._onRouteMatched, this);
         },
+            
+      updateProductTitle: function () {
+    const oTable = this.byId("productsTableEdit");
+    if (!oTable) return;
+
+    const iItemCount = oTable.getItems().length;
+
+    const oPanel = this.byId("productpanel"); // <--- Correct ID
+    if (oPanel) {
+        oPanel.setHeaderText("Products (" + iItemCount + ")");
+    }
+},
+
 
         _onRouteMatched: function (oEvent) {
             const sOrderPath = decodeURIComponent(oEvent.getParameter("arguments").orderPath);
@@ -38,31 +51,22 @@ sap.ui.define([
             const oView = this.getView();
             const oOrdersModel = oView.getModel("ordersModel");
 
-            // Get original order data and clone it into a local edit model
+            // Get order data and set edit model
             const oOrderData = JSON.parse(JSON.stringify(oOrdersModel.getProperty("/" + sOrderPath)));
-            const oEditModel = new sap.ui.model.json.JSONModel(oOrderData);
+            const oEditModel = new JSONModel(oOrderData);
             oView.setModel(oEditModel, "editModel");
 
-            // Bind the view to the local edit model instead of the global one
+            // Bind the view to edit model
             oView.bindElement({
                 path: "/",
                 model: "editModel",
                 events: {
-                    dataRequested: function () {
-                        oView.setBusy(true);
-                    },
-                    dataReceived: function () {
-                        oView.setBusy(false);
-
-                        const oTable = this.byId("productsTableEdit");
-                        if (oTable) {
-                            oTable.attachUpdateFinished(this.updateProductTitle.bind(this));
-                        }
-                    }.bind(this)
+                    dataRequested: function () { oView.setBusy(true); },
+                    dataReceived: function () { oView.setBusy(false); }
                 }
             });
 
-            // Load and filter products for this order
+            // Prepare products for this order
             const sOrderNumber = oOrderData.OrderNumber;
             const aOrderProducts = oOrdersModel.getProperty("/OrderProducts") || [];
             const aProducts = oOrdersModel.getProperty("/Products") || [];
@@ -71,29 +75,45 @@ sap.ui.define([
                 .filter(op => op.OrderNumber === sOrderNumber)
                 .map(op => {
                     const oProduct = aProducts.find(p => p.ProductID === op.ProductID) || {};
+                    const fPricePerUnit = parseFloat(oProduct.PricePerUnit) || 0;
+                    const fQuantity = parseFloat(op.Quantity) || 0;
+                    const fTotalPrice = fPricePerUnit * fQuantity;
+
                     return {
                         ProductID: op.ProductID,
                         ProductName: oProduct.ProductName || op.ProductID,
-                        Quantity: op.Quantity,
-                        PricePerUnit: oProduct.PricePerUnit || 0,
-                        TotalPrice: op.TotalPrice || 0
+                        Quantity: fQuantity,
+                        PricePerUnit: fPricePerUnit.toFixed(2),
+                        TotalPrice: fTotalPrice.toFixed(2)
                     };
                 });
 
-            const oProductsModel = new sap.ui.model.json.JSONModel(aMatchedProducts);
+            const oProductsModel = new JSONModel(aMatchedProducts);
             oView.setModel(oProductsModel, "orderProductsModel");
+
+            // Attach updateFinished to count products
+            const oTable = this.byId("productsTableEdit");
+            if (oTable) {
+                oTable.attachUpdateFinished(this.updateProductTitle.bind(this));
+            }
         },
 
         // Add Product dialog
         onAddProduct: function () {
-            const oOrdersModel = this.getView().getModel("ordersModel");
-            const aProducts = oOrdersModel.getProperty("/Products") || [];
-            let oSelectedProduct = null;
+            const oView = this.getView();
+            const oOrdersModel = oView.getModel("ordersModel");
+            const oEditModel = oView.getModel("editModel");
+
+            const sDeliveringPlant = oEditModel.getProperty("/DeliveringPlantID");
+            let aProducts = oOrdersModel.getProperty("/Products") || [];
+            aProducts = aProducts.filter(p => p.DeliveringPlantID === sDeliveringPlant);
 
             if (aProducts.length === 0) {
-                MessageToast.show("No products available.");
+                MessageToast.show("No products available for the selected Delivering Plant.");
                 return;
             }
+
+            let oSelectedProduct = null;
 
             const oDialog = new Dialog({
                 title: "Add Product",
@@ -107,7 +127,7 @@ sap.ui.define([
                             const oFilter = new Filter({
                                 filters: [
                                     new Filter("ProductID", FilterOperator.StartsWith, sQuery),
-                                    new Filter("ProductName", FilterOperator.StartsWith, sQuery)
+                                    new Filter("ProductName", FilterOperator.Contains, sQuery)
                                 ],
                                 and: false
                             });
@@ -141,22 +161,21 @@ sap.ui.define([
                     type: "Accept",
                     press: function () {
                         const iQty = parseInt(sap.ui.getCore().byId("editQtyInput").getValue(), 10);
-
                         if (!oSelectedProduct || isNaN(iQty) || iQty <= 0) {
                             MessageToast.show("Please select a product and enter a valid quantity.");
                             return;
                         }
 
                         const fTotal = iQty * oSelectedProduct.PricePerUnit;
-                        const oProductsModel = this.getView().getModel("orderProductsModel");
+                        const oProductsModel = oView.getModel("orderProductsModel");
                         const aSelectedProducts = oProductsModel.getData();
 
                         aSelectedProducts.push({
                             ProductID: oSelectedProduct.ProductID,
                             ProductName: oSelectedProduct.ProductName,
                             Quantity: iQty,
-                            PricePerUnit: oSelectedProduct.PricePerUnit,
-                            TotalPrice: fTotal
+                            PricePerUnit: parseFloat(oSelectedProduct.PricePerUnit).toFixed(2),
+                            TotalPrice: fTotal.toFixed(2)
                         });
 
                         oProductsModel.setData(aSelectedProducts);
@@ -165,71 +184,71 @@ sap.ui.define([
                         sap.ui.getCore().byId("editQtyInput").setValue("1");
                         oSelectedProduct = null;
                         oDialog.close();
+
+                        // Update product count
+                        this.updateProductTitle();
                     }.bind(this)
                 }),
                 endButton: new Button({
                     text: "Cancel",
                     type: "Reject",
-                    press: function () {
-                        oDialog.close();
-                    }
+                    press: function () { oDialog.close(); }
                 }),
-                afterClose: function () {
-                    oDialog.destroy();
-                }
+                afterClose: function () { oDialog.destroy(); }
             });
 
-            const oList = oDialog.getContent()[1]; // the product list
+            const oList = oDialog.getContent()[1];
             oDialog.setModel(new JSONModel(aProducts));
             oDialog.open();
         },
 
         // Delete selected products
-onDeleteProducts: function () {
-    var oTable = this.byId("productsTableEdit");
-    var aSelectedItems = oTable.getSelectedItems();
+        onDeleteProducts: function () {
+            const oTable = this.byId("productsTableEdit");
+            const aSelectedItems = oTable.getSelectedItems();
 
-    if (aSelectedItems.length === 0) {
-        sap.m.MessageToast.show("Please select at least one item from the table.");
-        return;
-    }
-
-    var iCount = aSelectedItems.length;
-
-    // Show confirmation message
-    MessageBox.confirm("Are you sure you want to delete " + iCount + " item(s)?", {
-        title: "Confirm Deletion",
-        actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-        onClose: function (oAction) {
-            if (oAction === MessageBox.Action.YES) {
-                var oModel = this.getView().getModel("orderProductsModel");
-                var aData = oModel.getData();
-
-                // loop through selected items and remove them
-                for (var i = aSelectedItems.length - 1; i >= 0; i--) {
-                    var oItem = aSelectedItems[i];
-                    var oContext = oItem.getBindingContext("orderProductsModel");
-                    var iIndex = parseInt(oContext.getPath().split("/")[1], 10);
-                    aData.splice(iIndex, 1);
-                }
-
-                // update model
-                oModel.setData(aData);
-
-                // clear selection
-                oTable.removeSelections();
-
-                sap.m.MessageToast.show(iCount + " item(s) deleted.");
+            if (aSelectedItems.length === 0) {
+                MessageToast.show("Please select at least one item from the table.");
+                return;
             }
-        }.bind(this)
-    });
-},
 
+            const iCount = aSelectedItems.length;
+
+            MessageBox.confirm("Are you sure you want to delete " + iCount + " item(s)?", {
+                title: "Confirm Deletion",
+                actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                onClose: function (oAction) {
+                    if (oAction === MessageBox.Action.YES) {
+                        const oModel = this.getView().getModel("orderProductsModel");
+                        let aData = oModel.getData();
+
+                        for (let i = aSelectedItems.length - 1; i >= 0; i--) {
+                            const oItem = aSelectedItems[i];
+                            const oContext = oItem.getBindingContext("orderProductsModel");
+                            const iIndex = parseInt(oContext.getPath().split("/")[1], 10);
+                            aData.splice(iIndex, 1);
+                        }
+
+                        oModel.setData(aData);
+                        oTable.removeSelections();
+
+                        MessageToast.show(iCount + " item(s) deleted.");
+
+                        // Update product count
+                        this.updateProductTitle();
+                    }
+                }.bind(this)
+            });
+        },
+
+        // Update product panel header with count
         updateProductTitle: function () {
             const oTable = this.byId("productsTableEdit");
+            if (!oTable) return;
+
             const iItemCount = oTable.getItems().length;
 
-            const oPanel = this.byId("detail");
+            const oPanel = this.byId("productpanel");
             if (oPanel) {
                 oPanel.setHeaderText("Products (" + iItemCount + ")");
             }
@@ -256,7 +275,6 @@ onDeleteProducts: function () {
             const oView = this.getView();
             const oTable = this.byId("productsTableEdit");
 
-            // Validate product selection
             if (!oTable || oTable.getSelectedItems().length === 0) {
                 MessageBox.warning("Please select at least one product before saving.");
                 return;
@@ -269,44 +287,31 @@ onDeleteProducts: function () {
                     if (oAction === MessageBox.Action.YES) {
                         const oOrdersModel = oView.getModel("ordersModel");
                         const oEditModel = oView.getModel("editModel");
-                        const oOrderProductsModel = oView.getModel("orderProductsModel");
 
-                        // Get updated status from editModel
                         const sNewStatus = oEditModel.getProperty("/Status");
-
-                        // Update status in global ordersModel
                         oOrdersModel.setProperty("/" + that._sOrderPath + "/Status", sNewStatus);
 
-                        // Get current order number
                         const sOrderNumber = oOrdersModel.getProperty("/" + that._sOrderPath + "/OrderNumber");
 
-                        // Get selected products
                         const aSelectedItems = oTable.getSelectedItems();
-                        const aSelectedProducts = aSelectedItems.map(function (oItem) {
-                            return oItem.getBindingContext("orderProductsModel").getObject();
-                        });
+                        const aSelectedProducts = aSelectedItems.map(oItem =>
+                            oItem.getBindingContext("orderProductsModel").getObject()
+                        );
 
-                        // Get all existing order products
                         let aAllOrderProducts = oOrdersModel.getProperty("/OrderProducts") || [];
-
-                        // Remove old products for this order
                         aAllOrderProducts = aAllOrderProducts.filter(op => op.OrderNumber !== sOrderNumber);
 
-                        // Add updated products for this order
                         const aNewOrderProducts = aSelectedProducts.map(p => ({
                             OrderNumber: sOrderNumber,
                             ProductID: p.ProductID,
                             Quantity: p.Quantity,
-                            TotalPrice: p.TotalPrice
+                            TotalPrice: parseFloat(p.TotalPrice).toFixed(2)
                         }));
 
                         aAllOrderProducts = aAllOrderProducts.concat(aNewOrderProducts);
-
-                        // Update global model
                         oOrdersModel.setProperty("/OrderProducts", aAllOrderProducts);
 
-                        // Navigate back to details view
-                        MessageBox.success("The order has been successfully updated.", {
+                        MessageBox.success("The Order " + sOrderNumber + " has been successfully updated.", {
                             title: "Update Successful",
                             onClose: function () {
                                 UIComponent.getRouterFor(that).navTo("RouteDetailsOrder", {
@@ -314,11 +319,12 @@ onDeleteProducts: function () {
                                 });
                             }
                         });
+
+                        this.updateProductTitle();
                     }
-                }
+                }.bind(this)
             });
         }
-
 
     });
 });

@@ -40,36 +40,36 @@
         </content>
 
         <!-- Products Panel -->
-        <Panel width="auto" expandable="false" class="sapUiResponsiveMargin" expanded="true">
-            <headerToolbar>
-                <Toolbar>
-                    <Title text="Products"/>
-                    <ToolbarSpacer/>
-                    <Button icon="sap-icon://add" press="onAddProduct"/>
-                    <Button icon="sap-icon://delete" press="onDeleteProducts"/>
-                </Toolbar>
-            </headerToolbar>
-            <content>
-                <Table items="{orderProductsModel>/}" id="productsTableEdit" mode="MultiSelect">
-                    <columns>
-                        <Column><header><Label text="Product Name"/></header></Column>
-                        <Column><header><Label text="Quantity"/></header></Column>
-                        <Column><header><Label text="Price Per Quantity"/></header></Column>
-                        <Column><header><Label text="Total Price"/></header></Column>
-                    </columns>
-                    <items>
-                        <ColumnListItem>
-                            <cells>
-                                <Text text="{orderProductsModel>ProductName}"/>
-                                <Text text="{orderProductsModel>Quantity}"/>
-                                <Text text="{orderProductsModel>PricePerUnit}"/>
-                                <Text text="{= ${orderProductsModel>Quantity} * ${orderProductsModel>PricePerUnit} }"/>
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
-            </content>
-        </Panel>
+        <Panel width="auto" id="productpanel" expandable="false" class="sapUiResponsiveMargin" expanded="true">
+    <headerToolbar>
+        <Toolbar>
+            <Title text="Products"/>
+            <ToolbarSpacer/>
+            <Button icon="sap-icon://add" press="onAddProduct"/>
+            <Button icon="sap-icon://delete" press="onDeleteProducts"/>
+        </Toolbar>
+    </headerToolbar>
+    <content>
+        <Table items="{orderProductsModel>/}" id="productsTableEdit" mode="MultiSelect">
+            <columns>
+                <Column><header><Label text="Product Name"/></header></Column>
+                <Column><header><Label text="Quantity"/></header></Column>
+                <Column><header><Label text="Price Per Quantity"/></header></Column>
+                <Column><header><Label text="Total Price"/></header></Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text text="{orderProductsModel>ProductName}"/>
+                        <Text text="{orderProductsModel>Quantity}"/>
+                        <Text text="{orderProductsModel>PricePerUnit}"/>
+                        <Text text="{orderProductsModel>TotalPrice}"/>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </content>
+</Panel>
 
         <!-- Footer -->
         <footer>
