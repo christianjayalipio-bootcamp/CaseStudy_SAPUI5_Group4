@@ -1,24 +1,31 @@
 sap.ui.define([
-  "sap/ui/core/UIComponent",
-  "com/ui5/trng/project1/model/models",
-  "sap/ui/core/util/MockServer"
-], function(UIComponent, models, MockServer) {
-  "use strict";
-  return UIComponent.extend("com.ui5.trng.project1.Component", {
-    metadata: { manifest: "json" },
-    init: function() {
-      // start mock server
-      var oMockServer = new MockServer({
-        rootUri: "/here/goes/your/serviceurl/"
-      });
-      oMockServer.simulate("localService/metadata.xml", {
-        sMockdataBaseUrl: "localService/data"
-      });
-      oMockServer.start();
+    "sap/ui/core/UIComponent",
+    "com/ui5/trng/project1/model/models"
+], (UIComponent, models) => {
+    "use strict";
 
-      UIComponent.prototype.init.apply(this, arguments);
-      this.setModel(models.createDeviceModel(), "device");
-      this.getRouter().initialize();
-    }
-  });
+    return UIComponent.extend("com.ui5.trng.project1.Component", {
+        metadata: {
+            manifest: "json",
+            interfaces: [
+                "sap.ui.core.IAsyncContentCreation"
+            ]
+        },
+
+        init() {
+            // call the base component's init function
+            UIComponent.prototype.init.apply(this, arguments);
+
+            // set the device model
+            this.setModel(models.createDeviceModel(), "device");
+
+            // set the shared orders model
+            const oOrdersModel = new sap.ui.model.json.JSONModel("/localService/mainService/data/Orders.json");
+            this.setModel(oOrdersModel, "ordersModel");
+            sap.ui.getCore().setModel(oOrdersModel, "ordersModel");
+
+            // enable routing
+            this.getRouter().initialize();
+        }
+    });
 });

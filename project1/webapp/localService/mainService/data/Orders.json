@@ -1,114 +1,102 @@
-[
-  {
-    "OrderID": 2102200937,
-    "CreatedOn": "/Date(1059259931000)/",
-    "ReceivingPlant": "9101",
-    "DeliveringPlant": "9102",
-    "Status": "Delivered",
-    "Products": [
-      { "ProductID": 1, "ProductName": "Widget A", "Quantity": 10, "PricePerQuantity": 5.5 },
-      { "ProductID": 2, "ProductName": "Widget B", "Quantity": 3, "PricePerQuantity": 12.0 }
-    ]
-  },
-  {
-    "OrderID": 1980595279,
-    "CreatedOn": "/Date(616766322000)/",
-    "ReceivingPlant": "9103",
-    "DeliveringPlant": "9104",
-    "Status": "Released",
-    "Products": [
-      { "ProductID": 3, "ProductName": "Gadget A", "Quantity": 5, "PricePerQuantity": 8.0 }
-    ]
-  },
-  {
-    "OrderID": 4387293,
-    "CreatedOn": "/Date(1139292218000)/",
-    "ReceivingPlant": "9105",
-    "DeliveringPlant": "9106",
-    "Status": "Partially Completed",
-    "Products": [
-      { "ProductID": 4, "ProductName": "Gadget B", "Quantity": 2, "PricePerQuantity": 15.0 },
-      { "ProductID": 5, "ProductName": "Widget C", "Quantity": 7, "PricePerQuantity": 6.5 }
-    ]
-  },
-  {
-    "OrderID": 1896040541,
-    "CreatedOn": "/Date(658386185000)/",
-    "ReceivingPlant": "9107",
-    "DeliveringPlant": "9108",
-    "Status": "Partially Completed",
-    "Products": [
-      { "ProductID": 6, "ProductName": "Widget D", "Quantity": 4, "PricePerQuantity": 9.5 }
-    ]
-  },
-  {
-    "OrderID": 37605493,
-    "CreatedOn": "/Date(289353510000)/",
-    "ReceivingPlant": "9109",
-    "DeliveringPlant": "9110",
-    "Status": "Delivered",
-    "Products": [
-      { "ProductID": 7, "ProductName": "Widget E", "Quantity": 1, "PricePerQuantity": 25.0 }
-    ]
-  },
-  {
-    "OrderID": 1304925716,
-    "CreatedOn": "/Date(401799703000)/",
-    "ReceivingPlant": "ReceivingPlant6",
-    "DeliveringPlant": "DeliveringPlant6",
-    "Status": "Created",
-    "Products": [
-      { "ProductID": 8, "ProductName": "Gadget C", "Quantity": 3, "PricePerQuantity": 11.0 }
-    ]
-  },
-  {
-    "OrderID": 1343767265,
-    "CreatedOn": "/Date(118016193000)/",
-    "ReceivingPlant": "ReceivingPlant7",
-    "DeliveringPlant": "DeliveringPlant7",
-    "Status": "Partially Completed",
-    "Products": [
-      { "ProductID": 9, "ProductName": "Widget F", "Quantity": 2, "PricePerQuantity": 7.5 }
-    ]
-  },
-  {
-    "OrderID": 678645527,
-    "CreatedOn": "/Date(1399019557000)/",
-    "ReceivingPlant": "ReceivingPlant8",
-    "DeliveringPlant": "DeliveringPlant8",
-    "Status": "Released",
-    "Products": [
-      { "ProductID": 10, "ProductName": "Widget G", "Quantity": 6, "PricePerQuantity": 9.0 }
-    ]
-  },
-  {
-    "OrderID": 741305578,
-    "CreatedOn": "/Date(1228498379000)/",
-    "ReceivingPlant": "ReceivingPlant9",
-    "DeliveringPlant": "DeliveringPlant9",
-    "Status": "Created",
-    "Products": [
-      { "ProductID": 11, "ProductName": "Gadget D", "Quantity": 10, "PricePerQuantity": 4.0 }
-    ]
-  },
-  {
-    "OrderID": 1959367643,
-    "CreatedOn": "/Date(578296923000)/",
-    "ReceivingPlant": "ReceivingPlant10",
-    "DeliveringPlant": "DeliveringPlant10",
-    "Status": "Created",
-    "Products": [
-      { "ProductID": 12, "ProductName": "Widget H", "Quantity": 5, "PricePerQuantity": 10.0 }
-    ]
-  },
-  {
-    "OrderID": 87884345,
-    "CreatedOn": "/Date(820085896000)/",
-    "ReceivingPlant": "ReceivingPlant11",
-    "DeliveringPlant": "DeliveringPlant11",
-    "Status": "Partially Completed",
-    "Products": [
-      { "ProductID": 13, "ProductName": "Widget I", "Quantity": 4, "PricePerQuantity": 8.5 }
-    ]
-  }
-]
+{
+  "Plants": [
+    { "PlantID": "PL001", "PlantCode": "R001", "Description": "Newcastle Plant" },
+    { "PlantID": "PL002", "PlantCode": "D001", "Description": "London Warehouse" },
+    { "PlantID": "PL003", "PlantCode": "R002", "Description": "Manchester Depot" },
+    { "PlantID": "PL004", "PlantCode": "D002", "Description": "Birmingham Hub" },
+    { "PlantID": "PL005", "PlantCode": "R003", "Description": "Leeds Facility" },
+    { "PlantID": "PL006", "PlantCode": "D003", "Description": "Glasgow Storage" },
+    { "PlantID": "PL007", "PlantCode": "R004", "Description": "Liverpool Center" },
+    { "PlantID": "PL008", "PlantCode": "D004", "Description": "Sheffield Warehouse" },
+    { "PlantID": "PL009", "PlantCode": "R005", "Description": "Bristol Depot" },
+    { "PlantID": "PL010", "PlantCode": "D005", "Description": "Edinburgh Plant" }
+  ],
+
+"Products": [
+  { "ProductID": "PRD001", "ProductName": "Bosch Serie 6 Washing Machine", "PricePerUnit": 499.00, "DeliveringPlantID": "PL001" },
+  { "ProductID": "PRD002", "ProductName": "Dyson V15 Detect Vacuum", "PricePerUnit": 699.00, "DeliveringPlantID": "PL001" },
+  { "ProductID": "PRD003", "ProductName": "Samsung Family Hub Refrigerator", "PricePerUnit": 1899.00, "DeliveringPlantID": "PL001" },
+  { "ProductID": "PRD004", "ProductName": "Philips Airfryer XXL", "PricePerUnit": 249.00, "DeliveringPlantID": "PL001" },
+  { "ProductID": "PRD005", "ProductName": "Nespresso Vertuo Plus", "PricePerUnit": 159.00, "DeliveringPlantID": "PL001" },
+
+  { "ProductID": "PRD006", "ProductName": "Apple iPad Air (M1)", "PricePerUnit": 649.00, "DeliveringPlantID": "PL002" },
+  { "ProductID": "PRD007", "ProductName": "Sony WH-1000XM5 Headphones", "PricePerUnit": 379.00, "DeliveringPlantID": "PL002" },
+  { "ProductID": "PRD008", "ProductName": "Garmin Venu 2 Smartwatch", "PricePerUnit": 399.00, "DeliveringPlantID": "PL002" },
+  { "ProductID": "PRD009", "ProductName": "Amazon Echo Show 10", "PricePerUnit": 249.00, "DeliveringPlantID": "PL002" },
+  { "ProductID": "PRD010", "ProductName": "Anker PowerCore 26800", "PricePerUnit": 89.00, "DeliveringPlantID": "PL002" },
+
+  { "ProductID": "PRD011", "ProductName": "LG OLED C2 55\" TV", "PricePerUnit": 1299.00, "DeliveringPlantID": "PL003" },
+  { "ProductID": "PRD012", "ProductName": "Sonos Beam Gen 2 Soundbar", "PricePerUnit": 499.00, "DeliveringPlantID": "PL003" },
+  { "ProductID": "PRD013", "ProductName": "Apple TV 4K (2022)", "PricePerUnit": 179.00, "DeliveringPlantID": "PL003" },
+  { "ProductID": "PRD014", "ProductName": "Logitech MX Master 3S Mouse", "PricePerUnit": 99.00, "DeliveringPlantID": "PL003" },
+  { "ProductID": "PRD015", "ProductName": "Dell UltraSharp 27 Monitor", "PricePerUnit": 649.00, "DeliveringPlantID": "PL003" },
+
+  { "ProductID": "PRD016", "ProductName": "Canon EOS R10 Mirrorless Camera", "PricePerUnit": 979.00, "DeliveringPlantID": "PL004" },
+  { "ProductID": "PRD017", "ProductName": "GoPro HERO11 Black", "PricePerUnit": 499.00, "DeliveringPlantID": "PL004" },
+  { "ProductID": "PRD018", "ProductName": "DJI Mini 3 Pro Drone", "PricePerUnit": 759.00, "DeliveringPlantID": "PL004" },
+  { "ProductID": "PRD019", "ProductName": "Samsung T7 Shield SSD 2TB", "PricePerUnit": 189.00, "DeliveringPlantID": "PL004" },
+  { "ProductID": "PRD020", "ProductName": "BenQ EX3501R Curved Monitor", "PricePerUnit": 599.00, "DeliveringPlantID": "PL004" },
+
+  { "ProductID": "PRD021", "ProductName": "KitchenAid Artisan Stand Mixer", "PricePerUnit": 429.00, "DeliveringPlantID": "PL005" },
+  { "ProductID": "PRD022", "ProductName": "Instant Pot Duo Evo Plus", "PricePerUnit": 139.00, "DeliveringPlantID": "PL005" },
+  { "ProductID": "PRD023", "ProductName": "Breville Smart Oven Air", "PricePerUnit": 349.00, "DeliveringPlantID": "PL005" },
+  { "ProductID": "PRD024", "ProductName": "iRobot Roomba j7+", "PricePerUnit": 799.00, "DeliveringPlantID": "PL005" },
+  { "ProductID": "PRD025", "ProductName": "Panasonic NN-SN966S Microwave", "PricePerUnit": 229.00, "DeliveringPlantID": "PL005" },
+
+  { "ProductID": "PRD026", "ProductName": "Microsoft Surface Laptop 5", "PricePerUnit": 999.00, "DeliveringPlantID": "PL006" },
+  { "ProductID": "PRD027", "ProductName": "HP Envy Inspire 7955e Printer", "PricePerUnit": 249.00, "DeliveringPlantID": "PL006" },
+  { "ProductID": "PRD028", "ProductName": "Logitech Brio 4K Webcam", "PricePerUnit": 199.00, "DeliveringPlantID": "PL006" },
+  { "ProductID": "PRD029", "ProductName": "TP-Link Deco XE75 Mesh WiFi", "PricePerUnit": 299.00, "DeliveringPlantID": "PL006" },
+  { "ProductID": "PRD030", "ProductName": "Jabra Evolve2 65 Headset", "PricePerUnit": 229.00, "DeliveringPlantID": "PL006" },
+
+  { "ProductID": "PRD031", "ProductName": "Sony PlayStation 5 Console", "PricePerUnit": 499.00, "DeliveringPlantID": "PL007" },
+  { "ProductID": "PRD032", "ProductName": "Xbox Series X", "PricePerUnit": 499.00, "DeliveringPlantID": "PL007" },
+  { "ProductID": "PRD033", "ProductName": "Nintendo Switch OLED", "PricePerUnit": 349.00, "DeliveringPlantID": "PL007" },
+  { "ProductID": "PRD034", "ProductName": "Razer BlackWidow V4 Keyboard", "PricePerUnit": 179.00, "DeliveringPlantID": "PL007" },
+  { "ProductID": "PRD035", "ProductName": "SteelSeries Arctis Nova Pro", "PricePerUnit": 329.00, "DeliveringPlantID": "PL007" },
+
+  { "ProductID": "PRD036", "ProductName": "Philips Hue Starter Kit", "PricePerUnit": 199.00, "DeliveringPlantID": "PL008" },
+  { "ProductID": "PRD037", "ProductName": "Ring Video Doorbell Pro 2", "PricePerUnit": 249.00, "DeliveringPlantID": "PL008" },
+  { "ProductID": "PRD038", "ProductName": "Nest Learning Thermostat", "PricePerUnit": 229.00, "DeliveringPlantID": "PL008" },
+  { "ProductID": "PRD039", "ProductName": "Arlo Pro 4 Security Camera", "PricePerUnit": 199.00, "DeliveringPlantID": "PL008" },
+  { "ProductID": "PRD040", "ProductName": "August Smart Lock Wi-Fi", "PricePerUnit": 249.00, "DeliveringPlantID": "PL008" },
+  
+  { "ProductID": "PRD041", "ProductName": "Bose Smart Soundbar 900", "PricePerUnit": 899.00, "DeliveringPlantID": "PL009" },
+  { "ProductID": "PRD042", "ProductName": "LG XBOOM Go PL7 Speaker", "PricePerUnit": 129.00, "DeliveringPlantID": "PL009" },
+  { "ProductID": "PRD043", "ProductName": "Marshall Stanmore II", "PricePerUnit": 349.00, "DeliveringPlantID": "PL009" },
+  { "ProductID": "PRD044", "ProductName": "Yamaha YAS-209 Soundbar", "PricePerUnit": 349.00, "DeliveringPlantID": "PL009" },
+  { "ProductID": "PRD045", "ProductName": "Harman Kardon Aura Studio 3", "PricePerUnit": 299.00, "DeliveringPlantID": "PL009" },
+
+  { "ProductID": "PRD046", "ProductName": "Lenovo ThinkPad X1 Carbon Gen 11", "PricePerUnit": 1399.00, "DeliveringPlantID": "PL010" },
+  { "ProductID": "PRD047", "ProductName": "Apple MacBook Air M2", "PricePerUnit": 1199.00, "DeliveringPlantID": "PL010" },
+  { "ProductID": "PRD048", "ProductName": "ASUS ROG Zephyrus G14", "PricePerUnit": 1499.00, "DeliveringPlantID": "PL010" },
+  { "ProductID": "PRD049", "ProductName": "Logitech MX Keys S Keyboard", "PricePerUnit": 109.00, "DeliveringPlantID": "PL010" },
+  { "ProductID": "PRD050", "ProductName": "Samsung Smart Monitor M8", "PricePerUnit": 699.00, "DeliveringPlantID": "PL010" }
+  ],
+
+  "Orders": [
+    { "OrderNumber": "ORD001", "CreationDate": "2025-08-01T00:00:00", "ReceivingPlantID": "PL002", "DeliveringPlantID": "PL001", "Status": "Created" },
+    { "OrderNumber": "ORD002", "CreationDate": "2025-08-02T00:00:00", "ReceivingPlantID": "PL003", "DeliveringPlantID": "PL002", "Status": "Released" },
+    { "OrderNumber": "ORD003", "CreationDate": "2025-08-03T00:00:00", "ReceivingPlantID": "PL004", "DeliveringPlantID": "PL003", "Status": "Delivered" },
+    { "OrderNumber": "ORD004", "CreationDate": "2025-08-04T00:00:00", "ReceivingPlantID": "PL005", "DeliveringPlantID": "PL004", "Status": "Partially Completed" },
+    { "OrderNumber": "ORD005", "CreationDate": "2025-08-05T00:00:00", "ReceivingPlantID": "PL006", "DeliveringPlantID": "PL005", "Status": "Created" },
+    { "OrderNumber": "ORD006", "CreationDate": "2025-08-06T00:00:00", "ReceivingPlantID": "PL007", "DeliveringPlantID": "PL006", "Status": "Released" },
+    { "OrderNumber": "ORD007", "CreationDate": "2025-08-07T00:00:00", "ReceivingPlantID": "PL008", "DeliveringPlantID": "PL007", "Status": "Delivered" },
+    { "OrderNumber": "ORD008", "CreationDate": "2025-08-08T00:00:00", "ReceivingPlantID": "PL009", "DeliveringPlantID": "PL008", "Status": "Partially Completed" },
+    { "OrderNumber": "ORD009", "CreationDate": "2025-08-09T00:00:00", "ReceivingPlantID": "PL010", "DeliveringPlantID": "PL009", "Status": "Created" },
+    { "OrderNumber": "ORD010", "CreationDate": "2025-08-10T00:00:00", "ReceivingPlantID": "PL001", "DeliveringPlantID": "PL010", "Status": "Released" }
+  ],
+
+  "OrderProducts": [
+    { "OrderProductID": "OP001", "OrderNumber": "ORD001", "ProductID": "PRD001", "Quantity": 5, "TotalPrice": 50.00 },
+    { "OrderProductID": "OP002", "OrderNumber": "ORD002", "ProductID": "PRD002", "Quantity": 2, "TotalPrice": 31.00 },
+    { "OrderProductID": "OP003", "OrderNumber": "ORD003", "ProductID": "PRD003", "Quantity": 3, "TotalPrice": 60.00 },
+    { "OrderProductID": "OP004", "OrderNumber": "ORD004", "ProductID": "PRD004", "Quantity": 4, "TotalPrice": 100.00 },
+    { "OrderProductID": "OP005", "OrderNumber": "ORD005", "ProductID": "PRD005", "Quantity": 1, "TotalPrice": 30.00 },
+    { "OrderProductID": "OP006", "OrderNumber": "ORD006", "ProductID": "PRD006", "Quantity": 2, "TotalPrice": 70.00 },
+    { "OrderProductID": "OP007", "OrderNumber": "ORD007", "ProductID": "PRD007", "Quantity": 6, "TotalPrice": 240.00 },
+    { "OrderProductID": "OP008", "OrderNumber": "ORD008", "ProductID": "PRD008", "Quantity": 3, "TotalPrice": 135.00 },
+    { "OrderProductID": "OP009", "OrderNumber": "ORD009", "ProductID": "PRD009", "Quantity": 4, "TotalPrice": 200.00 },
+    { "OrderProductID": "OP010", "OrderNumber": "ORD010", "ProductID": "PRD010", "Quantity": 2, "TotalPrice": 110.00 }
+  ]
+}
