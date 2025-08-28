@@ -2,7 +2,7 @@
           xmlns="sap.m"
           controllerName="com.ui5.trng.project1.controller.DetailsOrder">
 
-  <Page id="PAGE3" title="Order Details">
+  <Page id="PAGE3" title="Order Details" floatingFooter="true">
     <content>
 
       <!-- Order Header Panel -->
@@ -50,7 +50,7 @@
                 <Text text="{orderProductsModel>ProductName}"/>
                 <Text text="{orderProductsModel>Quantity}"/>
                 <Text text="{orderProductsModel>PricePerUnit}"/>
-               <Text text="{= ${orderProductsModel>Quantity} * ${orderProductsModel>PricePerUnit} }"/>
+               <Text text="{orderProductsModel>TotalPrice}"/>
 
               </cells>
             </ColumnListItem>
